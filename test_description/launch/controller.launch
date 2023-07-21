@@ -1,7 +1,7 @@
 <launch>
 
 <rosparam file="$(find test_description)/launch/controller.yaml" command="load"/>
-<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="test" args="Revolute 5_position_controller Revolute 6_position_controller Revolute 7_position_controller joint_state_controller "/>
+<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="test" args="Revolute 13_position_controller Revolute 15_position_controller Revolute 16_position_controller joint_state_controller "/>
 <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
   <remap from="/joint_states" to="/test/joint_states"/>
 </node>
