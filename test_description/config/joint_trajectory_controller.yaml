@@ -1,0 +1,7 @@
+robot_arm_controller:
+  type: "position_controllers/JointTrajectoryController"
+  joints: [Revolute_21, Revolute_22, Revolute_23]
+
+joint_state_controller:
+  type: "joint_state_controller/JointStateController" 
+  publish_rate: 50   
