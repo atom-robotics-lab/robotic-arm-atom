@@ -1,0 +1,12 @@
+controller_list:
+  - name: fake_nagraj_body_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - Revolute 1
+      - Revolute 2
+      - Revolute 3
+      - Revolute 4
+      - Revolute 5
+initial:  # Define initial robot poses per group
+  - group: nagraj_body
+    pose: rest
