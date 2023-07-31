@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+
+  <!-- Import the small box model -->
+  <model name="small_box_1">
+    <link name="link">
+      <inertial>
+        <mass>1</mass>
+        <inertia>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+            <ixx>0.05288</ixx>
+            <iyy>0.05288</iyy>
+            <izz>0.09132</izz>
+          </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://small_boxes/meshes/small_box.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+	    <geometry>
+          <mesh>
+            <uri>model://small_boxes/meshes/small_box.dae</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+      <meta> <layer> 1 </layer></meta>
+     </visual>
+    </link>
+  </model>
+
+</sdf>
