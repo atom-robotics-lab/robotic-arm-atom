@@ -1,6 +1,16 @@
 <launch>
+  
+  <arg name="x" default="5"/>
+  <arg name="y" default="5"/>
+  <arg name="z" default="0"/>
+  <arg name="roll" default="0"/>
+  <arg name="pitch" default="0"/>
+  <arg name="yaw" default="0"/>
+  
+  
   <param name="robot_description" command="$(find xacro)/xacro $(find nag_raj_description)/urdf/nag_raj.xacro"/>
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model nag_raj"/>
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model nag_raj -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) "/>
+  
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="paused" value="true"/>
     <arg name="use_sim_time" value="true"/>

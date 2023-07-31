@@ -203,7 +203,7 @@
   </link>
 
   <joint name="kinect_joint" type="fixed">
-    <origin xyz="1 0 3" rpy="0 1.57 0" />
+    <origin xyz="-0.8 0 1.5" rpy="0 1.57 0" />
     <parent link="base_link" />
     <child link="kinect" />
   </joint>
