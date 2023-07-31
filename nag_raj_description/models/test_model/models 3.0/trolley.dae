@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.92.0 commit date:2021-02-24, commit time:16:25, hash:02948a2cab44</authoring_tool>
     </contributor>
-    <created>2023-07-24T15:03:51</created>
-    <modified>2023-07-24T15:03:51</modified>
+    <created>2023-07-31T15:43:57</created>
+    <modified>2023-07-31T15:43:57</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -38,23 +38,6 @@
         </technique>
       </profile_COMMON>
     </effect>
-    <effect id="Material_001-effect">
-      <profile_COMMON>
-        <technique sid="common">
-          <lambert>
-            <emission>
-              <color sid="emission">0 0 0 1</color>
-            </emission>
-            <diffuse>
-              <color sid="diffuse">0 0 0 1</color>
-            </diffuse>
-            <index_of_refraction>
-              <float sid="ior">1.45</float>
-            </index_of_refraction>
-          </lambert>
-        </technique>
-      </profile_COMMON>
-    </effect>
   </library_effects>
   <library_images>
     <image id="wire_mesh_png" name="wire_mesh_png">
@@ -64,9 +47,6 @@
   <library_materials>
     <material id="Material_004-material" name="Material.004">
       <instance_effect url="#Material_004-effect"/>
-    </material>
-    <material id="Material_001-material" name="Material.001">
-      <instance_effect url="#Material_001-effect"/>
     </material>
   </library_materials>
   <library_geometries>
@@ -104,17 +84,11 @@
         <vertices id="Cube_001-mesh-vertices">
           <input semantic="POSITION" source="#Cube_001-mesh-positions"/>
         </vertices>
-        <triangles material="Material_004-material" count="8">
+        <triangles material="Material_004-material" count="10">
           <input semantic="VERTEX" source="#Cube_001-mesh-vertices" offset="0"/>
           <input semantic="NORMAL" source="#Cube_001-mesh-normals" offset="1"/>
           <input semantic="TEXCOORD" source="#Cube_001-mesh-map-0" offset="2" set="0"/>
-          <p>2 0 0 1 0 1 0 0 2 6 1 3 3 1 4 2 1 5 4 2 6 7 2 7 6 2 8 0 3 9 5 3 10 4 3 11 2 0 15 3 0 16 1 0 17 6 1 18 7 1 19 3 1 20 4 2 21 5 2 22 7 2 23 0 3 24 1 3 25 5 3 26</p>
-        </triangles>
-        <triangles material="Material_001-material" count="2">
-          <input semantic="VERTEX" source="#Cube_001-mesh-vertices" offset="0"/>
-          <input semantic="NORMAL" source="#Cube_001-mesh-normals" offset="1"/>
-          <input semantic="TEXCOORD" source="#Cube_001-mesh-map-0" offset="2" set="0"/>
-          <p>0 4 12 6 4 13 2 4 14 0 4 27 4 4 28 6 4 29</p>
+          <p>2 0 0 1 0 1 0 0 2 6 1 3 3 1 4 2 1 5 4 2 6 7 2 7 6 2 8 0 3 9 5 3 10 4 3 11 0 4 12 6 4 13 2 4 14 2 0 15 3 0 16 1 0 17 6 1 18 7 1 19 3 1 20 4 2 21 5 2 22 7 2 23 0 3 24 1 3 25 5 3 26 0 4 27 4 4 28 6 4 29</p>
         </triangles>
       </mesh>
     </geometry>
@@ -152,17 +126,11 @@
         <vertices id="Cube_004-mesh-vertices">
           <input semantic="POSITION" source="#Cube_004-mesh-positions"/>
         </vertices>
-        <triangles material="Material_004-material" count="8">
+        <triangles material="Material_004-material" count="10">
           <input semantic="VERTEX" source="#Cube_004-mesh-vertices" offset="0"/>
           <input semantic="NORMAL" source="#Cube_004-mesh-normals" offset="1"/>
           <input semantic="TEXCOORD" source="#Cube_004-mesh-map-0" offset="2" set="0"/>
-          <p>1 0 0 2 0 1 0 0 2 3 1 3 6 1 4 2 1 5 7 2 6 4 2 7 6 2 8 5 3 9 0 3 10 4 3 11 1 0 15 3 0 16 2 0 17 3 1 18 7 1 19 6 1 20 7 2 21 5 2 22 4 2 23 5 3 24 1 3 25 0 3 26</p>
-        </triangles>
-        <triangles material="Material_001-material" count="2">
-          <input semantic="VERTEX" source="#Cube_004-mesh-vertices" offset="0"/>
-          <input semantic="NORMAL" source="#Cube_004-mesh-normals" offset="1"/>
-          <input semantic="TEXCOORD" source="#Cube_004-mesh-map-0" offset="2" set="0"/>
-          <p>6 4 12 0 4 13 2 4 14 6 4 27 4 4 28 0 4 29</p>
+          <p>1 0 0 2 0 1 0 0 2 3 1 3 6 1 4 2 1 5 7 2 6 4 2 7 6 2 8 5 3 9 0 3 10 4 3 11 6 4 12 0 4 13 2 4 14 1 0 15 3 0 16 2 0 17 3 1 18 7 1 19 6 1 20 7 2 21 5 2 22 4 2 23 5 3 24 1 3 25 0 3 26 6 4 27 4 4 28 0 4 29</p>
         </triangles>
       </mesh>
     </geometry>
@@ -170,14 +138,11 @@
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
       <node id="Cube_001" name="Cube.001" type="NODE">
-        <matrix sid="transform">-6.71776e-8 -1.521144 0 0 1.536844 -6.64913e-8 0 0 0 0 1.521144 0 0 0 0 1</matrix>
+        <matrix sid="transform">-6.65012e-8 -1.6686 0 0 1.521371 -7.29368e-8 0 0.0637384 0 0 1.864906 0 0 0 0 1</matrix>
         <instance_geometry url="#Cube_001-mesh" name="Cube.001">
           <bind_material>
             <technique_common>
               <instance_material symbol="Material_004-material" target="#Material_004-material">
-                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
-              </instance_material>
-              <instance_material symbol="Material_001-material" target="#Material_001-material">
                 <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
               </instance_material>
             </technique_common>
@@ -185,14 +150,11 @@
         </instance_geometry>
       </node>
       <node id="Cube" name="Cube" type="NODE">
-        <matrix sid="transform">-6.77527e-8 -1.55 0 0 1.55 -6.77527e-8 0 0 0 0 1.55 0 0 0 0 1</matrix>
+        <matrix sid="transform">-6.77527e-8 -1.7 0 0 1.55 -7.43094e-8 0 0.0637384 0 0 1.9 0 0 0 0 1</matrix>
         <instance_geometry url="#Cube_004-mesh" name="Cube">
           <bind_material>
             <technique_common>
               <instance_material symbol="Material_004-material" target="#Material_004-material">
-                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
-              </instance_material>
-              <instance_material symbol="Material_001-material" target="#Material_001-material">
                 <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
               </instance_material>
             </technique_common>
