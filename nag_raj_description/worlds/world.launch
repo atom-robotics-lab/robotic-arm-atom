@@ -5,4 +5,10 @@
     <arg name="world_name" value="$(find nag_raj_description)/worlds/world.world"/>
     <!-- more default parameters can be changed here -->
   </include>
+  <param name="robot_description" command="$(find xacro)/xacro $(find nag_raj_description)/urdf/nag_raj.xacro"/>
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model nag_raj"/>
+  <!-- <include file="$(find nag_raj_description)/launch/gazebo.launch">
+  </include> -->
+  <include file="$(find nag_raj_description)/launch/display.launch">
+  </include>
 </launch>
