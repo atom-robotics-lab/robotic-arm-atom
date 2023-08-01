@@ -24,6 +24,7 @@ class Perception:
         self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
 
         self.model=YOLO("/home/bhavay/catkin_ws/src/flipkartGrid/nag_raj_description/scripts/model.pt")
+        self.confidence=0.45
 
         self.rgb_image, self.depth_image = None, None
         self.rgb_shape, self.depth_shape = None, None
@@ -57,7 +58,7 @@ class Perception:
         # cv2.waitKey(1) 
         print(rgb_image.shape)
         points=[]
-        results = self.model.predict(source=rgb_image)
+        results = self.model.predict(source=rgb_image,conf=self.confidence)
         for i in results[0].boxes.xywh:
             cv2.circle(rgb_image,(int(i[0]),int(i[1])),5,(0,0,255),2)
             points.append((int(i[0]),int(i[1])))
@@ -74,9 +75,9 @@ class Perception:
         for i in range(len(points)):
             x_center, y_center = points[i][1], points[i][0]
             depths.append(depth_array[x_center, y_center])
-            cv2.circle(depth_image,(points[i][0], points[i][1]),5,(0,0,255),2)
-        cv2.imshow("points",depth_image)
-        cv2.waitKey(1) 
+            # cv2.circle(depth_image,(points[i][0], points[i][1]),5,(0,0,255),2)
+        # cv2.imshow("points",depth_image)
+        # cv2.waitKey(1) 
         return depths
 
 
