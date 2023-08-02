@@ -45,6 +45,10 @@ class Perception:
     def callback(self,depth_data, rgb_data):
         self.depth_callback(depth_data)
         self.rgb_callback(rgb_data)
+        try:
+            self.detect()
+        except:
+            pass
 
     def detect(self):
         points=self.rgb_image_processing()
@@ -90,7 +94,8 @@ def main():
     ps = Perception()
     rospy.sleep(1)
     while True:
-        ps.detect()
+        pass
+        # ps.detect()
         
     # except Exception as e:
         # ##print("Error:", str(e))    
