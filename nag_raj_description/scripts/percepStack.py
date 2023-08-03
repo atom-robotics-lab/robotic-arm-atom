@@ -51,13 +51,18 @@ class Perception:
     def callback(self,depth_data, rgb_data):
         self.depth_callback(depth_data)
         self.rgb_callback(rgb_data)
-        points,bounding_boxes = self.rgb_image_processing()
-        depths = self.depth_image_processing(points)
-        print(points,depths)
-        for i in range(len(points)):
-            self.publish_transforms(self.find_transforms(points[i],depths[i]))
-        # min_depth_index = depth.index(max(depth))
-        # print(points[min_depth_index])
+        try:
+            points,bounding_boxes = self.rgb_image_processing()
+            depths = self.depth_image_processing(points)
+            print(points,depths)
+            # for i in range(len(points)):
+            #     self.publish_transforms(self.find_transforms(points[i],depths[i]))
+            
+            min_depth_index = depths.index(min(depths))
+            print(points[min_depth_index])
+            self.publish_transforms(self.find_transforms(points[min_depth_index],depths[min_depth_index]))
+        except:
+            print("An error occoured")
         
         # coords = bounding_boxes[min_depth_index]
         # x,y,radius = self.find_centorid_of_largest_Surface(self.rgb_image,coords[0],coords[1],coords[2],coords[3])
@@ -119,17 +124,17 @@ class Perception:
 
         #pose_array = PoseArray(header=Header(frame_id = "camera_depth_frame2", stamp = rospy.Time(0)))
 
-        X = depth * ((point[1]-cx)/fx)
-        Y = depth * ((point[0]-cy)/fy)
+        X = depth * ((point[0]-cx)/fx)
+        Y = depth * ((point[1]-cy)/fy)
         Z = depth
-        # print(X , Y , Z )
+        print(X , Y , Z )
         return [X,Y,Z]
     
     def publish_transforms(self,xyz):
         t = geometry_msgs.msg.TransformStamped()
-        t.header.frame_id = "camera_depth_frame2"
+        t.header.frame_id = "base_link"
         t.header.stamp = rospy.Time.now()
-        t.child_frame_id = self.child_id_red
+        t.child_frame_id = "Box"
         t.transform.translation.x = xyz[0]
         t.transform.translation.y = xyz[1]
         t.transform.translation.z = xyz[2]
@@ -138,7 +143,7 @@ class Perception:
         t.transform.rotation.z = 0
         t.transform.rotation.w = 1            
         tfm = tf2_msgs.msg.TFMessage([t])
-        self.pub_tf1.publish(tfm)
+        self.pub_tf.publish(tfm)
 
 
 
