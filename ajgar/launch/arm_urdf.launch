@@ -1,26 +1,30 @@
 <launch>
-        <arg name="arg_x" default="0.00" />
+        <arg name="arg_x" default="0.60" />
         <arg name="arg_y" default="0.00" />
         <arg name="arg_z" default="0.00" />
         <arg name="arg_R" default="0.00" />
         <arg name="arg_P" default="0.00" />
         <arg name="arg_Y" default="0.00" />
-        
-        
-        
+
+
         <param name="robot_description" command="xacro '$(find ajgar)/urdf/ajgar_URDF.xacro'" />
-        
-       <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
-   
-        
-        <node name="tf_footprint_base" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 base_link base_footprint 40" /> 
-        
-        <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-x $(arg arg_x) -y $(arg arg_y) -z $(arg arg_z) -param robot_description -urdf -model ajgar" />
-        
+
+        <node name="tf_footprint_base" pkg="tf" type="static_transform_publisher"
+                args="0 0 0 0 0 0 base_link base_footprint 40" />
+
+        <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+                args="-x $(arg arg_x) -y $(arg arg_y) -z $(arg arg_z) -param robot_description -urdf -model ajgar" />
+
         <rosparam file="$(find ajgar)/config/joint_trajectory_controller.yaml" command="load" />
-        
-        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller robot_arm_controller hand_ee_controller" /> 
-        
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" /> 
- 
+
+        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+                output="screen"
+                args="joint_state_controller robot_arm_controller hand_ee_controller" />
+
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+                respawn="false" output="screen" />
+
+        <include file="$(find ajgar_moveit_config)/worlds/world.launch" />
+
+
 </launch>     
