@@ -16,6 +16,8 @@
 
 	<include file="$(find ajgar_moveit_config)/launch/move_group.launch" />
 
+	<include file="$(find freenect_launch)/launch/freenect.launch" />
+
 	<arg name="use_rviz" default="true" />
 	<include file="$(find ajgar_moveit_config)/launch/moveit_rviz.launch" if="$(arg use_rviz)">
 		<arg name="rviz_config" value="$(find ajgar_moveit_config)/launch/moveit.rviz" />
