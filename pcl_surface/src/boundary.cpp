@@ -51,8 +51,8 @@ void pointCloudCallback(const pcl::PCLPointCloud2ConstPtr& input_cloud_msg) {
     boundary_estimation.setSearchMethod(tree);
     boundary_estimation.setKSearch(20);  // You can adjust this value as needed
 
-pcl::PointCloud<pcl::Boundary>::Ptr boundaries(new pcl::PointCloud<pcl::Boundary>);
-boundary_estimation.compute(*boundaries);
+    pcl::PointCloud<pcl::Boundary>::Ptr boundaries(new pcl::PointCloud<pcl::Boundary>);
+    boundary_estimation.compute(*boundaries);
 
     visualization_msgs::Marker arrow_marker;
     arrow_marker.header = pcl_conversions::fromPCL(input_cloud_msg->header);
@@ -80,6 +80,8 @@ boundary_estimation.compute(*boundaries);
         arrow_marker.color.b = 1.0;
         arrow_marker.color.a = 1.0;  // Blue color for boundaries
         marker_pub.publish(arrow_marker);
+        ROS_INFO("Publishing Boundary Normal");
+
         }   
         
 
