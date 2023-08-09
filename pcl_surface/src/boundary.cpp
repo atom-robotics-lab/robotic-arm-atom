@@ -67,37 +67,37 @@ void pointCloudCallback(const pcl::PCLPointCloud2ConstPtr& input_cloud_msg) {
 
 
     // Clustering
-    // std::vector<pcl::PointIndices> cluster_indices;
-    // pcl::EuclideanClusterExtraction<pcl::PointXYZ> ec;
-    // ec.setClusterTolerance(0.03);    // Adjust as needed
-    // ec.setMinClusterSize(100000);       // Adjust as needed
-    // ec.setMaxClusterSize(250000);     // Adjust as needed
-    // ec.setInputCloud(pcl_cloud_filtered);
-    // ec.extract(cluster_indices);
+    std::vector<pcl::PointIndices> cluster_indices;
+    pcl::EuclideanClusterExtraction<pcl::PointXYZ> ec;
+    ec.setClusterTolerance(0.03);    // Adjust as needed
+    ec.setMinClusterSize(5000);       // Adjust as needed
+    ec.setMaxClusterSize(100000);     // Adjust as needed
+    ec.setInputCloud(pcl_cloud_filtered);
+    ec.extract(cluster_indices);
 
     // Find the largest cluster
-    // int largest_cluster_index = 0;
-    // size_t largest_cluster_size = 0;
-    // for (size_t i = 0; i < cluster_indices.size(); ++i) {
-    //     if (cluster_indices[i].indices.size() > largest_cluster_size) {
-    //         largest_cluster_size = cluster_indices[i].indices.size();
-    //         largest_cluster_index = i;
-    //     }
-    // }
+    int largest_cluster_index = 0;
+    size_t largest_cluster_size = 0;
+    for (size_t i = 0; i < cluster_indices.size(); ++i) {
+        if (cluster_indices[i].indices.size() > largest_cluster_size) {
+            largest_cluster_size = cluster_indices[i].indices.size();
+            largest_cluster_index = i;
+        }
+    }
 
     // Extract points of the largest cluster using pcl::PointIndices
-    // pcl::PointCloud<pcl::PointXYZ>::Ptr cluster_points(new pcl::PointCloud<pcl::PointXYZ>);
-    // pcl::ExtractIndices<pcl::PointXYZ> extract;
-    // extract.setInputCloud(pcl_cloud_filtered);
-    // extract.setIndices(boost::make_shared<pcl::PointIndices>(cluster_indices[largest_cluster_index]));
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cluster_points(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::ExtractIndices<pcl::PointXYZ> extract;
+    extract.setInputCloud(pcl_cloud_filtered);
+    extract.setIndices(boost::make_shared<pcl::PointIndices>(cluster_indices[largest_cluster_index]));
 
     // Perform the extraction
-    // extract.filter(*cluster_points);
+    extract.filter(*cluster_points);
 
-    // sensor_msgs::PointCloud2 cluster_points_msg;
-    // pcl::toROSMsg(*cluster_points, cluster_points_msg);
-    // cluster_points_msg.header = pcl_conversions::fromPCL(input_cloud_msg->header);
-    // cluster_points_pub.publish(cluster_points_msg);
+    sensor_msgs::PointCloud2 cluster_points_msg;
+    pcl::toROSMsg(*cluster_points, cluster_points_msg);
+    cluster_points_msg.header = pcl_conversions::fromPCL(input_cloud_msg->header);
+    cluster_points_pub.publish(cluster_points_msg);
 
 
 
