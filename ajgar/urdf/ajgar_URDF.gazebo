@@ -56,8 +56,8 @@
   <selfCollide>true</selfCollide>
 </gazebo>
 
- <gazebo reference="kinect">
-    <sensor name="kinect_camera" type="depth">
+ <gazebo reference="camera_depth_frame">
+    <sensor name="cm2" type="depth">
       <update_rate>20</update_rate>
       <camera>
         <horizontal_fov>1.047198</horizontal_fov>
@@ -71,7 +71,7 @@
           <far>3</far>
         </clip>
       </camera>
-      <plugin name="kinect_controller" filename="libgazebo_ros_openni_kinect.so">
+      <plugin name="depth_link_controller" filename="libgazebo_ros_openni_kinect.so">
         <baseline>0.2</baseline>
         <alwaysOn>true</alwaysOn>
         <updateRate>1.0</updateRate>
@@ -81,7 +81,7 @@
         <depthImageTopicName>/kinect/depth/image_raw</depthImageTopicName>
         <depthImageInfoTopicName>/kinect/depth/camera_info</depthImageInfoTopicName>
         <pointCloudTopicName>/kinect/depth/points</pointCloudTopicName>
-        <frameName>kinect</frameName>
+        <frameName>camera_depth_optical_frame</frameName>
         <pointCloudCutoff>0.5</pointCloudCutoff>
         <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
         <distortionK1>0.00000001</distortionK1>

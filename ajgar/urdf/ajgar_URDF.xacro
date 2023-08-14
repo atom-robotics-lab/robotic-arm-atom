@@ -155,7 +155,7 @@
     </collision>
   </link>
   
-  <link name="kinect">
+  <link name="camera_depth_frame">
     <collision>
       <origin xyz="0 0 0" rpy="1.57 0 0" />
       <geometry>
@@ -236,7 +236,7 @@
   <joint name="kinect_joint" type="fixed">
     <origin xyz="-0.612 0.15 1.5" rpy="0 1.57 0" />
     <parent link="world" />
-    <child link="kinect" />
+    <child link="camera_depth_frame" />
   </joint>
 
 </robot>
