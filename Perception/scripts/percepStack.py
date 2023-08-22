@@ -19,7 +19,7 @@ class Perception:
 
         sub_rgb = message_filters.Subscriber("/kinect/color/image_raw", Image)
         sub_depth = message_filters.Subscriber("/kinect/depth/image_raw", Image)
-        ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], queue_size=10, slop=0.5)
+        ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], queue_size=1, slop=0.5)
         ts.registerCallback(self.callback)
 
         self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
@@ -60,6 +60,9 @@ class Perception:
             
             min_depth_index = depths.index(min(depths))
             print(points[min_depth_index])
+            cv2.circle(self.rgb_image,points[min_depth_index],8,(255,0,0),3)
+            cv2.imshow("point",self.rgb_image)
+            cv2.waitKey(1) 
             self.publish_transforms(self.find_transforms(points[min_depth_index],depths[min_depth_index]))
         except:
             print("An error occoured")
@@ -96,8 +99,8 @@ class Perception:
             points.append((int(i[0]),int(i[1])))
         for i in results[0].boxes.xyxy:
             bounding_boxes.append((int(i[0]),int(i[1]),int(i[2]),int(i[3])))
-        cv2.imshow("points",rgb_image)
-        cv2.waitKey(1) 
+        # cv2.imshow("points",rgb_image)
+        # cv2.waitKey(1) 
         return points,bounding_boxes
     
 
@@ -132,7 +135,7 @@ class Perception:
     
     def publish_transforms(self,xyz):
         t = geometry_msgs.msg.TransformStamped()
-        t.header.frame_id = "base_link"
+        t.header.frame_id = "camera_depth_optical_frame"
         t.header.stamp = rospy.Time.now()
         t.child_frame_id = "Box"
         t.transform.translation.x = xyz[0]
