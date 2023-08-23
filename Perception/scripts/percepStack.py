@@ -42,17 +42,12 @@ class Perception:
         self.depth_shape = self.depth_image.shape 
 
 
-    def find_centorid_of_largest_Surface(self,frame,xmin,xmax,ymin,ymax):
-        
-        # centroid_x = (xmin + xmax)/2
-        # centroid_y = (ymin + ymax)/2
-        pass
-
     def callback(self,depth_data, rgb_data):
         self.depth_callback(depth_data)
         self.rgb_callback(rgb_data)
         try:
-            points,bounding_boxes = self.rgb_image_processing()
+            points,masks = self.rgb_image_processing()
+            # print(masks)
             depths = self.depth_image_processing(points)
             print(points,depths)
             # for i in range(len(points)):
@@ -92,16 +87,20 @@ class Perception:
         # cv2.waitKey(1) 
         print(rgb_image.shape)
         points=[]
+        masks=[]
+
         results = self.model.predict(source=rgb_image,conf=self.confidence,show=True)
-        bounding_boxes=[]
+
         for i in results[0].boxes.xywh:
             cv2.circle(rgb_image,(int(i[0]),int(i[1])),5,(0,0,255),2)
             points.append((int(i[0]),int(i[1])))
-        for i in results[0].boxes.xyxy:
-            bounding_boxes.append((int(i[0]),int(i[1]),int(i[2]),int(i[3])))
+        
+        for mask in results[0].masks:
+            masks.append(mask.xy[0])
+        
         # cv2.imshow("points",rgb_image)
         # cv2.waitKey(1) 
-        return points,bounding_boxes
+        return points,masks
     
 
     def depth_image_processing(self,points):
