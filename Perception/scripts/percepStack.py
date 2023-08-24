@@ -32,6 +32,7 @@ class Perception:
 
         self.found=False
         
+
     def rgb_callback(self, rgb_message) :
         self.rgb_image = self.bridge.imgmsg_to_cv2(rgb_message, desired_encoding = "bgr8")
         self.rgb_shape = self.rgb_image.shape
@@ -42,97 +43,82 @@ class Perception:
         self.depth_shape = self.depth_image.shape 
 
 
-    def find_centorid_of_largest_Surface(self,frame,xmin,xmax,ymin,ymax):
-        
-        # centroid_x = (xmin + xmax)/2
-        # centroid_y = (ymin + ymax)/2
-        pass
-
     def callback(self,depth_data, rgb_data):
         self.depth_callback(depth_data)
         self.rgb_callback(rgb_data)
         try:
-            points,bounding_boxes = self.rgb_image_processing()
+            points,masks = self.rgb_image_processing()
+            # print(masks)
             depths = self.depth_image_processing(points)
-            print(points,depths)
-            # for i in range(len(points)):
-            #     self.publish_transforms(self.find_transforms(points[i],depths[i]))
+            # print(points,depths)
             
             min_depth_index = depths.index(min(depths))
-            print(points[min_depth_index])
+            # print(points[min_depth_index])
+
             cv2.circle(self.rgb_image,points[min_depth_index],8,(255,0,0),3)
             cv2.imshow("point",self.rgb_image)
-            cv2.waitKey(1) 
-            self.publish_transforms(self.find_transforms(points[min_depth_index],depths[min_depth_index]))
-        except:
-            print("An error occoured")
-        
-        # coords = bounding_boxes[min_depth_index]
-        # x,y,radius = self.find_centorid_of_largest_Surface(self.rgb_image,coords[0],coords[1],coords[2],coords[3])
-        
-        # x1, y1 = x - radius, y #Left
-        # x2, y2 = x, y - radius #Top
-        # x3, y3 = x + radius, y #Right
-        # x4, y4 = x, y + radius #Bottom
-        
-        # bounding_points = [(x,y),(x1,y1),(x2,y2),(x3,y3),(x4,y4)]
-        # new_depths = self.depth_image_processing(bounding_points)
-        
-        # new_points_xyz = []
-        # for i in range(5):
-        #     point = self.find_transforms(bounding_points[i],new_depths[i])
-        #     new_points_xyz.append(point)
-            
-        # print(new_points_xyz)
+            cv2.waitKey(1)
+
+            # Publish transforms of box to be picked  
+            self.publish_transforms(self.find_XYZ(points[min_depth_index],depths[min_depth_index]))
+
+        except Exception as e:
+            print("An error occoured",str(e))
     
 
     def rgb_image_processing(self):
         rgb_image = self.rgb_image 
-        # cv2.imshow("rgb",rgb_image)
+        # cv2.imshow("RGB Image",rgb_image)
         # cv2.waitKey(1) 
-        print(rgb_image.shape)
+        # print("RGB Image shape:",rgb_image.shape)
         points=[]
+        masks=[]
+
         results = self.model.predict(source=rgb_image,conf=self.confidence,show=True)
-        bounding_boxes=[]
+
         for i in results[0].boxes.xywh:
             cv2.circle(rgb_image,(int(i[0]),int(i[1])),5,(0,0,255),2)
             points.append((int(i[0]),int(i[1])))
-        for i in results[0].boxes.xyxy:
-            bounding_boxes.append((int(i[0]),int(i[1]),int(i[2]),int(i[3])))
+        
+        for mask in results[0].masks:
+            masks.append(mask.xy[0])
+        
         # cv2.imshow("points",rgb_image)
         # cv2.waitKey(1) 
-        return points,bounding_boxes
+        return points,masks
     
 
     def depth_image_processing(self,points):
-        # print(self.depth_image.shape)
+        # print("Depth Image Shape:",self.depth_image.shape)
         depth_array = np.array(self.depth_image, dtype=np.float32)
-        depth_image=self.depth_image
         depths=[]
         for i in range(len(points)):
             x_center, y_center = points[i][1], points[i][0]
             depths.append(depth_array[x_center, y_center])
             # cv2.circle(depth_image,(points[i][0], points[i][1]),5,(0,0,255),2)
-        # cv2.imshow("points",depth_image)
+
+        # Show the depth image
+        # cv2.imshow("Depth Image",depth_image)
         # cv2.waitKey(1) 
         return depths
 
-    def find_transforms(self,point,depth):
+
+    def find_XYZ(self,point,depth):
         fx, fy = [554.254691191187, 554.254691191187]
         cx, cy = [320.5, 240.5]
 
-        #tf = TransformFrames()
-        tf_buffer = tf2_ros.Buffer()
-        tf_listener=tf2_ros.TransformListener(tf_buffer)
-
-        #pose_array = PoseArray(header=Header(frame_id = "camera_depth_frame2", stamp = rospy.Time(0)))
+        # tf = TransformFrames()
+        # tf_buffer = tf2_ros.Buffer()
+        # tf_listener=tf2_ros.TransformListener(tf_buffer)
+        # pose_array = PoseArray(header=Header(frame_id = "camera_depth_frame2", stamp = rospy.Time(0)))
 
         X = depth * ((point[0]-cx)/fx)
         Y = depth * ((point[1]-cy)/fy)
         Z = depth
-        print(X , Y , Z )
+        print("XYZ:",X , Y , Z )
         return [X,Y,Z]
     
+
     def publish_transforms(self,xyz):
         t = geometry_msgs.msg.TransformStamped()
         t.header.frame_id = "camera_depth_optical_frame"
@@ -160,7 +146,7 @@ def main():
         # ps.detect()
         
     # except Exception as e:
-        # ##print("Error:", str(e))    
+        # print("Error:", str(e))    
 
 
 
