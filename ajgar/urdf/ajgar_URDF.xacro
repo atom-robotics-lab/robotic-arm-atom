@@ -1,0 +1,242 @@
+<?xml version="1.0"?>
+<robot name="ajgar" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find ajgar)/urdf/materials.xacro" />
+  <xacro:include filename="$(find ajgar)/urdf/ajgar_URDF.trans" />
+  <xacro:include filename="$(find ajgar)/urdf/ajgar_URDF.gazebo" />
+
+  <link name="world"/>
+
+  <link name="base_link">
+    <inertial>
+      <origin xyz="-8.269719423545992e-05 0.0010857267036388984 0.06047682470875622" rpy="0 0 0" />
+      <mass value="29.485735477923164" />
+      <inertia ixx="0.024776" iyy="0.028156" izz="0.038965" ixy="7e-06" iyz="0.000408"
+        ixz="-2.2e-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/base_link.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/base_link.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="shoulder_1">
+    <inertial>
+      <origin xyz="-5.136379737825127e-07 -0.012893561064329193 0.08338921276398253" rpy="0 0 0" />
+      <mass value="7.491767242063588" />
+      <inertia ixx="0.113371" iyy="0.100756" izz="0.094339" ixy="-0.0" iyz="0.0014" ixz="0.0" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 -0.0 -0.0993" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/shoulder_1.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 -0.0 -0.0993" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/shoulder_1.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="arm_1">
+    <inertial>
+      <origin xyz="-6.124271792012328e-08 -0.08240844330284518 0.21130484810557812" rpy="0 0 0" />
+      <mass value="3.96604980819084" />
+      <inertia ixx="3.314125" iyy="3.291262" izz="0.144311" ixy="-0.0" iyz="-0.00734" ixz="-1e-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0946 -0.1807" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/arm_1.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0946 -0.1807" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/arm_1.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="forearm_1">
+    <inertial>
+      <origin xyz="2.586346781728835e-07 0.06359393788395254 0.24263670260699677" rpy="0 0 0" />
+      <mass value="1.327241051156584" />
+      <inertia ixx="1.267089" iyy="1.261071" izz="0.0347" ixy="0.0" iyz="-0.041708" ixz="0.0" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.1126 -0.7934" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/forearm_1.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.1126 -0.7934" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/forearm_1.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="wrist_1">
+    <inertial>
+      <origin xyz="1.221373912611945e-08 -0.06248572574196583 0.0015387505793551526" rpy="0 0 0" />
+      <mass value="0.27456909234358" />
+      <inertia ixx="0.014273" iyy="0.010388" izz="0.011811" ixy="-0.0" iyz="0.000361" ixz="-0.0" />
+    </inertial>
+    <visual>
+      <origin xyz="-0.0 0.0957 -1.364735" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/wrist_1.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="-0.0 0.0957 -1.364735" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/wrist_1.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="end_1">
+    <inertial>
+      <origin xyz="2.901738992434707e-07 -0.001724242336090448 0.05332507883002502" rpy="0 0 0" />
+      <mass value="0.195239059350037" />
+      <inertia ixx="0.011265" iyy="0.008806" izz="0.009591" ixy="-0.0" iyz="0.000289" ixz="-0.0" />
+    </inertial>
+    <visual>
+      <origin xyz="-0.0 0.17415 -1.421635" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/end_1.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="-0.0 0.17415 -1.421635" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/end_1.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="suction_1">
+    <inertial>
+      <origin xyz="6.961771223765484e-13 -0.027764546560901465 -0.00011193336601378334" rpy="0 0 0" />
+      <mass value="0.0494649759637526" />
+      <inertia ixx="0.002071" iyy="0.002723" izz="0.002082" ixy="-0.0" iyz="-0.0" ixz="-0.0" />
+    </inertial>
+    <visual>
+      <origin xyz="-0.0 0.23105 -1.484585" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/suction_1.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="-0.0 0.23105 -1.484585" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/suction_1.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <link name="camera_depth_frame">
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57 0 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/kinect.stl" scale="0.005 0.005 0.005" />
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.57 -1.57 0" />
+      <geometry>
+        <mesh filename="package://ajgar/meshes/kinect.stl" scale="0.005 0.005 0.005" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  
+  
+
+  <joint name="base_joint" type="revolute">
+    <origin xyz="0.0 0.0 0.0993" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="shoulder_1" />
+    <axis xyz="0.0 0.0 1.0" />
+    <limit upper="2.879793" lower="-2.879793" effort="100" velocity="100" />
+  </joint>
+
+  <joint name="shoulder_joint" type="revolute">
+    <origin xyz="0.0 -0.0946 0.0814" rpy="0 0 0" />
+    <parent link="shoulder_1" />
+    <child link="arm_1" />
+    <axis xyz="-0.0 -1.0 0.0" />
+    <limit upper="1.57" lower="-1.57" effort="100" velocity="100" />
+  </joint>
+
+  <joint name="arm_joint" type="revolute">
+    <origin xyz="0.0 -0.018 0.6127" rpy="0 0 0" />
+    <parent link="arm_1" />
+    <child link="forearm_1" />
+    <axis xyz="-0.0 1.0 -0.0" />
+    <limit upper="2.879793" lower="-2.879793" effort="100" velocity="100" />
+  </joint>
+
+  <joint name="forearm_joint" type="revolute">
+    <origin xyz="0.0 0.0169 0.571335" rpy="0 0 0" />
+    <parent link="forearm_1" />
+    <child link="wrist_1" />
+    <axis xyz="0.0 -1.0 0.0" />
+    <limit upper="2.879793" lower="-2.879793" effort="100" velocity="100" />
+  </joint>
+
+  <joint name="wrist_joint" type="revolute">
+    <origin xyz="0.0 -0.07845 0.0569" rpy="0 0 0" />
+    <parent link="wrist_1" />
+    <child link="end_1" />
+    <axis xyz="-0.0 0.0 1.0" />
+    <limit upper="2.879793" lower="-2.879793" effort="100" velocity="100" />
+  </joint>
+
+
+  <joint name="suction_joint" type="revolute">
+    <origin xyz="0.0 -0.0569 0.06295" rpy="0 0 0" />
+    <parent link="end_1" />
+    <child link="suction_1" />
+    <axis xyz="0.0 -1.0 0.0" />
+    <limit upper="2.879793" lower="-2.879793" effort="100" velocity="100" />
+  </joint>
+
+  <joint name="world_joint  " type="fixed">
+    <parent link="world" />
+    <child link="base_link" />
+    <origin rpy="0 0 3.142" xyz="0.0 0.0 0.0" />
+  </joint>
+  
+   
+  <joint name="kinect_joint" type="fixed">
+    <origin xyz="0.612 -0.15 1.5" rpy="0 1.57 0" />
+    <parent link="base_link" />
+    <child link="camera_depth_frame" />
+  </joint>
+
+</robot>

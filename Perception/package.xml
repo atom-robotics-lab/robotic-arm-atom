@@ -1,0 +1,29 @@
+<package format="2">
+  <name>perception</name>
+  <version>0.1.0</version>
+  <description>This is the perception package for ajgar</description>
+  
+  <!-- Maintainer information -->
+  <author email="atom@gmail.com">ATOM</author>
+  <maintainer email="atom@gmail.com">ATOM</maintainer>  
+
+  <!-- License information -->
+  <license>BSD</license>
+  
+  <!-- Dependencies (modify as needed) -->
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  
+  <!-- Other dependencies -->
+  <exec_depend>rviz</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <!-- <run_depend>package_name</run_depend> -->
+  
+  <!-- Package information -->
+  <export>
+    <!-- Declare that this is a ROS package -->
+    <catkin />
+  </export>
+</package>

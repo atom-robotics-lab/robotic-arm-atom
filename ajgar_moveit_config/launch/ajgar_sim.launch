@@ -1,0 +1,26 @@
+<launch>
+
+	<env name="GAZEBO_MODEL_PATH" value="$(find ajgar)/models" />
+
+
+	<!-- JOINT STATE PUBLISHER -->
+	<!-- <arg name="use_gui" default="true" doc="Should the joint_state_publisher use a GUI for
+	controlling joint states" />
+        <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"
+	output="screen" unless="$(arg use_gui)" />
+        <node pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"
+	name="joint_state_publisher_gui" output="screen" if="$(arg use_gui)" /> -->
+
+
+	<include file="$(find ajgar)/launch/arm_urdf.launch" />
+	
+	<include file="$(find freenect_launch)/launch/freenect.launch" />
+
+	<include file="$(find ajgar_moveit_config)/launch/move_group.launch" />
+
+	<arg name="use_rviz" default="true" />
+	<include file="$(find ajgar_moveit_config)/launch/moveit_rviz.launch" if="$(arg use_rviz)">
+		<arg name="rviz_config" value="$(find ajgar_moveit_config)/launch/moveit.rviz" />
+	</include>
+
+</launch> 
