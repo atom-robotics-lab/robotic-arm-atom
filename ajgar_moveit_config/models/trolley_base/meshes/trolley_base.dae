@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 3.6.1 commit date:2023-07-17, commit time:12:50, hash:8bda729ef4dc</authoring_tool>
+    </contributor>
+    <created>2023-08-24T20:45:26</created>
+    <modified>2023-08-24T20:45:26</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_effects>
+    <effect id="Pine_Wood-effect">
+      <profile_COMMON>
+        <newparam sid="wood-9_diffuse_jpg-surface">
+          <surface type="2D">
+            <init_from>wood-9_diffuse_jpg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="wood-9_diffuse_jpg-sampler">
+          <sampler2D>
+            <source>wood-9_diffuse_jpg-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <texture texture="wood-9_diffuse_jpg-sampler" texcoord="automap"/>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.45</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="Pine_Wood_001-effect">
+      <profile_COMMON>
+        <newparam sid="wood-9_diffuse_edit_png-surface">
+          <surface type="2D">
+            <init_from>wood-9_diffuse_edit_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="wood-9_diffuse_edit_png-sampler">
+          <sampler2D>
+            <source>wood-9_diffuse_edit_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <texture texture="wood-9_diffuse_edit_png-sampler" texcoord="automap"/>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.45</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_images>
+    <image id="wood-9_diffuse_edit_png" name="wood-9_diffuse_edit_png">
+      <init_from>wood-9_diffuse_edit.png</init_from>
+    </image>
+    <image id="wood-9_diffuse_jpg" name="wood-9_diffuse_jpg">
+      <init_from>wood-9_diffuse.jpg</init_from>
+    </image>
+  </library_images>
+  <library_materials>
+    <material id="Pine_Wood-material" name="Pine Wood">
+      <instance_effect url="#Pine_Wood-effect"/>
+    </material>
+    <material id="Pine_Wood_001-material" name="Pine Wood.001">
+      <instance_effect url="#Pine_Wood_001-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="Cube-mesh" name="Cube">
+      <mesh>
+        <source id="Cube-mesh-positions">
+          <float_array id="Cube-mesh-positions-array" count="84">0.9999999 1 0.9999995 0.9999999 1 -1 0.9999999 -0.7804754 0.9999995 0.9999999 -0.7802122 -1 -0.9999999 1 0.9999995 -0.9999999 1 -1 -0.9999999 -0.7804754 0.9999995 -0.9999999 -0.7802122 -1 -0.2395614 0.0016402 0.9999995 -0.2395614 -0.2283307 0.9999995 0.124159 -0.2283307 0.9999995 0.124159 0.0016402 0.9999995 0.124159 0.0016402 -1 -0.2395614 0.0016402 -1 -0.2395614 -0.2283307 -1 0.124159 -0.2283307 -1 0.4404862 -0.4277487 0.9999995 0.2135865 -0.2847074 0.9999995 0.9410274 0.2621643 0.9999995 0.9410274 -0.4277487 0.9999995 0.2135865 0.2621643 0.9999995 0.2135865 -0.4277487 0.9999995 0.4406371 -0.4277487 -1 0.2135865 -0.2846805 -1 0.9410274 -0.4277487 -1 0.9410274 0.2621643 -1 0.2135865 0.2621643 -1 0.2135865 -0.4277487 -1</float_array>
+          <technique_common>
+            <accessor source="#Cube-mesh-positions-array" count="28" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Cube-mesh-normals">
+          <float_array id="Cube-mesh-normals-array" count="51">0 0 1 0 -1 -1.31607e-4 -1 0 0 0 0 -1 -2.32936e-6 0 -1 1 0 0 0 1 0 0 -1 0 0 1 0 -1.70417e-7 0 1 -5.85998e-6 0 1 1.81141e-6 0 1 2.27067e-6 0 1 2.32979e-6 0 1 1.48326e-7 0 1 -1.44912e-6 0 -1 -1.4837e-7 0 -1</float_array>
+          <technique_common>
+            <accessor source="#Cube-mesh-normals-array" count="17" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Cube-mesh-map-0">
+          <float_array id="Cube-mesh-map-0-array" count="360">0.7799451 0.6401817 0.7344802 0.6401817 0.7233017 0.6036009 0.625 0.75 0.6949393 0.700473 0.7233017 0.700473 0.625 0.75 0.375 1 0.375 0.75 0.375 0 0.625 0.25 0.375 0.25 0.375 0.5 0.375 0.75 0.3676285 0.6036162 0.2655199 0.6724978 0.2766983 0.6804111 0.2766984 0.7005026 0.625 0.5 0.375 0.75 0.375 0.5 0.625 0.25 0.375 0.5 0.375 0.25 0.4437686 0.7500001 0.4030026 0.75 0.4437686 0.7500001 0.4437686 0 0.4030026 0 0.4437686 0 0.4437686 0.5 0.4030026 0.5 0.4030026 0.5 0.4437686 0.25 0.4030026 0.25 0.4030026 0.25 0.5488338 0.75 0.4259375 0.75 0.5488338 0.75 0.4259375 0 0.4259375 0 0.5488338 0 0.5488338 0.5 0.4259375 0.5 0.4259375 0.5 0.5488338 0.25 0.4259375 0.25 0.4259375 0.25 0.875 0.5 0.875 0.75 0.7799451 0.6401817 0.875 0.75 0.7799452 0.6724724 0.7799451 0.6401817 0.6323716 0.700473 0.6949393 0.700473 0.625 0.75 0.6323716 0.603601 0.6323716 0.700473 0.625 0.75 0.625 0.5 0.875 0.5 0.7233017 0.6036009 0.875 0.5 0.7799451 0.6401817 0.7233017 0.6036009 0.7344802 0.6401817 0.7344802 0.6724724 0.7233017 0.6803883 0.6323716 0.603601 0.625 0.75 0.625 0.5 0.7344802 0.6401817 0.7233017 0.6803883 0.7233017 0.6036009 0.7233017 0.6036009 0.6323716 0.603601 0.625 0.5 0.7233017 0.6803883 0.7344802 0.6724724 0.7233017 0.700473 0.7344802 0.6724724 0.7799452 0.6724724 0.7233017 0.700473 0.7799452 0.6724724 0.875 0.75 0.7233017 0.700473 0.875 0.75 0.625 0.75 0.7233017 0.700473 0.625 0.75 0.625 1 0.375 1 0.375 0 0.625 0 0.625 0.25 0.2766983 0.6804111 0.2655199 0.6724978 0.2655199 0.6402024 0.2200548 0.6402024 0.2200548 0.6724978 0.125 0.75 0.2766983 0.6036162 0.2766983 0.6804111 0.2655199 0.6402024 0.2200548 0.6402024 0.125 0.75 0.125 0.5 0.2766983 0.6036162 0.2655199 0.6402024 0.2200548 0.6402024 0.2766983 0.6036162 0.2200548 0.6402024 0.125 0.5 0.375 0.75 0.3050796 0.7005026 0.3676284 0.7005026 0.3676285 0.6036162 0.2766983 0.6036162 0.375 0.5 0.2766983 0.6036162 0.125 0.5 0.375 0.5 0.375 0.75 0.3676284 0.7005026 0.3676285 0.6036162 0.3050796 0.7005026 0.375 0.75 0.2766984 0.7005026 0.375 0.75 0.125 0.75 0.2766984 0.7005026 0.125 0.75 0.2200548 0.6724978 0.2766984 0.7005026 0.2200548 0.6724978 0.2655199 0.6724978 0.2766984 0.7005026 0.625 0.5 0.625 0.75 0.375 0.75 0.625 0.25 0.625 0.5 0.375 0.5 0.4437686 0.7500001 0.4030026 0.75 0.4030026 0.75 0.4437686 0 0.4030026 0 0.4030026 0 0.4437686 0.5 0.4437686 0.5 0.4030026 0.5 0.4437686 0.25 0.4437686 0.25 0.4030026 0.25 0.5488338 0.75 0.4259375 0.75 0.4259375 0.75 0.4259375 0 0.5488338 0 0.5488338 0 0.5488338 0 0.5488338 0 0.4259375 0 0.5488338 0 0.4259375 0 0.4259375 0 0.5488338 0.5 0.5488338 0.5 0.4259375 0.5 0.4259375 0.25 0.4259375 0.25 0.5488338 0.25 0.5488338 0.25 0.5488338 0.25 0.4259375 0.25 0.4259375 0.25 0.5488338 0.25 0.5488338 0.25</float_array>
+          <technique_common>
+            <accessor source="#Cube-mesh-map-0-array" count="180" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Cube-mesh-map-1">
+          <float_array id="Cube-mesh-map-1-array" count="360">0.3782778 0.4328659 0.5601038 0.4328659 0.6048091 0.5812868 0.9979416 -0.01270639 0.7182375 0.1882424 0.6048091 0.1882425 0.9818793 0.9818793 0.0181207 0.0181207 0.9818793 0.0181207 0.07110798 0.0181207 0.9289554 0.9818793 0.9289554 0.0181207 0.9818793 0.9289554 0.9818793 0.07110798 0.9534617 0.5734077 0.5598297 0.3370482 0.602923 0.3098945 0.602923 0.2409529 0.9289554 0.9818793 0.07110798 0.0181207 0.9289554 0.0181207 0.0181207 0.9818793 0.9818793 0.0181207 0.0181207 0.0181207 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.001869559 1.001633 -0.001869797 -0.01270627 0.3782778 0.4328659 -0.001869797 -0.01270627 0.3782778 0.3018511 0.3782778 0.4328659 0.9684611 0.1882424 0.7182375 0.1882424 0.9979416 -0.01270639 0.9684609 0.5812869 0.9684611 0.1882424 0.9979416 -0.01270639 0.9979417 1.001633 -0.001869559 1.001633 0.6048091 0.5812868 -0.001869559 1.001633 0.3782778 0.4328659 0.6048091 0.5812868 0.5601038 0.4328659 0.5601038 0.3018512 0.6048091 0.2697333 0.9684609 0.5812869 0.9979416 -0.01270639 0.9979417 1.001633 0.5601038 0.4328659 0.6048091 0.2697333 0.6048091 0.5812868 0.6048091 0.5812868 0.9684609 0.5812869 0.9979417 1.001633 0.6048091 0.2697333 0.5601038 0.3018512 0.6048091 0.1882425 0.5601038 0.3018512 0.3782778 0.3018511 0.6048091 0.1882425 0.3782778 0.3018511 -0.001869797 -0.01270627 0.6048091 0.1882425 -0.001869797 -0.01270627 0.9979416 -0.01270639 0.6048091 0.1882425 0.9818793 0.9818793 0.0181207 0.9818793 0.0181207 0.0181207 0.07110798 0.0181207 0.07098114 0.9818793 0.9289554 0.9818793 0.602923 0.3098945 0.5598297 0.3370482 0.5598296 0.4478665 0.3845603 0.4478665 0.3845603 0.3370482 0.0181207 0.07110798 0.6029228 0.5734076 0.602923 0.3098945 0.5598296 0.4478665 0.3845603 0.4478665 0.0181207 0.07110798 0.0181207 0.9289554 0.6029228 0.5734076 0.5598296 0.4478665 0.3845603 0.4478665 0.6029228 0.5734076 0.3845603 0.4478665 0.0181207 0.9289554 0.9818793 0.07110798 0.7123339 0.2409529 0.9534617 0.2409529 0.9534617 0.5734077 0.6029228 0.5734076 0.9818793 0.9289554 0.6029228 0.5734076 0.0181207 0.9289554 0.9818793 0.9289554 0.9818793 0.07110798 0.9534617 0.2409529 0.9534617 0.5734077 0.7123339 0.2409529 0.9818793 0.07110798 0.602923 0.2409529 0.9818793 0.07110798 0.0181207 0.07110798 0.602923 0.2409529 0.0181207 0.07110798 0.3845603 0.3370482 0.602923 0.2409529 0.3845603 0.3370482 0.5598297 0.3370482 0.602923 0.2409529 0.9289554 0.9818793 0.07098114 0.9818793 0.07110798 0.0181207 0.0181207 0.9818793 0.9818793 0.9818793 0.9818793 0.0181207 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</float_array>
+          <technique_common>
+            <accessor source="#Cube-mesh-map-1-array" count="180" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Cube-mesh-vertices">
+          <input semantic="POSITION" source="#Cube-mesh-positions"/>
+        </vertices>
+        <triangles material="Pine_Wood-material" count="44">
+          <input semantic="VERTEX" source="#Cube-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Cube-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Cube-mesh-map-0" offset="2" set="0"/>
+          <input semantic="TEXCOORD" source="#Cube-mesh-map-1" offset="2" set="1"/>
+          <p>2 1 6 7 1 7 3 1 8 7 2 9 4 2 10 5 2 11 1 3 12 3 3 13 25 3 14 15 4 15 23 4 16 27 4 17 0 5 18 3 5 19 1 5 20 4 6 21 1 6 22 5 6 23 11 2 24 15 2 25 10 2 26 10 6 27 14 6 28 9 6 29 11 7 30 13 7 31 12 7 32 8 5 33 14 5 34 13 5 35 18 2 36 24 2 37 19 2 38 22 8 39 27 8 40 16 8 41 18 7 42 26 7 43 25 7 44 17 5 45 27 5 46 23 5 47 2 1 90 6 1 91 7 1 92 7 2 93 6 2 94 4 2 95 23 15 96 15 15 97 12 15 98 13 3 99 14 3 100 7 3 101 26 3 102 23 3 103 12 3 104 13 3 105 7 3 106 5 3 107 26 3 108 12 3 109 13 3 110 26 3 111 13 3 112 5 3 113 3 3 114 22 3 115 24 3 116 25 3 117 26 3 118 1 3 119 26 3 120 5 3 121 1 3 122 3 3 123 24 3 124 25 3 125 22 3 126 3 3 127 27 3 128 3 3 129 7 3 130 27 3 131 7 16 132 14 16 133 27 16 134 14 3 135 15 3 136 27 3 137 0 5 138 2 5 139 3 5 140 4 6 141 0 6 142 1 6 143 11 2 144 12 2 145 15 2 146 10 6 147 15 6 148 14 6 149 11 7 150 8 7 151 13 7 152 8 5 153 9 5 154 14 5 155 18 2 156 25 2 157 24 2 158 27 6 159 21 6 160 16 6 161 16 6 162 19 6 163 22 6 164 19 6 165 24 6 166 22 6 167 18 7 168 20 7 169 26 7 170 23 5 171 26 5 172 20 5 173 17 5 174 21 5 175 27 5 176 23 5 177 20 5 178 17 5 179</p>
+        </triangles>
+        <triangles material="Pine_Wood_001-material" count="16">
+          <input semantic="VERTEX" source="#Cube-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Cube-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Cube-mesh-map-0" offset="2" set="0"/>
+          <input semantic="TEXCOORD" source="#Cube-mesh-map-1" offset="2" set="1"/>
+          <p>8 0 0 11 0 1 20 0 2 2 0 3 16 0 4 21 0 5 4 0 48 6 0 49 8 0 50 6 9 51 9 9 52 8 9 53 19 0 54 16 0 55 2 0 56 18 10 57 19 10 58 2 10 59 0 0 60 4 0 61 20 0 62 4 0 63 8 0 64 20 0 65 11 11 66 10 11 67 17 11 68 18 12 69 2 12 70 0 12 71 11 0 72 17 0 73 20 0 74 20 0 75 18 0 76 0 0 77 17 13 78 10 13 79 21 13 80 10 0 81 9 0 82 21 0 83 9 14 84 6 14 85 21 14 86 6 0 87 2 0 88 21 0 89</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="Cube" name="Cube" type="NODE">
+        <matrix sid="transform">-2.40357e-8 -0.8696749 0 -0.07142145 0.5498728 -3.80147e-8 0 -0.2092282 0 0 0.02609025 -0.09806644 0 0 0 1</matrix>
+        <instance_geometry url="#Cube-mesh" name="Cube">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Pine_Wood-material" target="#Pine_Wood-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+                <bind_vertex_input semantic="automap" input_semantic="TEXCOORD" input_set="1"/>
+              </instance_material>
+              <instance_material symbol="Pine_Wood_001-material" target="#Pine_Wood_001-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+                <bind_vertex_input semantic="automap" input_semantic="TEXCOORD" input_set="1"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

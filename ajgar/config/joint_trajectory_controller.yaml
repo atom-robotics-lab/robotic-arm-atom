@@ -1,0 +1,11 @@
+robot_arm_controller:
+  type: "position_controllers/JointTrajectoryController"
+  joints: [base_joint, shoulder_joint, elbow_joint, end_joint]
+
+hand_ee_controller:
+  type: "position_controllers/JointTrajectoryController"
+  joints: [suction_joint]
+
+joint_state_controller:
+  type: "joint_state_controller/JointStateController" 
+  publish_rate: 50   

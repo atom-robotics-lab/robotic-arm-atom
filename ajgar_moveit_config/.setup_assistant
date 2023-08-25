@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: ajgar
+    relative_path: urdf/ajgar_URDF.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/ajgar.srdf
+  CONFIG:
+    author_name: team_atom
+    author_email: atom@gmail.com
+    generated_timestamp: 1692912744

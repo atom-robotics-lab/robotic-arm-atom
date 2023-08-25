@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<robot name="ajgar" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+<transmission name="base_joint_tran">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="base_joint">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="base_joint_actr">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<transmission name="shoulder_joint_tran">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="shoulder_joint">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="shoulder_joint_actr">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<transmission name="suction_joint_tran">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="suction_joint">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="suction_joint_actr">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<transmission name="end_joint_tran">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="end_joint">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="end_joint_actr">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<transmission name="elbow_joint_tran">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="elbow_joint">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="elbow_joint_actr">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+</robot>
