@@ -4,6 +4,7 @@ import rospy
 import message_filters
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
+from std_msgs.msg import String
 import geometry_msgs.msg
 import tf2_ros
 import tf2_msgs.msg
@@ -23,6 +24,7 @@ class Perception:
         ts.registerCallback(self.callback)
 
         self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
+        self.mask_pub=rospy.Publisher("/mask",String,queue_size=1)
 
         self.model=YOLO("/home/bhavay/catkin_ws/src/flipkartGrid/Perception/scripts/yolov8m-seg-custom.pt")
         self.confidence=0.4
@@ -54,6 +56,9 @@ class Perception:
             
             min_depth_index = depths.index(min(depths))
             # print(points[min_depth_index])
+
+            # Process the mask of the box to be picked
+            self.process_box_mask(masks[min_depth_index])
 
             cv2.circle(self.rgb_image,points[min_depth_index],8,(255,0,0),3)
             cv2.imshow("point",self.rgb_image)
@@ -93,7 +98,7 @@ class Perception:
         depth_array = np.array(self.depth_image, dtype=np.float32)
         depths=[]
         for i in range(len(points)):
-            x_center, y_center = points[i][1], points[i][0]
+            x_center, y_center = int(points[i][1]), int(points[i][0])
             depths.append(depth_array[x_center, y_center])
             # cv2.circle(depth_image,(points[i][0], points[i][1]),5,(0,0,255),2)
 
@@ -115,7 +120,7 @@ class Perception:
         X = depth * ((point[0]-cx)/fx)
         Y = depth * ((point[1]-cy)/fy)
         Z = depth
-        print("XYZ:",X , Y , Z )
+        # print("XYZ:",X , Y , Z )
         return [X,Y,Z]
     
 
@@ -133,6 +138,18 @@ class Perception:
         t.transform.rotation.w = 1            
         tfm = tf2_msgs.msg.TFMessage([t])
         self.pub_tf.publish(tfm)
+
+    def process_box_mask(self,mask):
+        depths=self.depth_image_processing(mask)
+        mask_xyz=[]
+        print("Building mask array")
+        for i in range(len(mask)):
+            mask_xyz.append(str(self.find_XYZ(mask[i],depths[i])))
+        
+        message=String()
+        message.data='['+','.join(mask_xyz)+']'
+        self.mask_pub.publish(message)
+        print("Published mask")
 
 
 
