@@ -5,11 +5,11 @@
 <xacro:include filename="$(find ajgar)/urdf/ajgar_URDF.trans" />
 <xacro:include filename="$(find ajgar)/urdf/ajgar_URDF.gazebo" />
 
-
+<link name="world"/>
 
 <link name="base_link">
   <inertial>
-    <origin xyz="-0.013996345982719845 0.05244124652798866 -0.05438727935716892" rpy="0 0 0"/>
+    <origin xyz="0.006181560825936428 0.03299945212996641 0.024980891310047913" rpy="0 0 0"/>
     <mass value="8.92124295451605"/>
     <inertia ixx="0.018904" iyy="0.023843" izz="0.038855" ixy="-0.0" iyz="-1e-06" ixz="0.000101"/>
   </inertial>
@@ -30,19 +30,19 @@
 
 <link name="base_top">
   <inertial>
-    <origin xyz="3.830065892888174e-06 0.00017441579178078398 0.032466866299290215" rpy="0 0 0"/>
+    <origin xyz="3.7368745492756403e-06 0.0001746213937584215 0.03246703696650755" rpy="0 0 0"/>
     <mass value="1.2219948495058053"/>
     <inertia ixx="0.001733" iyy="0.001362" izz="0.001507" ixy="1e-06" iyz="2.5e-05" ixz="1e-06"/>
   </inertial>
   <visual>
-    <origin xyz="0.020178 -0.052442 0.030236" rpy="0 0 0"/>
+    <origin xyz="-0.0 -0.033 -0.049132" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/base_top.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="0.020178 -0.052442 0.030236" rpy="0 0 0"/>
+    <origin xyz="-0.0 -0.033 -0.049132" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/base_top.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -51,19 +51,19 @@
 
 <link name="shoulder">
   <inertial>
-    <origin xyz="-5.719567535509423e-06 0.03029384656320288 0.10674064897096452" rpy="0 0 0"/>
+    <origin xyz="-5.812758879132124e-06 0.0302940521651806 0.10674081963818186" rpy="0 0 0"/>
     <mass value="2.9743567366826063"/>
     <inertia ixx="0.027269" iyy="0.027148" izz="0.002649" ixy="1e-06" iyz="0.00023" ixz="3e-06"/>
   </inertial>
   <visual>
-    <origin xyz="0.020178 -0.027442 -0.023264" rpy="0 0 0"/>
+    <origin xyz="-0.0 -0.008 -0.102632" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/shoulder.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="0.020178 -0.027442 -0.023264" rpy="0 0 0"/>
+    <origin xyz="-0.0 -0.008 -0.102632" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/shoulder.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -72,19 +72,19 @@
 
 <link name="suction">
   <inertial>
-    <origin xyz="0.0013549936256032208 0.03686493030435532 0.0010282342212279971" rpy="0 0 0"/>
+    <origin xyz="0.0013549004342596088 0.036865135906333266 0.0010284048884452446" rpy="0 0 0"/>
     <mass value="1.0937894888063466"/>
     <inertia ixx="0.000604" iyy="0.000571" izz="0.000737" ixy="-6e-06" iyz="-1e-06" ixz="2.3e-05"/>
   </inertial>
   <visual>
-    <origin xyz="0.020178 -0.020442 -0.565785" rpy="0 0 0"/>
+    <origin xyz="-0.0 -0.001 -0.645153" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/suction.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="0.020178 -0.020442 -0.565785" rpy="0 0 0"/>
+    <origin xyz="-0.0 -0.001 -0.645153" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/suction.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -93,19 +93,19 @@
 
 <link name="KINECT_XBOX">
   <inertial>
-    <origin xyz="0.028613885036292752 4.6099368583032985e-05 -0.04112449528385209" rpy="0 0 0"/>
+    <origin xyz="0.028614791844949194 4.630497056100358e-05 -0.041124324616634844" rpy="0 0 0"/>
     <mass value="5.170558909547441"/>
     <inertia ixx="0.024426" iyy="0.003279" izz="0.024604" ixy="-1e-06" iyz="8e-06" ixz="1.9e-05"/>
   </inertial>
   <visual>
-    <origin xyz="-0.412541 -0.062924 -0.690764" rpy="0 0 0"/>
+    <origin xyz="-0.432718 -0.043482 -0.770132" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/KINECT_XBOX.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="-0.412541 -0.062924 -0.690764" rpy="0 0 0"/>
+    <origin xyz="-0.432718 -0.043482 -0.770132" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/KINECT_XBOX.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -114,19 +114,19 @@
 
 <link name="wrist">
   <inertial>
-    <origin xyz="0.0008460392490326658 0.00015737076862099714 0.016720215392772186" rpy="0 0 0"/>
+    <origin xyz="0.0008459460576890564 0.00015757637059889834 0.0167203860599896" rpy="0 0 0"/>
     <mass value="1.2638223022450714"/>
     <inertia ixx="0.001154" iyy="0.001222" izz="0.000623" ixy="-7e-06" iyz="-2e-06" ixz="1.3e-05"/>
   </inertial>
   <visual>
-    <origin xyz="0.020178 -0.057442 -0.466264" rpy="0 0 0"/>
+    <origin xyz="-0.0 -0.038 -0.545632" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/wrist.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="0.020178 -0.057442 -0.466264" rpy="0 0 0"/>
+    <origin xyz="-0.0 -0.038 -0.545632" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/wrist.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -135,19 +135,19 @@
 
 <link name="extrusion3">
   <inertial>
-    <origin xyz="0.3055026196052988 -0.019854184601274943 0.5577019919988926" rpy="0 0 0"/>
+    <origin xyz="0.30550252641395526 -0.019853978999297 0.5577011626661099" rpy="0 0 0"/>
     <mass value="5.889005305436553"/>
     <inertia ixx="1.15866" iyy="0.40406" izz="0.755642" ixy="0.00111" iyz="-0.003566" ixz="0.000389"/>
   </inertial>
   <visual>
-    <origin xyz="-0.116374 -0.085442 0.108605" rpy="0 0 0"/>
+    <origin xyz="-0.136552 -0.066 0.029236" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/extrusion3.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="-0.116374 -0.085442 0.108605" rpy="0 0 0"/>
+    <origin xyz="-0.136552 -0.066 0.029236" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/extrusion3.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -156,19 +156,19 @@
 
 <link name="end">
   <inertial>
-    <origin xyz="1.609165792771164e-05 -0.028280263486046658 0.034985781904597335" rpy="0 0 0"/>
+    <origin xyz="1.599846658410097e-05 -0.02828005788406872 0.034985952571814805" rpy="0 0 0"/>
     <mass value="0.6717186078596652"/>
     <inertia ixx="0.001219" iyy="0.000367" izz="0.00104" ixy="2e-06" iyz="0.00019" ixz="-2e-06"/>
   </inertial>
   <visual>
-    <origin xyz="0.020178 -0.057442 -0.520764" rpy="0 0 0"/>
+    <origin xyz="-0.0 -0.038 -0.600132" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/end.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="0.020178 -0.057442 -0.520764" rpy="0 0 0"/>
+    <origin xyz="-0.0 -0.038 -0.600132" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/end.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -177,19 +177,19 @@
 
 <link name="elbow">
   <inertial>
-    <origin xyz="2.650580281468584e-06 0.027722787961992977 0.033843906977580496" rpy="0 0 0"/>
+    <origin xyz="2.557388937857749e-06 0.027722993563970767 0.0338440776447978" rpy="0 0 0"/>
     <mass value="1.503376993994313"/>
     <inertia ixx="0.004533" iyy="0.004824" izz="0.001216" ixy="-0.0" iyz="2.3e-05" ixz="-0.0"/>
   </inertial>
   <visual>
-    <origin xyz="0.020178 -0.032442 -0.261264" rpy="0 0 0"/>
+    <origin xyz="-0.0 -0.013 -0.340632" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/elbow.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="0.020178 -0.032442 -0.261264" rpy="0 0 0"/>
+    <origin xyz="-0.0 -0.013 -0.340632" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://ajgar/meshes/elbow.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -197,20 +197,24 @@
 </link>
 
 
-  
-<joint name="base_joint" type="revolute">
-  <origin xyz="-0.020178 0.052442 -0.030236" rpy="0 0 0"/>
+<joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link="base_link" />
+    <origin rpy="0 0 3.142" xyz="0.0 0.0 0.0" />
+</joint>
+    
+<joint name="base_joint" type="continuous">
+  <origin xyz="0.0 0.033 0.049132" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="base_top"/>
-  <axis xyz="-0.0 -0.0 1.0"/>
-  <limit upper="3.14" lower="-3.14" effort="100" velocity="100"/>
+  <axis xyz="-0.0 0.0 1.0"/>
 </joint>
 
 <joint name="shoulder_joint" type="revolute">
   <origin xyz="0.0 -0.025 0.0535" rpy="0 0 0"/>
   <parent link="base_top"/>
   <child link="shoulder"/>
-  <axis xyz="-0.0 1.0 0.0"/>
+  <axis xyz="-0.0 1.0 -0.0"/>
   <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
 </joint>
 
@@ -220,20 +224,19 @@
   <child link="wrist"/>
 </joint>
 
-<joint name="elbow_joint" type="revolute">
-  <origin xyz="0.0 0.005 0.238" rpy="0 0 0"/>
-  <parent link="shoulder"/>
-  <child link="elbow"/>
-  <axis xyz="-0.0 1.0 0.0"/>
-  <limit upper="2.443461" lower="-2.443461" effort="100" velocity="100"/>
-</joint>
-
-<joint name="end_joint" type="revolute">
+<joint name="forearm_joint" type="continuous">
   <origin xyz="0.0 0.0 0.0545" rpy="0 0 0"/>
   <parent link="wrist"/>
   <child link="end"/>
   <axis xyz="-0.0 -0.0 1.0"/>
-  <limit upper="3.14" lower="-3.14" effort="100" velocity="100"/>
+</joint>
+
+<joint name="elbow_joint" type="revolute">
+  <origin xyz="0.0 0.005 0.238" rpy="0 0 0"/>
+  <parent link="shoulder"/>
+  <child link="elbow"/>
+  <axis xyz="-0.0 1.0 -0.0"/>
+  <limit upper="2.443461" lower="-2.443461" effort="100" velocity="100"/>
 </joint>
 
 <joint name="suction_joint" type="revolute">
@@ -245,18 +248,15 @@
 </joint>
 
 <joint name="kinect_joint" type="fixed">
-  <origin xyz="0.296167 -0.022518 0.799369" rpy="0 0 0"/>
+  <origin xyz="0.296166 -0.022518 0.799368" rpy="0 0 0"/>
   <parent link="extrusion3"/>
   <child link="KINECT_XBOX"/>
 </joint>
 
 <joint name="extrusion_joint" type="fixed">
-  <origin xyz="0.116374 0.085442 -0.108605" rpy="0 0 0"/>
+  <origin xyz="0.136552 0.066 -0.029236" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="extrusion3"/>
 </joint>
-
-
-
 
 </robot>

@@ -6,6 +6,6 @@ moveit_setup_assistant_config:
   SRDF:
     relative_path: config/ajgar.srdf
   CONFIG:
-    author_name: team_atom
-    author_email: atom@gmail.com
-    generated_timestamp: 1692912744
+    author_name: nix
+    author_email: nix@gmail.com
+    generated_timestamp: 1693003959

@@ -5,7 +5,7 @@ controller_list:
       - base_joint
       - shoulder_joint
       - elbow_joint
-      - end_joint
+      - forearm_joint
   - name: fake_gripper_controller
     type: $(arg fake_execution_type)
     joints:

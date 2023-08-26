@@ -14,7 +14,7 @@
         <joint name="shoulder_joint"/>
         <joint name="elbow_joint"/>
         <joint name="wrist_joint"/>
-        <joint name="end_joint"/>
+        <joint name="forearm_joint"/>
     </group>
     <group name="gripper">
         <joint name="suction_joint"/>
@@ -23,19 +23,19 @@
     <group_state name="stand" group="arm">
         <joint name="base_joint" value="0"/>
         <joint name="elbow_joint" value="0"/>
-        <joint name="end_joint" value="0"/>
+        <joint name="forearm_joint" value="0"/>
         <joint name="shoulder_joint" value="0"/>
     </group_state>
-    <group_state name="right_extend" group="arm">
-        <joint name="base_joint" value="-1.568"/>
+    <group_state name="extend_right" group="arm">
+        <joint name="base_joint" value="-1.524"/>
         <joint name="elbow_joint" value="0"/>
-        <joint name="end_joint" value="0"/>
+        <joint name="forearm_joint" value="0"/>
         <joint name="shoulder_joint" value="1.5707"/>
     </group_state>
-    <group_state name="left_extend" group="arm">
-        <joint name="base_joint" value="-1.601"/>
+    <group_state name="extend_left" group="arm">
+        <joint name="base_joint" value="-1.524"/>
         <joint name="elbow_joint" value="0"/>
-        <joint name="end_joint" value="0"/>
+        <joint name="forearm_joint" value="0"/>
         <joint name="shoulder_joint" value="-1.5707"/>
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->

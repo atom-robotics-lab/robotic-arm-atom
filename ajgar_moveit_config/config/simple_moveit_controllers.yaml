@@ -7,7 +7,7 @@ controller_list:
       - base_joint
       - shoulder_joint
       - elbow_joint
-      - end_joint
+      - forearm_joint
   - name: hand_ee_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory

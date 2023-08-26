@@ -6,10 +6,12 @@ controller_list:
     joints:
     - base_joint
     - shoulder_joint
+    - forearm_joint
     - elbow_joint
-    - end_joint
   - name: hand_ee_controller 
     action_ns:  follow_joint_trajectory
     type: FollowJointTrajectory
     joints: 
     - suction_joint
+   
+ 
