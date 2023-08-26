@@ -10,6 +10,7 @@ import tf2_ros
 import tf2_msgs.msg
 from ultralytics import YOLO
 import numpy as np
+from pathlib import Path
 
 
 class Perception:
@@ -25,14 +26,16 @@ class Perception:
 
         self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
         self.mask_pub=rospy.Publisher("/mask",String,queue_size=1)
-
-        self.model=YOLO("/home/bhavay/catkin_ws/src/flipkartGrid/Perception/scripts/yolov8m-seg-custom.pt")
+        self.full_path = f'{Path.cwd()}' 
+        
+        self.model=YOLO(self.full_path + '/srccle/flipkartGrid/perception/scripts/ml_models/yolov8m-seg-custom.pt')
         self.confidence=0.4
 
         self.rgb_image, self.depth_image = None, None
         self.rgb_shape, self.depth_shape = None, None
 
         self.found=False
+        
         
 
     def rgb_callback(self, rgb_message) :
