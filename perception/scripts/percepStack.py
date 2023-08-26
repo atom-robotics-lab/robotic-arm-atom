@@ -26,9 +26,10 @@ class Perception:
 
         self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
         self.mask_pub=rospy.Publisher("/mask",String,queue_size=1)
+
         self.full_path = f'{Path.cwd()}' 
-        
-        self.model=YOLO(self.full_path + '/src/flipkartGrid/perception/scripts/ml_models/yolov8m-seg-custom.pt')
+
+        self.model=YOLO('/home/bhavay/catkin_ws/src/flipkartGrid/perception/scripts/ml_models/yolov8m-seg-custom.pt')
         self.confidence=0.4
 
         self.rgb_image, self.depth_image = None, None
@@ -37,7 +38,6 @@ class Perception:
         self.found=False
         
         
-
     def rgb_callback(self, rgb_message) :
         self.rgb_image = self.bridge.imgmsg_to_cv2(rgb_message, desired_encoding = "bgr8")
         self.rgb_shape = self.rgb_image.shape
@@ -47,12 +47,19 @@ class Perception:
         self.depth_image = self.bridge.imgmsg_to_cv2(depth_message, desired_encoding=depth_message.encoding)
         self.depth_shape = self.depth_image.shape 
 
+    
+    def extract_image(self,image,boundingbox):
+        region=image[boundingbox[1]:boundingbox[3],boundingbox[0]:boundingbox[2]]
+        # cv2.imshow("reigon",region)
+        # cv2.waitKey(0)
+        return region
+
 
     def callback(self,depth_data, rgb_data):
         self.depth_callback(depth_data)
         self.rgb_callback(rgb_data)
         try:
-            points,masks = self.rgb_image_processing()
+            points,masks,boundingboxes = self.rgb_image_processing()
             # print(masks)
             depths = self.depth_image_processing(points)
             # print(points,depths)
@@ -62,6 +69,13 @@ class Perception:
 
             # Process the mask of the box to be picked
             self.process_box_mask(masks[min_depth_index])
+
+            # Extract the bounding box images of the box to be picked
+            new_rgb=self.extract_image(self.rgb_image,boundingboxes[min_depth_index])
+            new_depth=self.extract_image(np.array(self.depth_image, dtype=np.float32),boundingboxes[min_depth_index])
+
+            # Do something with new_rgb and new_depth images here
+
 
             cv2.circle(self.rgb_image,points[min_depth_index],8,(255,0,0),3)
             cv2.imshow("point",self.rgb_image)
@@ -81,19 +95,23 @@ class Perception:
         # print("RGB Image shape:",rgb_image.shape)
         points=[]
         masks=[]
+        boundingboxes=[]
 
         results = self.model.predict(source=rgb_image,conf=self.confidence,show=True)
 
         for i in results[0].boxes.xywh:
             cv2.circle(rgb_image,(int(i[0]),int(i[1])),5,(0,0,255),2)
             points.append((int(i[0]),int(i[1])))
+
+        for i in results[0].boxes.xyxy:
+            boundingboxes.append((int(i[0]),int(i[1]),int(i[2]),int(i[3])))
         
         for mask in results[0].masks:
             masks.append(mask.xy[0])
         
         # cv2.imshow("points",rgb_image)
         # cv2.waitKey(1) 
-        return points,masks
+        return points,masks,boundingboxes
     
 
     def depth_image_processing(self,points):
@@ -145,7 +163,6 @@ class Perception:
     def process_box_mask(self,mask):
         depths=self.depth_image_processing(mask)
         mask_xyz=[]
-        print("Building mask array")
         for i in range(len(mask)):
             mask_xyz.append(str(self.find_XYZ(mask[i],depths[i])))
         
