@@ -28,7 +28,7 @@ class Perception:
         self.mask_pub=rospy.Publisher("/mask",String,queue_size=1)
         self.full_path = f'{Path.cwd()}' 
         
-        self.model=YOLO(self.full_path + '/srccle/flipkartGrid/perception/scripts/ml_models/yolov8m-seg-custom.pt')
+        self.model=YOLO(self.full_path + '/src/flipkartGrid/perception/scripts/ml_models/yolov8m-seg-custom.pt')
         self.confidence=0.4
 
         self.rgb_image, self.depth_image = None, None
