@@ -1,6 +1,6 @@
 <launch>
-        <arg name="arg_x" default="0.65" />
-        <arg name="arg_y" default="0.00" />
+        <arg name="arg_x" default="0.16" />
+        <arg name="arg_y" default="0.25" />
         <arg name="arg_z" default="0.00" />
         <arg name="arg_R" default="0.00" />
         <arg name="arg_P" default="0.00" />
