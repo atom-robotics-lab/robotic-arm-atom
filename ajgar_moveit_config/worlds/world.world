@@ -88,48 +88,18 @@
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
     <state world_name='default'>
-      <sim_time>1215 403000000</sim_time>
-      <real_time>2448 409183609</real_time>
-      <wall_time>1693061490 892653518</wall_time>
-      <iterations>1215403</iterations>
+      <sim_time>1605 503000000</sim_time>
+      <real_time>609 361940572</real_time>
+      <wall_time>1693090713 406191907</wall_time>
+      <iterations>329878</iterations>
       <model name='flyer_box_1'>
-        <pose>-0.187556 0.253857 0.055209 -0.004776 0.032534 0.029884</pose>
+        <pose>-0.198123 0.208743 0.099492 0.137148 0.518647 1.32941</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.187556 0.253857 0.055209 -0.004776 0.032534 0.029884</pose>
-          <velocity>-0.0025 -0.000204 -0.191739 0.006161 -0.014353 0.000431</velocity>
-          <acceleration>-0.043962 -0.079718 -0.029206 0.521347 0.650846 0.03858</acceleration>
-          <wrench>-0.043962 -0.079718 -0.029206 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='flyer_box_1_clone'>
-        <pose>-0.226968 0.274035 0.100639 0.216908 0.092404 0.054672</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.226968 0.274035 0.100639 0.216908 0.092404 0.054672</pose>
-          <velocity>-0.003205 -0.000411 -0.192398 0.004537 -0.016307 8.4e-05</velocity>
-          <acceleration>-0.042333 0.011545 -0.008906 -0.664387 -0.230039 -0.051256</acceleration>
-          <wrench>-0.042333 0.011545 -0.008906 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='flyer_box_1_clone_0'>
-        <pose>-0.227218 0.045514 0.146597 0.323301 0.049708 0.096041</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.227218 0.045514 0.146597 0.323301 0.049708 0.096041</pose>
-          <velocity>-0.003945 -0.000527 -0.192931 0.001467 -0.01887 0.000256</velocity>
-          <acceleration>-0.024904 -0.018247 0.083923 0.169784 -0.05995 -0.366953</acceleration>
-          <wrench>-0.024904 -0.018247 0.083923 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='flyer_box_1_clone_0_clone'>
-        <pose>-0.292891 0.020806 0.223631 -0.082195 1.34621 0.069646</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.292891 0.020806 0.223631 -0.082195 1.34621 0.069646</pose>
-          <velocity>-0.005424 -0.000696 -0.194346 0.002475 -0.018786 -0.000476</velocity>
-          <acceleration>-0.020836 -0.029647 0.044676 0.062653 -0.015656 -0.972493</acceleration>
-          <wrench>-0.020836 -0.029647 0.044676 0 -0 0</wrench>
+          <pose>-0.198123 0.208743 0.099492 0.137148 0.518647 1.32941</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-0.291127 0.006953 -8.82682 3.07028 -0.644329 -2.41398</acceleration>
+          <wrench>-0.291127 0.006953 -8.82682 0 -0 0</wrench>
         </link>
       </model>
       <model name='ground_plane'>
@@ -143,153 +113,73 @@
         </link>
       </model>
       <model name='medium_box_1'>
-        <pose>-0.265409 0.029941 0.070183 -0.001498 -0.033339 0.006058</pose>
+        <pose>-0.265449 0.038607 0.110462 0.043328 0.003943 -0.00753</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.265409 0.029941 0.070183 -0.001498 -0.033339 0.006058</pose>
-          <velocity>-0.002388 -0.000283 -0.193818 0.002971 -0.021188 0.000159</velocity>
-          <acceleration>-0.011101 -0.03305 0.032734 0.360557 -0.220537 0.030516</acceleration>
-          <wrench>-0.011101 -0.03305 0.032734 0 -0 0</wrench>
+          <pose>-0.265449 0.038607 0.110462 0.043328 0.003943 -0.00753</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-0.276156 0.029663 -8.91996 2.83662 -0.906267 3.11478</acceleration>
+          <wrench>-0.276156 0.029663 -8.91996 0 -0 0</wrench>
         </link>
       </model>
       <model name='medium_box_1_clone'>
-        <pose>-0.246929 0.421407 0.249772 -1.29818 0.044401 -0.05492</pose>
+        <pose>-0.202028 0.33287 0.289405 -2.79729 -0.431648 -0.288173</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.246929 0.421407 0.249772 -1.29818 0.044401 -0.05492</pose>
-          <velocity>-0.00587 -0.000718 -0.192486 0.001533 -0.017449 0.000321</velocity>
-          <acceleration>-0.012811 -0.008903 -0.048057 -0.140909 -0.084325 -0.30254</acceleration>
-          <wrench>-0.012811 -0.008903 -0.048057 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='small_box_1_clone_0_clone'>
-        <pose>-0.354117 0.205262 0.03546 -3.13787 -0.000729 1.57866</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.354117 0.205262 0.03546 -3.13787 -0.000729 1.57866</pose>
-          <velocity>-0.003145 -7.1e-05 -0.1937 0.004216 0.008704 -0.001908</velocity>
-          <acceleration>-0.052619 0.013639 0.039397 0.337984 -0.383878 -0.053513</acceleration>
-          <wrench>-0.052619 0.013639 0.039397 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='small_box_1_clone_0_clone_clone'>
-        <pose>-0.065603 -0.003212 0.036286 -1.61574 -0.012034 1.57305</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.065603 -0.003212 0.036286 -1.61574 -0.012034 1.57305</pose>
+          <pose>-0.202028 0.33287 0.289405 -2.79729 -0.431648 -0.288173</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-9.74432 -2.24415 -11.5294 -1.25268 0.81867 -2.5418</acceleration>
-          <wrench>-9.74432 -2.24415 -11.5294 0 -0 0</wrench>
+          <acceleration>-0.070061 0.02633 0.003506 -0.029301 0.184809 -0.032163</acceleration>
+          <wrench>-0.070061 0.02633 0.003506 0 -0 0</wrench>
         </link>
       </model>
-      <model name='small_box_1_clone_0_clone_clone_0'>
-        <pose>-0.313394 0.429424 0.029709 -3.12839 0.040199 0.012135</pose>
+      <model name='small_box_1'>
+        <pose>-0.167215 0.102379 0.230126 -0.02602 0.244964 0.389064</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.313394 0.429424 0.029709 -3.12839 0.040199 0.012135</pose>
-          <velocity>-0.003162 -6.9e-05 -0.188907 0.003728 0.016237 -0.000121</velocity>
-          <acceleration>0.001086 -0.019817 0.038402 1.00258 -0.012191 -0.060442</acceleration>
-          <wrench>0.001086 -0.019817 0.038402 0 -0 0</wrench>
+          <pose>-0.167215 0.102379 0.230126 -0.02602 0.244964 0.389064</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-0.279568 0.140064 -8.8374 -0.819465 1.51098 -1.43254</acceleration>
+          <wrench>-0.139784 0.070032 -4.4187 0 -0 0</wrench>
         </link>
       </model>
-      <model name='small_box_1_clone_0_clone_clone_1'>
-        <pose>-0.138496 0.41939 0.070972 3.06992 0.175204 0.114428</pose>
+      <model name='small_box_1_clone'>
+        <pose>-0.252521 0.422046 0.059361 0.000132 -0.003386 0.030737</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.138496 0.41939 0.070972 3.06992 0.175204 0.114428</pose>
-          <velocity>-0.002699 -0.000314 -0.189832 0.010994 -0.014072 -0.000775</velocity>
-          <acceleration>0.021154 0.011942 0.011665 0.679169 0.318516 0.592466</acceleration>
-          <wrench>0.021154 0.011942 0.011665 0 -0 0</wrench>
+          <pose>-0.252521 0.422046 0.059361 0.000132 -0.003386 0.030737</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-0.17478 -0.031521 -9.02256 0.709032 -0.478412 0.046422</acceleration>
+          <wrench>-0.08739 -0.015761 -4.51128 0 -0 0</wrench>
         </link>
       </model>
-      <model name='small_box_1_clone_0_clone_clone_2'>
-        <pose>-0.07985 0.210164 0.022661 -3.13906 -0.011471 1.57233</pose>
+      <model name='small_box_1_clone_0'>
+        <pose>-0.158773 -0.009677 0.187987 3.09529 -0.020061 0.35155</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.07985 0.210164 0.022661 -3.13906 -0.011471 1.57233</pose>
-          <velocity>-0.001788 -0.00014 -0.190201 0.003156 -0.019603 0.000462</velocity>
-          <acceleration>-0.010354 -0.046201 -0.070892 0.75093 0.998032 -0.115446</acceleration>
-          <wrench>-0.010354 -0.046201 -0.070892 0 -0 0</wrench>
+          <pose>-0.158773 -0.009677 0.187987 3.09529 -0.020061 0.35155</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-0.422979 0.03795 -8.70066 -1.17555 1.28992 -0.869296</acceleration>
+          <wrench>-0.21149 0.018975 -4.35033 0 -0 0</wrench>
         </link>
       </model>
-      <model name='small_box_1_clone_0_clone_clone_3'>
-        <pose>-0.242907 0.252181 0.027393 -3.03332 0.001217 1.57951</pose>
+      <model name='small_box_1_clone_clone'>
+        <pose>-0.288645 0.173049 0.203281 1.5552 0.35482 1.44431</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.242907 0.252181 0.027393 -3.03332 0.001217 1.57951</pose>
-          <velocity>-0.001979 -8.8e-05 -0.192565 0.005415 -0.016225 0.000489</velocity>
-          <acceleration>0.009879 -0.0171 0.024372 0.185308 0.219572 -0.186668</acceleration>
-          <wrench>0.009879 -0.0171 0.024372 0 -0 0</wrench>
+          <pose>-0.288645 0.173049 0.203281 1.5552 0.35482 1.44431</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-0.116411 0.138329 -9.10337 -1.45522 0.676563 -0.67037</acceleration>
+          <wrench>-0.058205 0.069164 -4.55169 0 -0 0</wrench>
         </link>
       </model>
-      <model name='small_box_1_clone_0_clone_clone_clone'>
-        <pose>-0.140612 0.219242 0.107238 -2.47652 -0.095608 1.48607</pose>
+      <model name='small_box_1_clone_clone_0'>
+        <pose>-0.326711 0.133268 0.316423 2.23976 -0.016363 -0.381092</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.140612 0.219242 0.107238 -2.47652 -0.095608 1.48607</pose>
-          <velocity>-0.00331 -0.000417 -0.191045 0.002606 -0.017923 0.000233</velocity>
-          <acceleration>0.027009 -0.068426 0.000196 -0.17955 -0.346755 0.221339</acceleration>
-          <wrench>0.027009 -0.068426 0.000196 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='small_box_1_clone_0_clone_clone_clone_clone'>
-        <pose>-0.259096 0.239193 0.103551 -3.14076 -0.34216 1.88888</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.259096 0.239193 0.103551 -3.14076 -0.34216 1.88888</pose>
-          <velocity>-0.003246 -0.00041 -0.193111 0.003168 -0.017443 0.000269</velocity>
-          <acceleration>0.000312 -0.06529 0.007548 -0.378442 0.187377 0.02318</acceleration>
-          <wrench>0.000312 -0.06529 0.007548 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='small_box_1_clone_0_clone_clone_clone_clone_0'>
-        <pose>-0.328999 0.197413 0.152588 -2.88748 -0.348847 1.85247</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.328999 0.197413 0.152588 -2.88748 -0.348847 1.85247</pose>
-          <velocity>-0.004061 -0.00052 -0.194597 0.00356 -0.019567 -0.000271</velocity>
-          <acceleration>0.038902 -0.026409 -0.025952 -0.17162 -0.684478 -0.20871</acceleration>
-          <wrench>0.038902 -0.026409 -0.025952 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='small_box_1_clone_0_clone_clone_clone_clone_0_clone'>
-        <pose>-0.10864 0.214573 0.199067 2.88315 0.173623 -2.09178</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.10864 0.214573 0.199067 2.88315 0.173623 -2.09178</pose>
-          <velocity>-0.004941 -0.000605 -0.190431 0.00151 -0.019169 -0.000174</velocity>
-          <acceleration>-0.01636 -0.025574 0.062953 -0.551104 -0.193604 -0.006719</acceleration>
-          <wrench>-0.01636 -0.025574 0.062953 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='small_box_1_clone_0_clone_clone_clone_clone_0_clone_0'>
-        <pose>-0.150017 0.224064 0.311252 2.84844 -0.608438 2.058</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.150017 0.224064 0.311252 2.84844 -0.608438 2.058</pose>
-          <velocity>-0.006893 -0.00075 -0.191244 0.001977 -0.015419 0.000908</velocity>
-          <acceleration>-0.034134 -0.004093 -0.007175 -0.374257 -0.142179 -0.102429</acceleration>
-          <wrench>-0.034134 -0.004093 -0.007175 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='small_box_1_clone_0_clone_clone_clone_clone_0_clone_1'>
-        <pose>-0.251128 0.196342 0.237995 2.5536 -0.289835 1.86354</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.251128 0.196342 0.237995 2.5536 -0.289835 1.86354</pose>
-          <velocity>-0.00563 -0.000788 -0.19311 0.002899 -0.018125 0.0002</velocity>
-          <acceleration>0.027603 -0.052813 0.04765 -0.210288 -0.015961 0.036461</acceleration>
-          <wrench>0.027603 -0.052813 0.04765 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='small_box_1_clone_0_clone_clone_clone_clone_clone'>
-        <pose>-0.101726 0.216252 0.127781 -2.93562 -0.449689 1.92558</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.101726 0.216252 0.127781 -2.93562 -0.449689 1.92558</pose>
-          <velocity>-0.003629 -0.000487 -0.190242 0.001257 -0.017287 0.000875</velocity>
-          <acceleration>0.007733 -0.069412 0.040181 -0.413827 -0.321541 0.053043</acceleration>
-          <wrench>0.007733 -0.069412 0.040181 0 -0 0</wrench>
+          <pose>-0.326711 0.133268 0.316423 2.23976 -0.016363 -0.381092</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0.05579 0.378162 -8.69144 2.97768 0.590063 0.770203</acceleration>
+          <wrench>0.027895 0.189081 -4.34572 0 -0 0</wrench>
         </link>
       </model>
       <model name='trolley'>
@@ -307,6 +197,36 @@
         <scale>1 1 1</scale>
         <link name='link'>
           <pose>-0.110802 0.192187 0.106882 0.018485 9.1e-05 1.56587</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='unit_box'>
+        <pose>0.144938 0.215931 0.127868 0 0.011281 0</pose>
+        <scale>1 1 0.9731</scale>
+        <link name='link'>
+          <pose>0.144938 0.215931 0.127868 0 0.011281 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='unit_box_clone'>
+        <pose>-0.305092 0.611653 0.125999 0 0.011281 0</pose>
+        <scale>0.100134 0.190414 0.99795</scale>
+        <link name='link'>
+          <pose>-0.305092 0.611653 0.125999 0 0.011281 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='unit_box_clone_clone'>
+        <pose>-0.303942 -0.202713 0.128004 0 0.011281 0</pose>
+        <scale>1.24548 1 0.977926</scale>
+        <link name='link'>
+          <pose>-0.303942 -0.202713 0.128004 0 0.011281 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -358,116 +278,116 @@
           <cast_shadows>1</cast_shadows>
         </visual>
         <collision name='collision_1'>
-        <laser_retro>0</laser_retro>
-        <max_contacts>10</max_contacts>
-        <pose>-0.61 -0.41 -0.08 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>0.61844 0.64975 0.052181</size>
-          </box>
-        </geometry>
-        <surface>
-          <friction>
-            <ode>
-              <mu>1</mu>
-              <mu2>1</mu2>
-              <fdir1>0 0 0</fdir1>
-              <slip1>0</slip1>
-              <slip2>0</slip2>
-            </ode>
-            <torsional>
-              <coefficient>1</coefficient>
-              <patch_radius>0</patch_radius>
-              <surface_radius>0</surface_radius>
-              <use_patch_radius>1</use_patch_radius>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>-0.61 -0.41 -0.08 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.61844 0.64975 0.052181</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
               <ode>
-                <slip>0</slip>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
               </ode>
-            </torsional>
-          </friction>
-          <bounce>
-            <restitution_coefficient>0</restitution_coefficient>
-            <threshold>1e+06</threshold>
-          </bounce>
-          <contact>
-            <collide_without_contact>0</collide_without_contact>
-            <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-            <collide_bitmask>1</collide_bitmask>
-            <ode>
-              <soft_cfm>0</soft_cfm>
-              <soft_erp>0.2</soft_erp>
-              <kp>1e+13</kp>
-              <kd>1</kd>
-              <max_vel>0.01</max_vel>
-              <min_depth>0</min_depth>
-            </ode>
-            <bullet>
-              <split_impulse>1</split_impulse>
-              <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-              <soft_cfm>0</soft_cfm>
-              <soft_erp>0.2</soft_erp>
-              <kp>1e+13</kp>
-              <kd>1</kd>
-            </bullet>
-          </contact>
-        </surface>
-      </collision>
-      <collision name='collision'>
-        <laser_retro>0</laser_retro>
-        <max_contacts>10</max_contacts>
-        <pose>0.074 0.18 0 0 -0 0</pose>
-        <geometry>
-          <mesh>
-            <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/trolley_base/meshes/trolley_base.dae</uri>
-            <scale>0.4 0.4 1</scale>
-          </mesh>
-        </geometry>
-        <surface>
-          <friction>
-            <ode>
-              <mu>1</mu>
-              <mu2>1</mu2>
-              <fdir1>0 0 0</fdir1>
-              <slip1>0</slip1>
-              <slip2>0</slip2>
-            </ode>
-            <torsional>
-              <coefficient>1</coefficient>
-              <patch_radius>0</patch_radius>
-              <surface_radius>0</surface_radius>
-              <use_patch_radius>1</use_patch_radius>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
               <ode>
-                <slip>0</slip>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
               </ode>
-            </torsional>
-          </friction>
-          <bounce>
-            <restitution_coefficient>0</restitution_coefficient>
-            <threshold>1e+06</threshold>
-          </bounce>
-          <contact>
-            <collide_without_contact>0</collide_without_contact>
-            <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-            <collide_bitmask>1</collide_bitmask>
-            <ode>
-              <soft_cfm>0</soft_cfm>
-              <soft_erp>0.2</soft_erp>
-              <kp>1e+13</kp>
-              <kd>1</kd>
-              <max_vel>0.01</max_vel>
-              <min_depth>0</min_depth>
-            </ode>
-            <bullet>
-              <split_impulse>1</split_impulse>
-              <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-              <soft_cfm>0</soft_cfm>
-              <soft_erp>0.2</soft_erp>
-              <kp>1e+13</kp>
-              <kd>1</kd>
-            </bullet>
-          </contact>
-        </surface>
-      </collision>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+        <collision name='collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0.074 0.18 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/trolley_base/meshes/trolley_base.dae</uri>
+              <scale>0.4 0.4 1</scale>
+            </mesh>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
       </link>
       <static>1</static>
       <allow_auto_disable>1</allow_auto_disable>
@@ -569,17 +489,60 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>0.046532 -0.031161 0 0 -0 0</pose>
     </model>
-    <model name='small_box_1_clone_0_clone'>
+    <light name='user_directional_light_0' type='directional'>
+      <pose>-9.00629 -9.30641 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>0.1 0.1 -0.9</direction>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <light name='user_directional_light_1' type='directional'>
+      <pose>-9.25497 9.35355 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>0.1 0.1 -0.9</direction>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>-0.28997 0.265193 2.20814 1e-06 1.5698 3.04261</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+    <model name='unit_box'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
           <inertia>
+            <ixx>0.166667</ixx>
             <ixy>0</ixy>
             <ixz>0</ixz>
+            <iyy>0.166667</iyy>
             <iyz>0</iyz>
-            <ixx>0.05288</ixx>
-            <iyy>0.05288</iyy>
-            <izz>0.09132</izz>
+            <izz>0.166667</izz>
           </inertia>
           <pose>0 0 0 0 -0 0</pose>
         </inertial>
@@ -590,15 +553,15 @@
         <gravity>1</gravity>
         <visual name='visual'>
           <geometry>
-            <mesh>
-              <uri>model://small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
+            <box>
+              <size>0.278742 0.220351 0.297722</size>
+            </box>
           </geometry>
-          <meta>
-            <layer>1</layer>
-          </meta>
           <material>
+            <script>
+              <name>Gazebo/Grey</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
             <shader type='pixel'>
               <normal_map>__default__</normal_map>
             </shader>
@@ -612,16 +575,15 @@
           <max_contacts>10</max_contacts>
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
-            <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
+            <box>
+              <size>0.278742 0.220351 0.297722</size>
+            </box>
           </geometry>
           <surface>
             <friction>
               <ode>
-                <mu>1000</mu>
-                <mu2>1000</mu2>
+                <mu>1</mu>
+                <mu2>1</mu2>
                 <fdir1>0 0 0</fdir1>
                 <slip1>0</slip1>
                 <slip2>0</slip2>
@@ -638,7 +600,7 @@
             </friction>
             <bounce>
               <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1</threshold>
+              <threshold>1e+06</threshold>
             </bounce>
             <contact>
               <collide_without_contact>0</collide_without_contact>
@@ -647,7 +609,7 @@
               <ode>
                 <soft_cfm>0</soft_cfm>
                 <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
+                <kp>1e+13</kp>
                 <kd>1</kd>
                 <max_vel>0.01</max_vel>
                 <min_depth>0</min_depth>
@@ -657,28 +619,28 @@
                 <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
                 <soft_cfm>0</soft_cfm>
                 <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
+                <kp>1e+13</kp>
                 <kd>1</kd>
               </bullet>
             </contact>
           </surface>
         </collision>
       </link>
-      <static>0</static>
+      <static>1</static>
       <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.266625 0.192426 0.059963 -3.13788 0.000126 1.52823</pose>
+      <pose>0.162664 0.215931 0.17933 0 -0 0</pose>
     </model>
-    <model name='small_box_1_clone_0_clone_clone'>
+    <model name='unit_box_clone'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
           <inertia>
+            <ixx>0.166667</ixx>
             <ixy>0</ixy>
             <ixz>0</ixz>
+            <iyy>0.166667</iyy>
             <iyz>0</iyz>
-            <ixx>0.05288</ixx>
-            <iyy>0.05288</iyy>
-            <izz>0.09132</izz>
+            <izz>0.166667</izz>
           </inertia>
           <pose>0 0 0 0 -0 0</pose>
         </inertial>
@@ -689,15 +651,15 @@
         <gravity>1</gravity>
         <visual name='visual'>
           <geometry>
-            <mesh>
-              <uri>model://small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
+            <box>
+              <size>0.278736 0.220351 0.305548</size>
+            </box>
           </geometry>
-          <meta>
-            <layer>1</layer>
-          </meta>
           <material>
+            <script>
+              <name>Gazebo/Grey</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
             <shader type='pixel'>
               <normal_map>__default__</normal_map>
             </shader>
@@ -711,16 +673,15 @@
           <max_contacts>10</max_contacts>
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
-            <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
+            <box>
+              <size>0.278736 0.220351 0.305548</size>
+            </box>
           </geometry>
           <surface>
             <friction>
               <ode>
-                <mu>1000</mu>
-                <mu2>1000</mu2>
+                <mu>1</mu>
+                <mu2>1</mu2>
                 <fdir1>0 0 0</fdir1>
                 <slip1>0</slip1>
                 <slip2>0</slip2>
@@ -737,7 +698,7 @@
             </friction>
             <bounce>
               <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1</threshold>
+              <threshold>1e+06</threshold>
             </bounce>
             <contact>
               <collide_without_contact>0</collide_without_contact>
@@ -746,7 +707,7 @@
               <ode>
                 <soft_cfm>0</soft_cfm>
                 <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
+                <kp>1e+13</kp>
                 <kd>1</kd>
                 <max_vel>0.01</max_vel>
                 <min_depth>0</min_depth>
@@ -756,28 +717,28 @@
                 <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
                 <soft_cfm>0</soft_cfm>
                 <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
+                <kp>1e+13</kp>
                 <kd>1</kd>
               </bullet>
             </contact>
           </surface>
         </collision>
       </link>
-      <static>0</static>
+      <static>1</static>
       <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.212127 0.238849 0.059963 -3.13788 0.000126 1.52823</pose>
+      <pose>-0.262708 0.686924 0.127868 0 0.011281 0</pose>
     </model>
-    <model name='medium_box_1'>
+    <model name='unit_box_clone_clone'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
           <inertia>
+            <ixx>0.166667</ixx>
             <ixy>0</ixy>
             <ixz>0</ixz>
+            <iyy>0.166667</iyy>
             <iyz>0</iyz>
-            <ixx>0.05288</ixx>
-            <iyy>0.05288</iyy>
-            <izz>0.09132</izz>
+            <izz>0.166667</izz>
           </inertia>
           <pose>0 0 0 0 -0 0</pose>
         </inertial>
@@ -788,15 +749,15 @@
         <gravity>1</gravity>
         <visual name='visual'>
           <geometry>
-            <mesh>
-              <uri>model://medium_boxes/meshes/medium_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
+            <box>
+              <size>0.027911 0.041958 0.304922</size>
+            </box>
           </geometry>
-          <meta>
-            <layer>1</layer>
-          </meta>
           <material>
+            <script>
+              <name>Gazebo/Grey</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
             <shader type='pixel'>
               <normal_map>__default__</normal_map>
             </shader>
@@ -810,16 +771,15 @@
           <max_contacts>10</max_contacts>
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
-            <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/medium_boxes/meshes/medium_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
+            <box>
+              <size>0.027911 0.041958 0.304922</size>
+            </box>
           </geometry>
           <surface>
             <friction>
               <ode>
-                <mu>1000</mu>
-                <mu2>1000</mu2>
+                <mu>1</mu>
+                <mu2>1</mu2>
                 <fdir1>0 0 0</fdir1>
                 <slip1>0</slip1>
                 <slip2>0</slip2>
@@ -836,7 +796,7 @@
             </friction>
             <bounce>
               <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1</threshold>
+              <threshold>1e+06</threshold>
             </bounce>
             <contact>
               <collide_without_contact>0</collide_without_contact>
@@ -845,7 +805,7 @@
               <ode>
                 <soft_cfm>0</soft_cfm>
                 <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
+                <kp>1e+13</kp>
                 <kd>1</kd>
                 <max_vel>0.01</max_vel>
                 <min_depth>0</min_depth>
@@ -855,115 +815,16 @@
                 <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
                 <soft_cfm>0</soft_cfm>
                 <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
+                <kp>1e+13</kp>
                 <kd>1</kd>
               </bullet>
             </contact>
           </surface>
         </collision>
       </link>
-      <static>0</static>
+      <static>1</static>
       <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.266437 0.039917 0.150482 1e-05 0.003701 -0.00708</pose>
-    </model>
-    <model name='small_box_1_clone_0_clone_clone_0'>
-      <link name='link'>
-        <inertial>
-          <mass>1</mass>
-          <inertia>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyz>0</iyz>
-            <ixx>0.05288</ixx>
-            <iyy>0.05288</iyy>
-            <izz>0.09132</izz>
-          </inertia>
-          <pose>0 0 0 0 -0 0</pose>
-        </inertial>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-        <pose>0 0 0 0 -0 0</pose>
-        <gravity>1</gravity>
-        <visual name='visual'>
-          <geometry>
-            <mesh>
-              <uri>model://small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <meta>
-            <layer>1</layer>
-          </meta>
-          <material>
-            <shader type='pixel'>
-              <normal_map>__default__</normal_map>
-            </shader>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1000</mu>
-                <mu2>1000</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <static>0</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.221396 0.370495 0.036069 -3.12312 3.6e-05 1.55234</pose>
+      <pose>-0.287535 -0.202638 0.127825 0 0.011281 0</pose>
     </model>
     <model name='flyer_box_1'>
       <link name='link'>
@@ -1062,12 +923,12 @@
       </link>
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.193249 0.26168 0.062398 0.079453 -0.037812 -0.012498</pose>
+      <pose>-0.637286 -0.06814 0.021939 0.079659 0.045073 -0.011725</pose>
     </model>
-    <model name='small_box_1_clone_0_clone_clone_1'>
+    <model name='small_box_1'>
       <link name='link'>
         <inertial>
-          <mass>1</mass>
+          <mass>0.5</mass>
           <inertia>
             <ixy>0</ixy>
             <ixz>0</ixz>
@@ -1161,12 +1022,111 @@
       </link>
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.619844 0.310766 0.03468 -3.1377 -0.005539 1.58064</pose>
+      <pose>-0.630327 -0.268079 0.04396 4e-06 1.1e-05 1e-06</pose>
     </model>
-    <model name='small_box_1_clone_0_clone_clone_2'>
+    <model name='medium_box_1'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
+          <inertia>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+            <ixx>0.05288</ixx>
+            <iyy>0.05288</iyy>
+            <izz>0.09132</izz>
+          </inertia>
+          <pose>0 0 0 0 -0 0</pose>
+        </inertial>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+        <pose>0 0 0 0 -0 0</pose>
+        <gravity>1</gravity>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://medium_boxes/meshes/medium_box.dae</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+          <meta>
+            <layer>1</layer>
+          </meta>
+          <material>
+            <shader type='pixel'>
+              <normal_map>__default__</normal_map>
+            </shader>
+          </material>
+          <pose>0 0 0 0 -0 0</pose>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/medium_boxes/meshes/medium_box.dae</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1000</mu>
+                <mu2>1000</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>10000</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>10000</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <static>0</static>
+      <allow_auto_disable>1</allow_auto_disable>
+      <pose>-0.659204 -0.446609 0.150482 1e-05 0.003701 -0.00708</pose>
+    </model>
+    <model name='small_box_1_clone'>
+      <link name='link'>
+        <inertial>
+          <mass>0.5</mass>
           <inertia>
             <ixy>0</ixy>
             <ixz>0</ixz>
@@ -1260,12 +1220,12 @@
       </link>
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.080232 0.205562 0.035271 -3.13787 -0.000315 1.58806</pose>
+      <pose>-0.644347 0.528898 0.043672 -9e-06 -0.002387 2.5e-05</pose>
     </model>
-    <model name='small_box_1_clone_0_clone_clone_3'>
+    <model name='small_box_1_clone_0'>
       <link name='link'>
         <inertial>
-          <mass>1</mass>
+          <mass>0.5</mass>
           <inertia>
             <ixy>0</ixy>
             <ixz>0</ixz>
@@ -1359,111 +1319,12 @@
       </link>
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.24332 0.253419 0.035271 -3.13787 -0.000315 1.58806</pose>
+      <pose>-0.637246 0.706553 0.043672 -9e-06 -0.002387 2.5e-05</pose>
     </model>
-    <model name='flyer_box_1_clone'>
+    <model name='small_box_1_clone_clone'>
       <link name='link'>
         <inertial>
-          <mass>1</mass>
-          <inertia>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyz>0</iyz>
-            <ixx>0.05288</ixx>
-            <iyy>0.05288</iyy>
-            <izz>0.09132</izz>
-          </inertia>
-          <pose>0 0 0 0 -0 0</pose>
-        </inertial>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-        <pose>0 0 0 0 -0 0</pose>
-        <gravity>1</gravity>
-        <visual name='visual'>
-          <geometry>
-            <mesh>
-              <uri>model://flyer_boxes/meshes/flyer.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <meta>
-            <layer>1</layer>
-          </meta>
-          <material>
-            <shader type='pixel'>
-              <normal_map>__default__</normal_map>
-            </shader>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/flyer_boxes/meshes/flyer.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1000</mu>
-                <mu2>1000</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <static>0</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.71589 0.259944 0.053026 0.11746 0.022838 0.013876</pose>
-    </model>
-    <model name='small_box_1_clone_0_clone_clone_clone'>
-      <link name='link'>
-        <inertial>
-          <mass>1</mass>
+          <mass>0.5</mass>
           <inertia>
             <ixy>0</ixy>
             <ixz>0</ixz>
@@ -1557,12 +1418,12 @@
       </link>
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.799128 0.311451 0.040937 -1.61984 -0.010415 1.5733</pose>
+      <pose>-0.637493 0.365334 0.043685 -0.000126 -0.002069 4.9e-05</pose>
     </model>
-    <model name='small_box_1_clone_0_clone_clone_clone_clone'>
+    <model name='small_box_1_clone_clone_0'>
       <link name='link'>
         <inertial>
-          <mass>1</mass>
+          <mass>0.5</mass>
           <inertia>
             <ixy>0</ixy>
             <ixz>0</ixz>
@@ -1656,7 +1517,7 @@
       </link>
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.259926 0.245719 1.38374 -1.58223 -0.019201 1.57326</pose>
+      <pose>-0.646382 0.220416 0.043685 -0.000126 -0.002069 4.9e-05</pose>
     </model>
     <model name='medium_box_1_clone'>
       <link name='link'>
@@ -1755,733 +1616,7 @@
       </link>
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.700403 0.224961 0.148962 -0.00621 -0.000428 -0.003668</pose>
+      <pose>-0.294501 0.945304 0.111385 -0.002597 -0.02811 -0.008449</pose>
     </model>
-    <model name='small_box_1_clone_0_clone_clone_clone_clone_clone'>
-      <link name='link'>
-        <inertial>
-          <mass>1</mass>
-          <inertia>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyz>0</iyz>
-            <ixx>0.05288</ixx>
-            <iyy>0.05288</iyy>
-            <izz>0.09132</izz>
-          </inertia>
-          <pose>0 0 0 0 -0 0</pose>
-        </inertial>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-        <pose>0 0 0 0 -0 0</pose>
-        <gravity>1</gravity>
-        <visual name='visual'>
-          <geometry>
-            <mesh>
-              <uri>model://small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <meta>
-            <layer>1</layer>
-          </meta>
-          <material>
-            <shader type='pixel'>
-              <normal_map>__default__</normal_map>
-            </shader>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1000</mu>
-                <mu2>1000</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <static>0</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.539625 0.019695 0.150782 -2.58911 -0.464368 1.86436</pose>
-    </model>
-    <model name='flyer_box_1_clone_0'>
-      <link name='link'>
-        <inertial>
-          <mass>1</mass>
-          <inertia>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyz>0</iyz>
-            <ixx>0.05288</ixx>
-            <iyy>0.05288</iyy>
-            <izz>0.09132</izz>
-          </inertia>
-          <pose>0 0 0 0 -0 0</pose>
-        </inertial>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-        <pose>0 0 0 0 -0 0</pose>
-        <gravity>1</gravity>
-        <visual name='visual'>
-          <geometry>
-            <mesh>
-              <uri>model://flyer_boxes/meshes/flyer.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <meta>
-            <layer>1</layer>
-          </meta>
-          <material>
-            <shader type='pixel'>
-              <normal_map>__default__</normal_map>
-            </shader>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/flyer_boxes/meshes/flyer.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1000</mu>
-                <mu2>1000</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <static>0</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.841808 0.022428 0.048379 0.113306 0.027534 0.005313</pose>
-    </model>
-    <light name='user_directional_light_0' type='directional'>
-      <pose>-9.00629 -9.30641 1 0 -0 0</pose>
-      <diffuse>0.5 0.5 0.5 1</diffuse>
-      <specular>0.1 0.1 0.1 1</specular>
-      <direction>0.1 0.1 -0.9</direction>
-      <attenuation>
-        <range>20</range>
-        <constant>0.5</constant>
-        <linear>0.01</linear>
-        <quadratic>0.001</quadratic>
-      </attenuation>
-      <cast_shadows>1</cast_shadows>
-    </light>
-    <light name='user_directional_light_1' type='directional'>
-      <pose>-9.25497 9.35355 1 0 -0 0</pose>
-      <diffuse>0.5 0.5 0.5 1</diffuse>
-      <specular>0.1 0.1 0.1 1</specular>
-      <direction>0.1 0.1 -0.9</direction>
-      <attenuation>
-        <range>20</range>
-        <constant>0.5</constant>
-        <linear>0.01</linear>
-        <quadratic>0.001</quadratic>
-      </attenuation>
-      <cast_shadows>1</cast_shadows>
-    </light>
-    <model name='flyer_box_1_clone_0_clone'>
-      <link name='link'>
-        <inertial>
-          <mass>1</mass>
-          <inertia>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyz>0</iyz>
-            <ixx>0.05288</ixx>
-            <iyy>0.05288</iyy>
-            <izz>0.09132</izz>
-          </inertia>
-          <pose>0 0 0 0 -0 0</pose>
-        </inertial>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-        <pose>0 0 0 0 -0 0</pose>
-        <gravity>1</gravity>
-        <visual name='visual'>
-          <geometry>
-            <mesh>
-              <uri>model://flyer_boxes/meshes/flyer.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <meta>
-            <layer>1</layer>
-          </meta>
-          <material>
-            <shader type='pixel'>
-              <normal_map>__default__</normal_map>
-            </shader>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/flyer_boxes/meshes/flyer.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1000</mu>
-                <mu2>1000</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <static>0</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.239521 0.015387 0.33232 0.011616 -0.432485 -0.057935</pose>
-    </model>
-    <model name='small_box_1_clone_0_clone_clone_clone_clone_0_clone_0'>
-      <link name='link'>
-        <inertial>
-          <mass>1</mass>
-          <inertia>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyz>0</iyz>
-            <ixx>0.05288</ixx>
-            <iyy>0.05288</iyy>
-            <izz>0.09132</izz>
-          </inertia>
-          <pose>0 0 0 0 -0 0</pose>
-        </inertial>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-        <pose>0 0 0 -0 -0 -0</pose>
-        <gravity>1</gravity>
-        <visual name='visual'>
-          <geometry>
-            <mesh>
-              <uri>model://small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <meta>
-            <layer>1</layer>
-          </meta>
-          <material>
-            <shader type='pixel'>
-              <normal_map>__default__</normal_map>
-            </shader>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1000</mu>
-                <mu2>1000</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <static>0</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.165465 0.187684 0.314636 2.36225 -0.257355 1.72281</pose>
-    </model>
-    <model name='small_box_1_clone_0_clone_clone_clone_clone_0_clone_1'>
-      <link name='link'>
-        <inertial>
-          <mass>1</mass>
-          <inertia>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyz>0</iyz>
-            <ixx>0.05288</ixx>
-            <iyy>0.05288</iyy>
-            <izz>0.09132</izz>
-          </inertia>
-          <pose>0 0 0 0 -0 0</pose>
-        </inertial>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-        <pose>0 0 0 0 -0 0</pose>
-        <gravity>1</gravity>
-        <visual name='visual'>
-          <geometry>
-            <mesh>
-              <uri>model://small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <meta>
-            <layer>1</layer>
-          </meta>
-          <material>
-            <shader type='pixel'>
-              <normal_map>__default__</normal_map>
-            </shader>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1000</mu>
-                <mu2>1000</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <static>0</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.264031 0.183532 0.267414 2.31599 -0.274974 1.85488</pose>
-    </model>
-    <model name='small_box_1_clone_0_clone_clone_clone_clone_0'>
-      <link name='link'>
-        <inertial>
-          <mass>1</mass>
-          <inertia>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyz>0</iyz>
-            <ixx>0.05288</ixx>
-            <iyy>0.05288</iyy>
-            <izz>0.09132</izz>
-          </inertia>
-          <pose>0 0 0 0 -0 0</pose>
-        </inertial>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-        <pose>0 0 0 0 -0 0</pose>
-        <gravity>1</gravity>
-        <visual name='visual'>
-          <geometry>
-            <mesh>
-              <uri>model://small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <meta>
-            <layer>1</layer>
-          </meta>
-          <material>
-            <shader type='pixel'>
-              <normal_map>__default__</normal_map>
-            </shader>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1000</mu>
-                <mu2>1000</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <static>0</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.328991 0.193851 0.160001 3.0919 -0.374238 1.82046</pose>
-    </model>
-    <model name='small_box_1_clone_0_clone_clone_clone_clone_0_clone'>
-      <link name='link'>
-        <inertial>
-          <mass>1</mass>
-          <inertia>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyz>0</iyz>
-            <ixx>0.05288</ixx>
-            <iyy>0.05288</iyy>
-            <izz>0.09132</izz>
-          </inertia>
-          <pose>0 0 0 0 -0 0</pose>
-        </inertial>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-        <pose>-0 0 0 0 -0 0</pose>
-        <gravity>1</gravity>
-        <visual name='visual'>
-          <geometry>
-            <mesh>
-              <uri>model://small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <meta>
-            <layer>1</layer>
-          </meta>
-          <material>
-            <shader type='pixel'>
-              <normal_map>__default__</normal_map>
-            </shader>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/small_boxes/meshes/small_box.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1000</mu>
-                <mu2>1000</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>10000</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <static>0</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <pose>-0.115171 0.208907 0.229225 -3.08361 0.186097 -2.16757</pose>
-    </model>
-    <gui fullscreen='0'>
-      <camera name='user_camera'>
-        <pose>0.541548 0.053061 1.5428 0 1.46379 3.11944</pose>
-        <view_controller>orbit</view_controller>
-        <projection_type>perspective</projection_type>
-      </camera>
-    </gui>
   </world>
 </sdf>

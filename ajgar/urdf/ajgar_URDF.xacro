@@ -203,11 +203,12 @@
     <origin rpy="0 0 3.142" xyz="0.0 0.0 0.0" />
 </joint>
     
-<joint name="base_joint" type="continuous">
+<joint name="base_joint" type="revolute">
   <origin xyz="0.0 0.033 0.049132" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="base_top"/>
   <axis xyz="-0.0 0.0 1.0"/>
+  <limit upper="2.443461" lower="-2.443461" effort="100" velocity="100"/>
 </joint>
 
 <joint name="shoulder_joint" type="revolute">
@@ -224,11 +225,12 @@
   <child link="wrist"/>
 </joint>
 
-<joint name="forearm_joint" type="continuous">
+<joint name="forearm_joint" type="revolute">
   <origin xyz="0.0 0.0 0.0545" rpy="0 0 0"/>
   <parent link="wrist"/>
   <child link="end"/>
   <axis xyz="-0.0 -0.0 1.0"/>
+  <limit upper="2.443461" lower="-2.443461" effort="100" velocity="100"/>
 </joint>
 
 <joint name="elbow_joint" type="revolute">
