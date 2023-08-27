@@ -25,12 +25,12 @@ class Perception:
         ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], queue_size=1, slop=0.5)
         ts.registerCallback(self.callback)
 
-        self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
+        self.pub_tf = rospy.Publisher("/tf_box", tf2_msgs.msg.TFMessage, queue_size=1)
         self.mask_pub=rospy.Publisher("/mask",PointCloud2,queue_size=1)
 
         self.full_path = f'{Path.cwd()}' 
 
-        self.model=YOLO('/home/bhavay/catkin_ws/src/flipkartGrid/perception/scripts/ml_models/yolov8m-seg-custom.pt')
+        self.model=YOLO('/home/arsenious/catkin_ws/src/flipkartGrid/perception/scripts/ml_models/yolov8m-seg-custom.pt')
         self.confidence=0.4
 
         self.rgb_image, self.depth_image = None, None

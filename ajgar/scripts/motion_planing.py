@@ -6,6 +6,7 @@ import geometry_msgs.msg
 import tf2_ros
 import tf2_geometry_msgs
 import sys
+import tf2_msgs.msg
              
 
 # Joint Angle Limits
@@ -17,6 +18,7 @@ def transform_callback(transform_stamped):
         print("try")
         # Convert the TransformStamped message to a Pose message
         target_pose = tf2_geometry_msgs.PoseStamped()
+        print(target_pose)
         target_pose.header = transform_stamped.header
         target_pose.pose.position = transform_stamped.transform.translation
         target_pose.pose.orientation = transform_stamped.transform.rotation
@@ -54,7 +56,7 @@ def move_to_target_pose():
     #TF listener and subscriber
     tf_buffer = tf2_ros.Buffer()
     tf_listener = tf2_ros.TransformListener(tf_buffer)
-    tf = rospy.Subscriber("/tf_box", geometry_msgs.msg.TransformStamped, transform_callback)
+    tf = rospy.Subscriber("/tf_box", tf2_msgs.msg.TFMessage, transform_callback)
 
     # Print the ROS Parameters
     rospy.loginfo( "Planning Group: "    + "\033[94m" + "{}".format(planning_frame) + "\033[0m")
