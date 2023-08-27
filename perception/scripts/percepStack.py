@@ -8,7 +8,7 @@ import sensor_msgs.point_cloud2 as pc2
 from std_msgs.msg import Header
 import geometry_msgs.msg
 import tf2_ros
-import tf2_msgs.msg
+from tf2_msgs.msg import TFMessage
 from ultralytics import YOLO
 import numpy as np
 from pathlib import Path
@@ -25,7 +25,7 @@ class Perception:
         ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], queue_size=1, slop=0.5)
         ts.registerCallback(self.callback)
 
-        self.pub_tf = rospy.Publisher("/tf_box", tf2_msgs.msg.TFMessage, queue_size=1)
+        self.pub_tf = rospy.Publisher("/tf_box",TFMessage, queue_size=1)
         self.mask_pub=rospy.Publisher("/mask",PointCloud2,queue_size=1)
 
         self.full_path = f'{Path.cwd()}' 

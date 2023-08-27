@@ -6,7 +6,7 @@ import geometry_msgs.msg
 import tf2_ros
 import tf2_geometry_msgs
 import sys
-import tf2_msgs.msg
+from tf2_msgs.msg import TFMessage
              
 
 # Joint Angle Limits
@@ -56,7 +56,7 @@ def move_to_target_pose():
     #TF listener and subscriber
     tf_buffer = tf2_ros.Buffer()
     tf_listener = tf2_ros.TransformListener(tf_buffer)
-    tf = rospy.Subscriber("/tf_box", tf2_msgs.msg.TFMessage, transform_callback)
+    rospy.Subscriber("/tf_box", TFMessage, transform_callback)
 
     # Print the ROS Parameters
     rospy.loginfo( "Planning Group: "    + "\033[94m" + "{}".format(planning_frame) + "\033[0m")
@@ -64,8 +64,6 @@ def move_to_target_pose():
     rospy.loginfo("\033[94m" + "arm init done." + "\033[0m")
     rospy.loginfo("\033[94m" + ">>> Current Joint Values:" + "\033[0m")
     rospy.loginfo(list_joint_values)
-
-    transform_callback(tf)
 
     rospy.spin()
 
