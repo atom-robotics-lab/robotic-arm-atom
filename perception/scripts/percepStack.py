@@ -3,8 +3,9 @@ import cv2
 import rospy
 import message_filters
 from cv_bridge import CvBridge
-from sensor_msgs.msg import Image
-from std_msgs.msg import String
+from sensor_msgs.msg import Image,PointCloud2, PointField
+import sensor_msgs.point_cloud2 as pc2
+from std_msgs.msg import Header
 import geometry_msgs.msg
 import tf2_ros
 import tf2_msgs.msg
@@ -25,7 +26,7 @@ class Perception:
         ts.registerCallback(self.callback)
 
         self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
-        self.mask_pub=rospy.Publisher("/mask",String,queue_size=1)
+        self.mask_pub=rospy.Publisher("/mask",PointCloud2,queue_size=1)
 
         self.full_path = f'{Path.cwd()}' 
 
@@ -142,7 +143,7 @@ class Perception:
         Y = depth * ((point[1]-cy)/fy)
         Z = depth
         # print("XYZ:",X , Y , Z )
-        return [X,Y,Z]
+        return (X,Y,Z)
     
 
     def publish_transforms(self,xyz):
@@ -160,15 +161,26 @@ class Perception:
         tfm = tf2_msgs.msg.TFMessage([t])
         self.pub_tf.publish(tfm)
 
+
     def process_box_mask(self,mask):
         depths=self.depth_image_processing(mask)
         mask_xyz=[]
         for i in range(len(mask)):
-            mask_xyz.append(str(self.find_XYZ(mask[i],depths[i])))
+            mask_xyz.append(self.find_XYZ(mask[i],depths[i]))
         
-        message=String()
-        message.data='['+','.join(mask_xyz)+']'
-        self.mask_pub.publish(message)
+        # Define point fields
+        fields = [
+            PointField(name="x", offset=0, datatype=PointField.FLOAT32, count=1),
+            PointField(name="y", offset=4, datatype=PointField.FLOAT32, count=1),
+            PointField(name="z", offset=8, datatype=PointField.FLOAT32, count=1)
+        ]
+
+        # Create PointCloud2 message
+        header = Header()
+        header.stamp = rospy.Time.now()
+        header.frame_id = "camera_depth_optical_frame"
+        point_cloud_msg = pc2.create_cloud(header, fields, mask_xyz)
+        self.mask_pub.publish(point_cloud_msg)
         print("Published mask")
 
 
