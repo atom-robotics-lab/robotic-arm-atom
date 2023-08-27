@@ -69,13 +69,19 @@ class Perception:
             # print(points[min_depth_index])
 
             # Process the mask of the box to be picked
-            self.process_box_mask(masks[min_depth_index])
+            # self.process_box_mask(masks[min_depth_index])
 
             # Extract the bounding box images of the box to be picked
             new_rgb=self.extract_image(self.rgb_image,boundingboxes[min_depth_index])
             new_depth=self.extract_image(np.array(self.depth_image, dtype=np.float32),boundingboxes[min_depth_index])
 
-            # Do something with new_rgb and new_depth images here
+            new_rgb_points=[]
+            for x in range(boundingboxes[min_depth_index][0],boundingboxes[min_depth_index][2]):
+                for y in range(boundingboxes[min_depth_index][1],boundingboxes[min_depth_index][3]):
+                    new_rgb_points.append((x,y))
+            
+            # Process the mask of the box to be picked
+            self.process_box_mask(new_rgb_points)
 
 
             cv2.circle(self.rgb_image,points[min_depth_index],8,(255,0,0),3)
