@@ -30,7 +30,7 @@ class Perception:
 
         self.full_path = f'{Path.cwd()}' 
 
-        self.model=YOLO('/home/bhavay/catkin_ws/src/flipkartGrid/perception/scripts/ml_models/yolov8m-seg-custom.pt')
+        self.model=YOLO('/home/noemoji041/ros_workspaces/kinect_catkin/src/flipkartGrid/perception/scripts/ml_models/yolov8m-seg-custom.pt')
         self.confidence=0.4
 
         self.rgb_image, self.depth_image = None, None
