@@ -56,7 +56,7 @@
   <selfCollide>true</selfCollide>
 </gazebo>
 
- <gazebo reference="camera_depth_frame">
+ <gazebo reference="camera_link">
     <sensor name="cm2" type="depth">
       <update_rate>20</update_rate>
       <camera>
