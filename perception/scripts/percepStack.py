@@ -28,6 +28,7 @@ class Perception:
 
         self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
         self.mask_pub=rospy.Publisher("/mask",PointCloud2,queue_size=1)
+        self.centroid_pub=rospy.Publisher("/centroid",PointCloud2, queue_size=1)
         self.pose_pub=rospy.Publisher("/pose",PoseStamped,queue_size=1)
 
         self.full_path = f'{Path.cwd()}' 
@@ -74,8 +75,8 @@ class Perception:
             # self.process_box_mask(masks[min_depth_index])
 
             # Extract the bounding box images of the box to be picked
-            new_rgb=self.extract_image(self.rgb_image,boundingboxes[min_depth_index])
-            new_depth=self.extract_image(np.array(self.depth_image, dtype=np.float32),boundingboxes[min_depth_index])
+            # new_rgb=self.extract_image(self.rgb_image,boundingboxes[min_depth_index])
+            # new_depth=self.extract_image(np.array(self.depth_image, dtype=np.float32),boundingboxes[min_depth_index])
 
             new_rgb_points=[]
             for x in range(boundingboxes[min_depth_index][0],boundingboxes[min_depth_index][2]):
@@ -95,6 +96,23 @@ class Perception:
             
             # Publish pose of box to be picked  
             self.publish_pose(self.find_XYZ(points[min_depth_index],depths[min_depth_index]))
+
+
+            # Publish centroid of the box to picked
+
+            # Define point fields
+            fields = [
+                PointField(name="x", offset=0, datatype=PointField.FLOAT32, count=1),
+                PointField(name="y", offset=4, datatype=PointField.FLOAT32, count=1),
+                PointField(name="z", offset=8, datatype=PointField.FLOAT32, count=1)
+            ]
+            # Create PointCloud2 message
+            header = Header()
+            header.stamp = rospy.Time.now()
+            header.frame_id = "camera_depth_optical_frame"
+            point_cloud_msg = pc2.create_cloud(header, fields, [self.find_XYZ(points[min_depth_index],depths[min_depth_index]),])
+            self.centroid_pub.publish(point_cloud_msg)
+            print("Published centroid")
 
         except Exception as e:
             print("An error occoured",str(e))
@@ -230,8 +248,6 @@ def main():
     # try:
     ps = Perception()
     rospy.sleep(1)
-    while True:
-        pass
         # ps.detect()
         
     # except Exception as e:
