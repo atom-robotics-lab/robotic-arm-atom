@@ -1,59 +1,76 @@
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <pcl/point_cloud.h>
+#include <pcl_ros/filters/voxel_grid.h>
 #include <pcl/point_types.h>
 #include <pcl_conversions/pcl_conversions.h>
-#include <pcl/filters/voxel_grid.h>
+#include <pcl/segmentation/segment_differences.h>
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
+#include <message_filters/sync_policies/exact_time.h>
 
-ros::Publisher filtered_cloud_pub;
+ros::Publisher uncommon_points_pub;
 
-void syncedCloudCallback(const sensor_msgs::PointCloud2ConstPtr& input_cloud1,
-                         const sensor_msgs::PointCloud2ConstPtr& input_cloud2)
+
+void pointCloudCallback(const sensor_msgs::PointCloud2ConstPtr& cloud1_msg, const sensor_msgs::PointCloud2ConstPtr& cloud2_msg)
 {
-    pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud1(new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud2(new pcl::PointCloud<pcl::PointXYZ>);
-    
-    pcl::fromROSMsg(*input_cloud1, *pcl_cloud1);
-    pcl::fromROSMsg(*input_cloud2, *pcl_cloud2);
-    ROS_INFO("DATA");
 
-    pcl::VoxelGrid<pcl::PointXYZ> voxel_grid;
-    voxel_grid.setInputCloud(pcl_cloud1);
-    voxel_grid.setLeafSize(0.01, 0.01, 0.01);
-    pcl::PointCloud<pcl::PointXYZ>::Ptr filtered_cloud1(new pcl::PointCloud<pcl::PointXYZ>);
-    voxel_grid.filter(*filtered_cloud1);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud2(new pcl::PointCloud<pcl::PointXYZ>);
 
-    voxel_grid.setInputCloud(pcl_cloud2);
-    voxel_grid.setLeafSize(0.01, 0.01, 0.01);
-    pcl::PointCloud<pcl::PointXYZ>::Ptr filtered_cloud2(new pcl::PointCloud<pcl::PointXYZ>);
-    voxel_grid.filter(*filtered_cloud2);
+    pcl::fromROSMsg(*cloud1_msg, *cloud1);
+    pcl::fromROSMsg(*cloud2_msg, *cloud2);
 
-    ROS_INFO("Process");
+    // VoxelGrid Downsampling pointcloud
+    pcl::VoxelGrid<pcl::PointXYZ> down_sample1;
+    down_sample1.setInputCloud(cloud2);
+    down_sample1.setLeafSize(0.01f, 0.01f, 0.01f);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud2_down(new pcl::PointCloud<pcl::PointXYZ>);
+    down_sample1.filter(*cloud2_down);
 
-    sensor_msgs::PointCloud2 filtered_ros_cloud;
-    pcl::toROSMsg(*filtered_cloud2, filtered_ros_cloud);
+    // VoxelGrid Downsampling mask
+    pcl::VoxelGrid<pcl::PointXYZ> down_sample2;
+    down_sample2.setInputCloud(cloud1);
+    down_sample2.setLeafSize(0.01f, 0.01f, 0.01f);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1_down(new pcl::PointCloud<pcl::PointXYZ>);
+    down_sample2.filter(*cloud1_down);
 
-    filtered_cloud_pub.publish(filtered_ros_cloud);
-    ROS_INFO("PUB");
+    ROS_INFO("Difference");
+pcl::PointCloud<pcl::PointXYZ> uncommon_points;
+for (const pcl::PointXYZ& cloudpoint : cloud2_down->points) {
+    bool is_common = false;
+    for (const pcl::PointXYZ& mask_point : cloud1_down->points) {
+        if (abs(cloudpoint.x-mask_point.x)<=0.01 && abs(cloudpoint.y-mask_point.y)<=0.01) {
+            is_common = true;
+            break;
+        }
+    }
+    if (!is_common) {
+        uncommon_points.push_back(cloudpoint);
+    }
+}
+    sensor_msgs::PointCloud2 uncommon_points_ros;
+    pcl::toROSMsg(uncommon_points, uncommon_points_ros);
+    // Set the frame ID to "camera_depth_optical_frame"
+    uncommon_points_ros.header.frame_id = "camera_depth_optical_frame";
+    uncommon_points_pub.publish(uncommon_points_ros);
 }
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "pcl_synced_callbacks_node");
-    ROS_INFO("NODE STARTED");
+    ros::init(argc, argv, "pcl_segment_differences_node");
+    ROS_INFO("Node started");
 
     ros::NodeHandle nh;
 
-    message_filters::Subscriber<sensor_msgs::PointCloud2> cloud_sub1(nh, "/mask", 1);
-    message_filters::Subscriber<sensor_msgs::PointCloud2> cloud_sub2(nh, "/mask", 1);
-    
-    typedef message_filters::sync_policies::ExactTime<sensor_msgs::PointCloud2, sensor_msgs::PointCloud2> SyncPolicy;
-    message_filters::Synchronizer<SyncPolicy> sync(SyncPolicy(10), cloud_sub1, cloud_sub2);
-    sync.registerCallback(boost::bind(&syncedCloudCallback, _1, _2));
+    message_filters::Subscriber<sensor_msgs::PointCloud2> cloud1_sub(nh, "/mask", 1);
+    message_filters::Subscriber<sensor_msgs::PointCloud2> cloud2_sub(nh, "/kinect/depth/points", 1);
 
-    filtered_cloud_pub = nh.advertise<sensor_msgs::PointCloud2>("/filtered_combined_cloud", 1);
+    typedef message_filters::sync_policies::ExactTime<sensor_msgs::PointCloud2, sensor_msgs::PointCloud2> SyncPolicy;
+    message_filters::Synchronizer<SyncPolicy> sync(SyncPolicy(10), cloud1_sub, cloud2_sub);
+    sync.registerCallback(boost::bind(&pointCloudCallback, _1, _2));
+    
+    uncommon_points_pub = nh.advertise<sensor_msgs::PointCloud2>("/uncommon_points_topic", 1);
 
     ros::spin();
 
