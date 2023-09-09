@@ -250,7 +250,7 @@
 </joint>
 
 <joint name="kinect_joint" type="fixed">
-  <origin xyz="0.296166 -0.022518 0.799368" rpy="0 0 0"/>
+  <origin xyz="0.296166 -0.022518 0.799368" rpy="0 -4.6 0"/>
   <parent link="extrusion3"/>
   <child link="KINECT_XBOX"/>
 </joint>
