@@ -5,8 +5,9 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /MotionPlanning1
+        - /MotionPlanning1/Planning Request1
       Splitter Ratio: 0.5
-    Tree Height: 171
+    Tree Height: 380
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -80,17 +81,17 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          camera_depth_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           end_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
           forearm_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          kinect:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -135,10 +136,10 @@ Visualization Manager:
         Colliding Link Color: 255; 0; 0
         Goal State Alpha: 1
         Goal State Color: 250; 128; 0
-        Interactive Marker Size: 0
+        Interactive Marker Size: 9.999999682655225e-22
         Joint Violation Color: 255; 0; 255
         Planning Group: arm
-        Query Goal State: true
+        Query Goal State: false
         Query Start State: false
         Show Workspace: false
         Start State Alpha: 1
@@ -170,17 +171,17 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          camera_depth_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           end_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
           forearm_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          kinect:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -210,7 +211,7 @@ Visualization Manager:
       Value: true
       Velocity_Scaling_Factor: 0.1
     - Class: rviz/Image
-      Enabled: true
+      Enabled: false
       Image Topic: /kinect/color/image_raw
       Max Value: 1
       Median window: 5
@@ -220,7 +221,7 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: raw
       Unreliable: false
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -280,17 +281,17 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          camera_depth_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           end_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
           forearm_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          kinect:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -359,17 +360,17 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          camera_depth_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           end_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
           forearm_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          kinect:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -449,17 +450,17 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          camera_depth_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           end_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
           forearm_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          kinect:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -520,9 +521,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.0102031230926514
+      Pitch: 0.6252032518386841
       Target Frame: base_link
-      Yaw: 5.5149431228637695
+      Yaw: 5.519944190979004
     Saved: ~
 Window Geometry:
   Displays:
@@ -536,11 +537,9 @@ Window Geometry:
     collapsed: false
   MotionPlanning:
     collapsed: false
-  MotionPlanning - Slider:
-    collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000001000000000000025800000390fc020000000bfb000000100044006900730070006c0061007900730100000042000000f1000000d200fffffffb0000000800480065006c00700000000342000000bb0000007200fffffffb0000000a00560069006500770073000000010c000000a4000000b200fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001a0000001afb0000000c00430061006d00650072006100000002dd000000f50000000000000000fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670000000132000001d4000001bd00fffffffb0000000a0049006d0061006700650100000139000000cb0000001a00fffffffb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004a00fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000020a000001c8000001bd00ffffff000001f90000039000000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000001000000000000025800000390fc020000000cfb000000100044006900730070006c0061007900730100000042000001c2000000d200fffffffb0000000800480065006c00700000000342000000bb0000007200fffffffb0000000a00560069006500770073000000010c000000a4000000b200fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001a0000001afb0000000c00430061006d00650072006100000002dd000000f50000000000000000fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670000000132000001d4000001bd00fffffffb0000000a0049006d0061006700650000000139000000cb0000001a00fffffffb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000000000000000fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000020a000001c8000001bd00fffffffb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001a0000001a000001f90000039000000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
   Width: 1111

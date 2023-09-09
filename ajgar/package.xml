@@ -29,6 +29,8 @@ for robot_arm_urdf robot</p>
   <depend>joint_state_publisher_gui</depend>
   <depend>gazebo</depend>
   <depend>moveit_simple_controller_manager</depend>
+  <depend>actionlib</depend>
+  <depend>actionlib_msgs</depend>
 
   <build_export_depend>roscpp</build_export_depend>
   <build_export_depend>rospy</build_export_depend>

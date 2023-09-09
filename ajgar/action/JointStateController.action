@@ -1,0 +1,13 @@
+Header header
+actionlib_msgs/GoalID goal_id
+control_msgs/FollowJointTrajectoryActionGoal goal
+---
+Header header
+actionlib_msgs/GoalStatus status
+control_msgs/FollowJointTrajectoryActionResult result
+---
+Header header
+actionlib_msgs/GoalStatus status
+control_msgs/FollowJointTrajectoryActionFeedback feedback
+
+

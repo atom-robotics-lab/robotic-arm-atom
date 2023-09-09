@@ -11,7 +11,15 @@ find_package(catkin REQUIRED COMPONENTS
 	urdf
 	xacro
 	message_generation
-)
+	actionlib
+	genmsg
+	actionlib_msgs
+	trajectory_msgs
+	control_msgs
+	)
+
+add_action_files(DIRECTORY action FILES JointStateController.action)
+generate_messages(DEPENDENCIES actionlib_msgs trajectory_msgs control_msgs)
 
 catkin_package(CATKIN_DEPENDS
 	geometry_msgs
