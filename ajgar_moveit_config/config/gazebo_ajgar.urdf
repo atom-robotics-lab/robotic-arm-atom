@@ -88,7 +88,7 @@
         <mu2>0.2</mu2>
         <selfCollide>true</selfCollide>
     </gazebo>
-    <gazebo reference="KINECT_XBOX">
+    <gazebo reference="camera_link">
         <material>Gazebo/Silver</material>
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
@@ -199,7 +199,7 @@
             </geometry>
         </collision>
     </link>
-    <link name="KINECT_XBOX">
+    <link name="camera_link">
         <inertial>
             <origin rpy="0 0 0" xyz="0.028614791844949194 4.630497056100358e-05 -0.041124324616634844" />
             <mass value="5.170558909547441" />
@@ -327,7 +327,7 @@
     <joint name="kinect_joint" type="fixed">
         <origin rpy="0 0 0" xyz="0.296166 -0.022518 0.799368" />
         <parent link="extrusion3" />
-        <child link="KINECT_XBOX" />
+        <child link="camera_link" />
     </joint>
     <joint name="wrist_joint" type="fixed">
         <origin rpy="0 0 0" xyz="0.0 0.025 0.205" />
@@ -353,4 +353,3 @@
         <limit effort="100" lower="-2.443461" upper="2.443461" velocity="100" />
     </joint>
 </robot>
-

@@ -70,7 +70,7 @@ Visualization Manager:
           Expand Joint Details: false
           Expand Link Details: false
           Expand Tree: false
-          KINECT_XBOX:
+          camera_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -165,7 +165,7 @@ Visualization Manager:
           Expand Joint Details: false
           Expand Link Details: false
           Expand Tree: false
-          KINECT_XBOX:
+          camera_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false

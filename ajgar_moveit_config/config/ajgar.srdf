@@ -41,14 +41,14 @@
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="gripper" parent_link="end" group="gripper"/>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
-    <disable_collisions link1="KINECT_XBOX" link2="base_link" reason="Never"/>
-    <disable_collisions link1="KINECT_XBOX" link2="base_top" reason="Never"/>
-    <disable_collisions link1="KINECT_XBOX" link2="elbow" reason="Never"/>
-    <disable_collisions link1="KINECT_XBOX" link2="end" reason="Never"/>
-    <disable_collisions link1="KINECT_XBOX" link2="extrusion3" reason="Adjacent"/>
-    <disable_collisions link1="KINECT_XBOX" link2="shoulder" reason="Never"/>
-    <disable_collisions link1="KINECT_XBOX" link2="suction" reason="Never"/>
-    <disable_collisions link1="KINECT_XBOX" link2="wrist" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="base_link" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="base_top" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="elbow" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="end" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="extrusion3" reason="Adjacent"/>
+    <disable_collisions link1="camera_link" link2="shoulder" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="suction" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="wrist" reason="Never"/>
     <disable_collisions link1="base_link" link2="base_top" reason="Adjacent"/>
     <disable_collisions link1="base_link" link2="extrusion3" reason="Adjacent"/>
     <disable_collisions link1="base_link" link2="shoulder" reason="Never"/>
