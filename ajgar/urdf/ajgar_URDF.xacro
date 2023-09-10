@@ -91,7 +91,7 @@
   </collision>
 </link>
 
-<link name="KINECT_XBOX">
+<link name="camera_link">
   <inertial>
     <origin xyz="0.028614791844949194 4.630497056100358e-05 -0.041124324616634844" rpy="0 0 0"/>
     <mass value="5.170558909547441"/>
@@ -252,7 +252,7 @@
 <joint name="kinect_joint" type="fixed">
   <origin xyz="0.296166 -0.022518 0.799368" rpy="0 -4.6 0"/>
   <parent link="extrusion3"/>
-  <child link="KINECT_XBOX"/>
+  <child link="camera_link"/>
 </joint>
 
 <joint name="extrusion_joint" type="fixed">

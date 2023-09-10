@@ -247,15 +247,11 @@ def main():
     rospy.init_node("percepStack", anonymous=True)
     # try:
     ps = Perception()
-    rospy.sleep(1)
-        # ps.detect()
-        
-    # except Exception as e:
-        # print("Error:", str(e))    
+    rospy.spin() 
 
 
 
 
 if __name__=="__main__" :
     main()
-    rospy.spin()
+    

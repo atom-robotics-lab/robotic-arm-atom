@@ -35,7 +35,7 @@
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="KINECT_XBOX">
+<gazebo reference="camera_link">
   <material>${body_color}</material>
   <mu1>0.2</mu1>
   <mu2>0.2</mu2>
@@ -72,7 +72,7 @@
 
 
 
-<gazebo reference="KINECT_XBOX">
+<gazebo reference="camera_link">
     <sensor name="cm2" type="depth">
       <update_rate>20</update_rate>
       <camera>
