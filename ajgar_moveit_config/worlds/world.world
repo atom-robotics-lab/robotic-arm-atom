@@ -338,7 +338,7 @@
           <pose>0.074 0.18 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/trolley_base/meshes/trolley_base.dae</uri>
+              <uri>model://trolley_base/meshes/trolley_base.dae</uri>
               <scale>0.4 0.4 1</scale>
             </mesh>
           </geometry>
@@ -434,7 +434,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/trolley/meshes/trolley.dae</uri>
+              <uri>model://trolley/meshes/trolley.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -870,7 +870,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/flyer_boxes/meshes/flyer.dae</uri>
+              <uri>model://flyer_boxes/meshes/flyer.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -969,7 +969,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/small_boxes/meshes/small_box.dae</uri>
+              <uri>model://small_boxes/meshes/small_box.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1068,7 +1068,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/medium_boxes/meshes/medium_box.dae</uri>
+              <uri>model://medium_boxes/meshes/medium_box.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1167,7 +1167,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/small_boxes/meshes/small_box.dae</uri>
+              <uri>model://small_boxes/meshes/small_box.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1266,7 +1266,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/small_boxes/meshes/small_box.dae</uri>
+              <uri>model://small_boxes/meshes/small_box.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1365,7 +1365,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/small_boxes/meshes/small_box.dae</uri>
+              <uri>model://small_boxes/meshes/small_box.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1464,7 +1464,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/small_boxes/meshes/small_box.dae</uri>
+              <uri>model://small_boxes/meshes/small_box.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1563,7 +1563,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_moveit_config/models/medium_boxes/meshes/medium_box.dae</uri>
+              <uri>model://medium_boxes/meshes/medium_box.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
