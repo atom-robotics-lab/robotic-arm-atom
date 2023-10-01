@@ -64,7 +64,7 @@ int main(int argc, char** argv)
     ros::NodeHandle nh;
 
     message_filters::Subscriber<sensor_msgs::PointCloud2> cloud1_sub(nh, "/mask", 1);
-    message_filters::Subscriber<sensor_msgs::PointCloud2> cloud2_sub(nh, "/kinect/depth/points", 1);
+    message_filters::Subscriber<sensor_msgs::PointCloud2> cloud2_sub(nh, "/camera/depth/image_raw", 1);
 
     typedef message_filters::sync_policies::ExactTime<sensor_msgs::PointCloud2, sensor_msgs::PointCloud2> SyncPolicy;
     message_filters::Synchronizer<SyncPolicy> sync(SyncPolicy(10), cloud1_sub, cloud2_sub);

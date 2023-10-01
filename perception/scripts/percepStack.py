@@ -21,8 +21,8 @@ class Perception:
 
         self.bridge = CvBridge()
 
-        sub_rgb = message_filters.Subscriber("/kinect/color/image_raw", Image)
-        sub_depth = message_filters.Subscriber("/kinect/depth/image_raw", Image)
+        sub_rgb = message_filters.Subscriber("/camera/rgb/image_color", Image)
+        sub_depth = message_filters.Subscriber("/camera/depth/image_raw", Image)
         ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], queue_size=1, slop=0.5)
         ts.registerCallback(self.callback)
 
@@ -33,7 +33,7 @@ class Perception:
 
         self.full_path = f'{Path.cwd()}' 
 
-        self.model=YOLO('/home/aakshar/catkin_ws/src/flipkartGrid/perception/scripts/ml_models/yolov8m-seg-custom.pt')
+        self.model=YOLO('/home/aakshar/Downloads/best.pt')
         self.confidence=0.4
 
         self.rgb_image, self.depth_image = None, None
@@ -209,7 +209,7 @@ class Perception:
 
         try:
             # Lookup the transform from Frame A to Frame B
-            transform = tf_buffer.lookup_transform("world", "camera_depth_optical_frame", rospy.Time(0), rospy.Duration(1.0))
+            transform = tf_buffer.lookup_transform("base_link", "camera_depth_optical_frame", rospy.Time(0), rospy.Duration(1.0))
 
             # Transform the position to Frame B
             new_pose = do_transform_pose(pose, transform)
@@ -236,7 +236,7 @@ class Perception:
         # Create PointCloud2 message
         header = Header()
         header.stamp = rospy.Time.now()
-        header.frame_id = "camera_depth_optical_frame"
+        header.frame_id = "base_link"
         point_cloud_msg = pc2.create_cloud(header, fields, mask_xyz)
         self.mask_pub.publish(point_cloud_msg)
         print("Published mask")
