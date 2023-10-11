@@ -263,5 +263,5 @@ void checkMagnetPresence()
 
     while(Wire.available() == 0); //wait until it becomes available 
     magnetStatus = Wire.read(); //Reading the data after the request
-
+  }
 }
