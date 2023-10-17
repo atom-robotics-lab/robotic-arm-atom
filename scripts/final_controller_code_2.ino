@@ -1,61 +1,90 @@
 #include <Wire.h> 
 #include <AccelStepper.h>
+#include <ros.h>
+#include <std_msgs/Int32MultiArray.h>
 
-const int totalMotors = 1 ;
+
+// ====== ___IMPORTANT___ ====== //
+const int totalMotors = 1 ; 
+String jointNames[6]  = {"Base", "Shoulder Joint", "Elbow Joint", "Lower Wrist Joint", " Upper Wrist Joint", "Suction Joint" } ;
+// ================ ====== //
+
 
 // ----------- Motor Parameter Variables  ----------- //
-int dirPin[totalMotors] = {2} ;
+int dirPin[totalMotors]  = {2} ; 
 int stepPin[totalMotors] = {3} ;
-int motorInterfaceType = 1 ;
-int maxSpeed = 5000 ;
-int maxAccel = 5000 ;
+int motorInterfaceType   = 1 ;
+int maxSpeed             = 500 ;
+int maxAccel             = 2000 ;
+
 AccelStepper stepper[totalMotors] = {
   AccelStepper(motorInterfaceType, stepPin[0], dirPin[0])
+//  ,AccelStepper(motorInterfaceType, stepPin[0], dirPin[0])
+//  ,AccelStepper(motorInterfaceType, stepPin[0], dirPin[0])
+//  ,AccelStepper(motorInterfaceType, stepPin[0], dirPin[0])
+//  ,AccelStepper(motorInterfaceType, stepPin[0], dirPin[0])
+//  ,AccelStepper(motorInterfaceType, stepPin[0], dirPin[0])
 };
 
-// ----------- Limit Switch Variables  ----------- //
-int limitSwitch[totalMotors] = {13} ;
-float curntJointState[totalMotors] = {0} ; 
-float desiredJointState[totalMotors] = {0} ; 
 
-// ----------- Homing Parameter Variables  ----------- //
-int homeDir[totalMotors] = {1} ; // 0 -> Left ; 1 -> Right 
-int homeAngle = 200 ;
-int errorCorrectionAngle = 100 ;
+// ----------- Limit Switch/Homing Parameter Variables  ----------- //
+int limitSwitch[totalMotors] = {13} ;
+int homeDir[totalMotors]     = {1} ; // -1 -> Left ; 1 -> Right 
+int homeAngle                = 10 ;
+int errorCorrectionAngle     = 10 ;
+
 
 // ----------- Magnetic Sensor Variables ----------- //
-int magnetStatus = 0; 
-int lowbyte; 
 word highbyte; 
-int rawAngle; 
-float degAngle; 
 int quadrantNumber, previousquadrantNumber; 
-float numberofTurns = 0; 
-float correctedAngle = 0;
-float startAngle = 0; 
-float totalAngle = 0; 
+int flag                 = 1 ; 
+int rawAngle; 
+int magnetStatus         = 0; 
+int lowbyte; 
+float degAngle; 
+float numberofTurns      = 0; 
+float correctedAngle     = 0;
+float startAngle         = 0; 
+float totalAngle         = 0; 
 float previoustotalAngle = 0; 
 
 
 // ----------- Error Connection Variables  ----------- //
-int actualValue[totalMotors] = {0} ;
-int desireValue[totalMotors] = {1290} ;
+int motorToDiscRotation          = {6840} ; // how many times a motor will rotate to rotate disc full 360 degree  
+int discPerRotation[totalMotors] = {360} ;  // Encoder Value to rotate disc 1 degree 
+int actualValue[totalMotors] ;           // -_ provide in degree 
+int desireValue[totalMotors] = {100} ;     // -
+int errorTolerance = 3 ; // encoder value 
+
+
+// ----------- ROS Setup  ----------- //
+ros::NodeHandle nh;
+void subCallback(const std_msgs::Int32MultiArray& msg) { 
+  int data_size = msg.data_length;
+  for (int curntMotor = 0 ; curntMotor < data_size ; curntMotor++){
+    desireValue[curntMotor] = msg.data[curntMotor] ; 
+  }
+}
+ros::Subscriber<std_msgs::Int32MultiArray>
+sub("joint_angle_array", &subCallback );
 
 
 void setup() {
 
   Serial.begin(115200); 
-  pinMode(8, INPUT) ;
-  pinMode(13, OUTPUT) ;
-  digitalWrite(13, HIGH) ;
 
-
+  
   // ----------- Magnetic Sensor  Parameter Setup ----------- //
   Wire.begin();
   Wire.setClock(800000L);
-  Serial.println("checkMagnentPresence") ;
-  checkMagnetPresence();
-  startAngle = degAngle;
+  
+  Serial.println("---- Encoder Configuration Starting ---- ") ;
+  for (int curntMotor = 0 ; curntMotor < totalMotors ; curntMotor ++ ){
+    Serial.print(jointNames[curntMotor]) ;
+    Serial.print(" - Encoder : checkMagnentPresence") ;
+    checkMagnetPresence();
+    Serial.println(" - Done ") ;
+  }
 
   
   // ----------- Motor Parameter Setup ----------- //
@@ -64,8 +93,16 @@ void setup() {
     stepper[curntMotor].setAcceleration(maxAccel);
    }
 
+  nh.initNode();
+  nh.subscribe(sub);
+  
   // ----------- Homing  ----------- // 
+  
   // syncBot() ; 
+  ReadRawAngle();
+  startAngle = degAngle;
+
+  
 }
 
 
@@ -74,26 +111,31 @@ void loop() {
   ReadRawAngle(); 
   correctAngle(); 
   checkQuadrant(); 
-  actualValue[0] = totalAngle ; 
-  int error = actualValue[0] - desireValue[0] ;
+  actualValue[0] = totalAngle ;
+  
+  int error = (actualValue[0]) - (desireValue[0]) ;
+  Serial.println("--------------------------") ;
+  Serial.print("Current Encoder Value : ") ;
+  Serial.println(actualValue[0]) ;
+  Serial.print("Desired Encoder Value :") ;
+  Serial.println(desireValue[0]) ;
   Serial.print("Error : ") ;
   Serial.println(error) ;
+  Serial.println("--------------------------") ;
 
+  if ( abs(error) >= 3 ) {
 
-  if ( abs(error) >= 5 ) {
   
   int dir =  error/abs(error) ;
-  long targetPosition = stepper[0].currentPosition() + stepsForDegrees(errorCorrectionAngle);
-  // stepper[0].setDirection(error/abs(error)) ;
+  long targetPosition = stepper[0].currentPosition() + stepsForDegrees(errorCorrectionAngle )*dir ;
+//   stepper[0].setDirection(e rror/abs(error)) ;
   stepper[0].moveTo(targetPosition);
   stepper[0].runToPosition();
   }
 
+ nh.spinOnce();
 
 }
-
-
-
 
 
 void moveMotor(int curntMotor, int moveAngle) {
@@ -106,31 +148,18 @@ void moveMotor(int curntMotor, int moveAngle) {
 
 
 long stepsForDegrees(float degrees) {
-  float stepsPerRevolution = 800.0;
+  float stepsPerRevolution = 200.0;
   float degreesPerStep = 360.0 / stepsPerRevolution;
   return degrees / degreesPerStep;
 }
 
-
-
 void syncBot() {
-
-  Serial.println("x-----------------------x") ;
-  Serial.println("Start Homing : ") ;
-
-
+  Serial.println("---- Starting Homing ---- ") ;  
   for (int curntMotor = 0 ; curntMotor < totalMotors ; curntMotor++){
-    
-    Serial.print("|___ Homing Motor : ") ; 
-    Serial.println(curntMotor) ;
-    
-    while (!digitalRead(8)) {
-      
-      moveMotor(0, homeAngle) ;
-    }
-
-    Serial.print("--|___ done Homing ") ; 
-
+    Serial.print(jointNames[curntMotor]) ;
+    Serial.print(" - Motor : homing") ;
+    while (!digitalRead(7)) moveMotor(0, homeAngle) ;
+    Serial.println(" - Done ") ;
   }
 }
 
@@ -250,6 +279,3 @@ void checkMagnetPresence()
   
 
 }
-
-
-
