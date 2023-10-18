@@ -1,11 +1,11 @@
 moveit_setup_assistant_config:
   URDF:
     package: ajgar
-    relative_path: urdf/ajgar_URDF.xacro
+    relative_path: urdf/ajgar.xacro
     xacro_args: ""
   SRDF:
     relative_path: config/ajgar.srdf
   CONFIG:
-    author_name: nix
-    author_email: nix@gmail.com
-    generated_timestamp: 1693003959
+    author_name: Manan
+    author_email: example@gmail.com
+    generated_timestamp: 1696839036

@@ -1,1 +1,1 @@
-controller_joint_names: ['', 'base_joint', 'shoulder_joint', 'arm_joint', 'forearm_joint', 'wrist_joint']
+controller_joint_names: ['', 'base_joint', 'shoulder_joint', 'arm_joint', 'forearm_joint', 'end_joint', 'suction_joint']

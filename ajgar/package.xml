@@ -43,7 +43,8 @@ for robot_arm_urdf robot</p>
   <exec_depend>urdf</exec_depend>
   <exec_depend>xacro</exec_depend>
   <exec_depend>message_runtime</exec_depend>
-
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
   <export>
     <architecture_independent />
   </export>

@@ -1,6 +1,6 @@
 robot_arm_controller:
   type: "position_controllers/JointTrajectoryController"
-  joints: [base_joint, shoulder_joint, forearm_joint, elbow_joint]
+  joints: [base_joint, shoulder_joint, arm_joint, forearm_joint, end_joint]
 
 hand_ee_controller:
   type: "position_controllers/JointTrajectoryController"

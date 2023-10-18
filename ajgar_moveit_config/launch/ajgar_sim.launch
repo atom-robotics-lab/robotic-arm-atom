@@ -14,7 +14,7 @@
 
 	<include file="$(find ajgar)/launch/arm_urdf.launch" />
 	
-	<include file="$(find freenect_launch)/launch/freenect.launch" />
+	<!-- <include file="$(find freenect_launch)/launch/freenect.launch" /> -->
 
 	<include file="$(find ajgar_moveit_config)/launch/move_group.launch" />
 

@@ -4,12 +4,13 @@ controller_list:
     joints:
       - base_joint
       - shoulder_joint
-      - elbow_joint
+      - arm_joint
       - forearm_joint
+      - end_joint
   - name: fake_gripper_controller
     type: $(arg fake_execution_type)
     joints:
       - suction_joint
 initial:  # Define initial robot poses per group
   - group: arm
-    pose: stand
+    pose: default
