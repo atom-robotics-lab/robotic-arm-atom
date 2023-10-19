@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:uno",
+    "programmer": "arduino:arduinoasisp",
+    "sketch": "scripts/arduino_scripts/final_controller_code_2.ino"
+}
