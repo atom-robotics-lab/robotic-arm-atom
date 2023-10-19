@@ -19,7 +19,7 @@
 ros::Publisher normals_pub;
 ros::Publisher marker_pub;
 ros::Publisher boundary_points_pub;
-ros::Publisher cluster_points_pub;
+
 
 
 
@@ -27,14 +27,6 @@ ros::Publisher cluster_points_pub;
 void pointCloudCallback(const pcl::PCLPointCloud2ConstPtr& input_cloud_msg) {
     pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::fromPCLPointCloud2(*input_cloud_msg, *pcl_cloud);
-
-    // VoxelGrid Downsampling
-    pcl::VoxelGrid<pcl::PointXYZ> down_sample;
-    down_sample.setInputCloud(pcl_cloud);
-    down_sample.setLeafSize(0.01f, 0.01f, 0.01f);
-    pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>);
-    down_sample.filter(*pcl_cloud_filtered);
-
 
     pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
     ne.setInputCloud(pcl_cloud);
@@ -66,47 +58,9 @@ void pointCloudCallback(const pcl::PCLPointCloud2ConstPtr& input_cloud_msg) {
     boundary_estimation.compute(*boundaries);
 
 
-    // Clustering
-    // std::vector<pcl::PointIndices> cluster_indices;
-    // pcl::EuclideanClusterExtraction<pcl::PointXYZ> ec;
-    // ec.setClusterTolerance(0.03);    // Adjust as needed
-    // ec.setMinClusterSize(100000);       // Adjust as needed
-    // ec.setMaxClusterSize(250000);     // Adjust as needed
-    // ec.setInputCloud(pcl_cloud_filtered);
-    // ec.extract(cluster_indices);
-
-    // Find the largest cluster
-    // int largest_cluster_index = 0;
-    // size_t largest_cluster_size = 0;
-    // for (size_t i = 0; i < cluster_indices.size(); ++i) {
-    //     if (cluster_indices[i].indices.size() > largest_cluster_size) {
-    //         largest_cluster_size = cluster_indices[i].indices.size();
-    //         largest_cluster_index = i;
-    //     }
-    // }
-
-    // Extract points of the largest cluster using pcl::PointIndices
-    // pcl::PointCloud<pcl::PointXYZ>::Ptr cluster_points(new pcl::PointCloud<pcl::PointXYZ>);
-    // pcl::ExtractIndices<pcl::PointXYZ> extract;
-    // extract.setInputCloud(pcl_cloud_filtered);
-    // extract.setIndices(boost::make_shared<pcl::PointIndices>(cluster_indices[largest_cluster_index]));
-
-    // Perform the extraction
-    // extract.filter(*cluster_points);
-
-    // sensor_msgs::PointCloud2 cluster_points_msg;
-    // pcl::toROSMsg(*cluster_points, cluster_points_msg);
-    // cluster_points_msg.header = pcl_conversions::fromPCL(input_cloud_msg->header);
-    // cluster_points_pub.publish(cluster_points_msg);
-
-
-
-
-
-
     pcl::PointCloud<pcl::PointXYZ>::Ptr boundary_points_cloud(new pcl::PointCloud<pcl::PointXYZ>);
-    for (size_t i = 0; i < pcl_normals->points.size(); ++i) {
-        if (boundaries->points[i].boundary_point) {
+    for (size_t i = 0; i < cloud2->points.size(); ++i) {
+        if (cloud1->points[i]) {
             pcl::PointXYZ boundary_point;
             boundary_point.x = pcl_normals->points[i].x;
             boundary_point.y = pcl_normals->points[i].y;
@@ -114,6 +68,7 @@ void pointCloudCallback(const pcl::PCLPointCloud2ConstPtr& input_cloud_msg) {
             boundary_points_cloud->points.push_back(boundary_point);
         }
     }
+    
 
     sensor_msgs::PointCloud2 boundary_points_msg;
     pcl::toROSMsg(*boundary_points_cloud, boundary_points_msg);
@@ -161,11 +116,18 @@ int main(int argc, char** argv) {
     normals_pub = nh.advertise<sensor_msgs::PointCloud2>("transformed_normals_topic", 1);
     marker_pub = nh.advertise<visualization_msgs::Marker>("normals_marker_topic", 1);
     boundary_points_pub = nh.advertise<sensor_msgs::PointCloud2>("boundary_points_topic", 1);
-    cluster_points_pub = nh.advertise<sensor_msgs::PointCloud2>("cluster_points_topic", 1);
 
 
-    ros::Subscriber sub = nh.subscribe<pcl::PCLPointCloud2>(
-        "/kinect/depth/points", 1, pointCloudCallback);
+
+    ros::Subscriber sub = nh.subscribe<pcl::PCLPointCloud2>("/kinect/depth/points", 1, pointCloudCallback);
+
+    ros::Subscriber sub = nh.subscribe<pcl::PCLPointCloud2>("/mask", 1, pointCloudCallback);
+
+    typedef message_filters::sync_policies::ExactTime<sensor_msgs::PointCloud2, sensor_msgs::PointCloud2> SyncPolicy;
+    message_filters::Synchronizer<SyncPolicy> sync(SyncPolicy(10), cloud1_sub, cloud2_sub);
+    sync.registerCallback(boost::bind(&pointCloudCallback, _1, _2));
+    
+
 
     ros::spin();
     return 0;

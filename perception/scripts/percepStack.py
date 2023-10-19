@@ -21,7 +21,7 @@ class Perception:
 
         self.bridge = CvBridge()
 
-        sub_rgb = message_filters.Subscriber("/camera/rgb/image_color", Image)
+        sub_rgb = message_filters.Subscriber("/camera/rgb/image_rect_color", Image)
         sub_depth = message_filters.Subscriber("/camera/depth/image_raw", Image)
         ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], queue_size=1, slop=0.5)
         ts.registerCallback(self.callback)
@@ -236,7 +236,7 @@ class Perception:
         # Create PointCloud2 message
         header = Header()
         header.stamp = rospy.Time.now()
-        header.frame_id = "base_link"
+        header.frame_id = "camera_depth_optical_frame"
         point_cloud_msg = pc2.create_cloud(header, fields, mask_xyz)
         self.mask_pub.publish(point_cloud_msg)
         print("Published mask")
