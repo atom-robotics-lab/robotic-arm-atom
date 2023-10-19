@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 import rospy
-from std_msgs.msg import String, Int32MultiArray
-from ajgar.srv import bool_service, bool_serviceRequest, bool_serviceResponse
+from std_msgs.msg import String
+from ajgar.srv import bool_service, bool_serviceRequest
 
 # int_array1 = [1, 2, 3, 4, 5, 6]
 # int_array2 = [7, 8, 9, 10, 11, 12]
