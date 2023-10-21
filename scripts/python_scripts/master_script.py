@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
+import yaml
 import rospy
-from std_msgs.msg import String
+from std_msgs.msg import String , Int32MultiArray
 from ajgar.srv import bool_service, bool_serviceRequest
 
 class ArrayPublisher:
@@ -12,7 +13,14 @@ class ArrayPublisher:
         # Create a publisher for the /joint_angle_array topic
         self.array_publisher = rospy.Publisher('joint_angle_array', String, queue_size=10)
 
-        self.list_of_arrays = "1,2,3,4,5,6"
+        yaml_file_path = 'poses.yaml' 
+        with open (yaml_file_path,'r') as file:
+            yaml_data = yaml.safe_load(file)
+    
+        # Access and use the data
+        self.list_of_arrays = yaml_data['poses']
+
+        # self.list_of_arrays = "1,2,3,4,5,6"
 
     def publish_array(self):
 
@@ -54,3 +62,11 @@ if __name__ == '__main__':
         rospy.spin()
     except rospy.ROSInterruptException:
         pass
+
+
+joint_angle_values = [1,2,3,4,5,6]
+joint_angle_string = ""
+def convertor():
+    rospy.Subscriber("/convertor_node", Int32MultiArray, convertor)
+    joint_angle_string = ', '.join(map(str, joint_angle_values))
+    print(joint_angle_string)
