@@ -3,56 +3,56 @@
 #include <ros.h>
 #include <std_msgs/String.h>
 
-
-//using ajgar::bool_service;
-
-// ====== ___IMPORTANT___ ====== //
-const int totalMotors = 1;
+// |====== ___IMPORTANT___ =====| //
+const int totalMotors = 6;
 String jointNames[6] = {"Base", "Shoulder Joint", "Elbow Joint", "Lower Wrist Joint", " Upper Wrist Joint", "Suction Joint"};
-// ================ ====== //
+// |============================| //
 
 // ----------- Motor Parameter Variables  ----------- //
-int dirPin[totalMotors] = {2};
-int stepPin[totalMotors] = {3};
+int dirPin[totalMotors]   = {22,24,26,28,30,32};
+int stepPin[totalMotors]  = {23,25,27,29,31,33};
+int stepSize[totalMotors] = {10,10,10,10,10,10}; 
 int motorInterfaceType = 1;
 int maxSpeed = 500;
 int maxAccel = 2000;
 
 AccelStepper stepper[totalMotors] = {
+
     AccelStepper(motorInterfaceType, stepPin[0], dirPin[0])
-    //  ,AccelStepper(motorInterfaceType, stepPin[0], dirPin[0])
-    //  ,AccelStepper(motorInterfaceType, stepPin[0], dirPin[0])
-    //  ,AccelStepper(motorInterfaceType, stepPin[0], dirPin[0])
-    //  ,AccelStepper(motorInterfaceType, stepPin[0], dirPin[0])
-    //  ,AccelStepper(motorInterfaceType, stepPin[0], dirPin[0])
+  , AccelStepper(motorInterfaceType, stepPin[1], dirPin[1])
+  , AccelStepper(motorInterfaceType, stepPin[2], dirPin[2])
+  , AccelStepper(motorInterfaceType, stepPin[3], dirPin[3])
+  , AccelStepper(motorInterfaceType, stepPin[4], dirPin[4])
+  , AccelStepper(motorInterfaceType, stepPin[5], dirPin[5])
+
 };
 
 // ----------- Limit Switch/Homing Parameter Variables  ----------- //
-int limitSwitch[totalMotors] = {13};
-int homeDir[totalMotors] = {1}; // -1 -> Left ; 1 -> Right
-int homeAngle = 10;
-int errorCorrectionAngle = 10;
+// int limitSwitch[totalMotors] = {13};
+// int homeDir[totalMotors] = {1}; // -1 -> Left ; 1 -> Right
+// int homeAngle = 10;
+// int errorCorrectionAngle = 10;
 
 // ----------- Magnetic Sensor Variables ----------- //
-word highbyte;
-int quadrantNumber, previousquadrantNumber;
-int flag = 1;
-int rawAngle;
-int magnetStatus = 0;
-int lowbyte;
-float degAngle;
-float numberofTurns = 0;
-float correctedAngle = 0;
-float startAngle = 0;
-float totalAngle = 0;
-float previoustotalAngle = 0;
+// word highbyte;
+// int quadrantNumber, previousquadrantNumber;
+// int flag = 1;
+// int rawAngle;
+// int magnetStatus = 0;
+// int lowbyte;
+// float degAngle;
+// float numberofTurns = 0;
+// float correctedAngle = 0;
+// float startAngle = 0;
+// float totalAngle = 0;
+// float previoustotalAngle = 0;
 
 // ----------- Error Connection Variables  ----------- //
-int motorToDiscRotation = {6840};         // how many times a motor will rotate to rotate disc full 360 degree
-int discPerRotation[totalMotors] = {360}; // Encoder Value to rotate disc 1 degree
-int actualValue[totalMotors] = {0};             // -_ provide in degree
-int desireValue[totalMotors] = {100};     // -
-int errorTolerance = 3;                   // encoder value
+// int motorToDiscRotation = {6840};         // how many times a motor will rotate to rotate disc full 360 degree
+// int discPerRotation[totalMotors] = {360}; // Encoder Value to rotate disc 1 degree
+// int actualValue[totalMotors] = {0};             // -_ provide in degree
+// int desireValue[totalMotors] = {100};     // -
+// int errorTolerance = 3;                   // encoder value
 
 
 // ----------- ROS Setup  ----------- //
@@ -68,6 +68,7 @@ void subCallback(const std_msgs::String &msg)
   String data = msg.data;
   int msg_data = data.length();
   curntMotor = 0 ;
+
   for (int msg_length = 0; msg_length < msg_data; msg_length++)
   {
     String ran = String(data[msg_length]);
@@ -150,25 +151,28 @@ void loop()
 //  Serial.println("--------------------------");
  for (int curntMotor = 0 ; curntMotor<totalMotors; curntMotor++){
   if (desireValue[curntMotor] == 1 ){
-      long targetPosition = stepper[curntMotor].currentPosition() + stepsForDegrees(10) ;
-
+      
+      long targetPosition = stepper[curntMotor].currentPosition() + stepsForDegrees(stepSize[curntMotor]) ;
       stepper[curntMotor].moveTo(targetPosition);
-        stepper[curntMotor].runToPosition();
-        nh.spinOnce();  
+      stepper[curntMotor].runToPosition();
+      desireValue[curntMotor] = 0 ;
+      nh.spinOnce();  
   }
     if (desireValue[curntMotor] == 0 ){
-      long targetPosition = stepper[curntMotor].currentPosition() + stepsForDegrees(0) ;
 
+      long targetPosition = stepper[curntMotor].currentPosition() + stepsForDegrees(0) ;
       stepper[curntMotor].moveTo(targetPosition);
-        stepper[curntMotor].runToPosition();
-        nh.spinOnce();  
+      stepper[curntMotor].runToPosition();
+      desireValue[curntMotor] = 0 ;
+      nh.spinOnce();  
   }
     if (desireValue[curntMotor] == -1 ){
-      long targetPosition = stepper[curntMotor].currentPosition() + stepsForDegrees(-10) ;
-w
+      
+      long targetPosition = stepper[curntMotor].currentPosition() + stepsForDegrees(stepSize[curntMotor]*-1) ;
       stepper[curntMotor].moveTo(targetPosition);w
-        stepper[curntMotor].runToPosition();
-        nh.spinOnce();  
+      stepper[curntMotor].runToPosition();
+      desireValue[curntMotor] = 0 ;
+      nh.spinOnce();  
   }
    nh.spinOnce();  
  }
