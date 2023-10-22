@@ -24,7 +24,7 @@
         <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
                 respawn="false" output="screen" />
 
-              <!--<include file="$(find ajgar_moveit_config)/worlds/world.launch" /> -->
+           <!-- <include file="$(find ajgar_moveit_config)/worlds/world.launch" /> -->
 
 
 </launch>    
