@@ -33,11 +33,6 @@ AccelStepper stepper[totalMotors] = {
 
 
 
-/* ----------- Functions  ----------- */
-void rosserialPrint(String data) ;
-
-
-
 /* ----------- Homing Parameter Variables  ----------- */
 int limitSwitch[totalMotors] = {13};    
 int homeDir[totalMotors]     = {1};  // -1 -> Left ; 1 -> Right
