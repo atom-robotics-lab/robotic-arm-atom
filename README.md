@@ -19,4 +19,11 @@ sudo apt install libfreenect-dev
 sudo apt-get install ros-noetic-rgbd-launch
 ```
 
+### run Gazebo and RViz 
+
+To launch RViz and Gazebo 
+
+```sh 
+roslaunch ajgar_moveit_config ajgar_sim.launch 
+```
 
