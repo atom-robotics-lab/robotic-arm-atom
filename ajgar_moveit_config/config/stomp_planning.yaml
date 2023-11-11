@@ -1,5 +1,5 @@
-stomp/arm:
-  group_name: arm
+stomp/arm_group:
+  group_name: arm_group
   optimization:
     num_timesteps: 60
     num_iterations: 40
@@ -37,8 +37,8 @@ stomp/arm:
         publish_intermediate: True
         marker_topic: stomp_trajectory
         marker_namespace: optimized
-stomp/suction_gripper:
-  group_name: suction_gripper
+stomp/gripper_group:
+  group_name: gripper_group
   optimization:
     num_timesteps: 60
     num_iterations: 40
@@ -50,7 +50,7 @@ stomp/suction_gripper:
   task:
     noise_generator:
       - class: stomp_moveit/NormalDistributionSampling
-        stddev: []
+        stddev: [0.05]
     cost_functions:
       - class: stomp_moveit/CollisionCheck
         collision_penalty: 1.0

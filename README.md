@@ -24,6 +24,6 @@ sudo apt-get install ros-noetic-rgbd-launch
 To launch RViz and Gazebo 
 
 ```sh 
-roslaunch ajgar_moveit_config ajgar_sim.launch 
+roslaunch ur5_moveit_config ajgar_sim.launch 
 ```
 

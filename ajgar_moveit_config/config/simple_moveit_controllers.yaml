@@ -4,10 +4,14 @@ controller_list:
     type: FollowJointTrajectory
     default: True
     joints:
-      []
+      - base
+      - shoulder_joint
+      - elbow_joint
+      - lower_wrist_joint
+      - upper_wrist_joint
   - name: hand_ee_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     default: True
     joints:
-      []
+      - end_joint
