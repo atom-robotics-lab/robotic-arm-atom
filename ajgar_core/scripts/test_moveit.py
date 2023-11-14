@@ -106,5 +106,5 @@ if __name__ == '__main__':
     
 #rosrun tf static_transform_publisher -6.84879e-07 -0.23105 1.48459 8.47014e-12 -1.37682e-06 5.96021e-06 1  base_link rnd_tf 100
 
-# rosrun tf static_transform_publisher 0.3 0.3 0.3 0 1 0 world rnd_tf 100
+# rosrun tf static_transform_publisher 0.3 0.2 0.3 0 1 0 world rnd_tf 100
 
