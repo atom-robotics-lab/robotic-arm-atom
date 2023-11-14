@@ -98,7 +98,7 @@ class MoveGroupPythonInteface(object):
 
 def main():
     interface = MoveGroupPythonInteface()
-    interface.go_to_pose_goal()
+    interface.go_to_joint_state()
 
 
 if __name__ == '__main__':
