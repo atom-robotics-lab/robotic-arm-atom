@@ -161,46 +161,52 @@
     <origin rpy="0 0 3.142" xyz="0.0 0.0 0.0" />
 </joint>
 
-<joint name="base" type="continuous">
+<joint name="base" type="revolute">
   <origin xyz="0.0 0.0 0.049" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="base_top"/>
   <axis xyz="-0.0 0.0 1.0"/>
+  <limit upper="2.879793" lower="-2.879793" effort="100" velocity="100" />
 </joint>
 
-<joint name="shoulder_joint" type="continuous">
+<joint name="shoulder_joint" type="revolute">
   <origin xyz="-0.005001 -0.03 0.125627" rpy="0 0 0"/>
   <parent link="base_top"/>
   <child link="shoulder"/>
   <axis xyz="-0.0 1.0 -0.0"/>
+  <limit upper="2.879793" lower="-2.879793" effort="100" velocity="100" />
 </joint>
 
-<joint name="elbow_joint" type="continuous">
+<joint name="elbow_joint" type="revolute">
   <origin xyz="0.000405 0.058 0.278851" rpy="0 0 0"/>
   <parent link="shoulder"/>
   <child link="elbow"/>
   <axis xyz="0.0 -1.0 0.0"/>
+  <limit upper="2.879793" lower="-2.879793" effort="100" velocity="100" />
 </joint>
 
-<joint name="lower_wrist_joint" type="continuous">
+<joint name="lower_wrist_joint" type="revolute">
   <origin xyz="0.0 -0.028 0.2" rpy="0 0 0"/>
   <parent link="elbow"/>
   <child link="wrist"/>
   <axis xyz="0.0 0.0 1.0"/>
+    <limit upper="2.879793" lower="-2.879793" effort="100" velocity="100" />
 </joint>
 
-<joint name="upper_wrist_joint" type="continuous">
+<joint name="upper_wrist_joint" type="revolute">
   <origin xyz="0.0 -0.037 0.045" rpy="0 0 0"/>
   <parent link="wrist"/>
   <child link="suction"/>
   <axis xyz="-0.0 1.0 -0.0"/>
+    <limit upper="2.879793" lower="-2.879793" effort="100" velocity="100" />
 </joint>
 
-<joint name="end_joint" type="continuous">
+<joint name="end_joint" type="revolute">
   <origin xyz="0.0 0.037 0.0245" rpy="0 0 0"/>
   <parent link="suction"/>
   <child link="end"/>
   <axis xyz="-0.0 -0.0 -1.0"/>
+    <limit upper="2.879793" lower="-2.879793" effort="100" velocity="100" />
 </joint>
 
 </robot>
