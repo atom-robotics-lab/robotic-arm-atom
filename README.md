@@ -70,4 +70,17 @@ To launch UR5 model in Gazebo
 roslaunch ajgar_sim ur5_sim.launch 
 ```
 
+### Trac_ik installation
 
+If faced with error:
+```
+fatal error: nlopt.hpp: No such file or directory
+   35 | #include <nlopt.hpp>
+
+```
+
+Run the following commands:
+```
+sudo apt-get install libnlopt-dev
+sudo apt install libnlopt-cxx-dev
+```
