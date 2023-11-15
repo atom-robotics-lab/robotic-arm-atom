@@ -11,14 +11,19 @@ class MoveGroupPythonInterface(object):
         super(MoveGroupPythonInterface, self).__init__()
         moveit_commander.roscpp_initialize(sys.argv)
         rospy.init_node('move_group_python_interface', anonymous=True)
-        group_name = "arm_group"
-        group = moveit_commander.MoveGroupCommander(group_name)
-        group.set_start_state_to_current_state()
+        group_name1 = "arm_group"
+        group_name2 = "gripper_group"
+        group1 = moveit_commander.MoveGroupCommander(group_name1)
+        group1.set_start_state_to_current_state()
+        group2 = moveit_commander.MoveGroupCommander(group_name2)
+        group2.set_start_state_to_current_state()
         robot = moveit_commander.RobotCommander()
-        self.group = group
+        self.group1 = group1
+        self.group2 = group2
 
     def go_to_joint_state(self):
-        group = self.group
+        group1 = self.group1
+        group2 = self.group2
 
         urdfstring = ''.join(open('arm.urdf', 'r').readlines())
         ik = IK('base_link', 'end', urdf_string=urdfstring)
@@ -44,15 +49,21 @@ class MoveGroupPythonInterface(object):
 
         print("rosrun tf static_transform_publisher", x_pos, y_pos, z_pos, "0 1 0 base_link rnd_tf 100")
 
-        joint_goal = group.get_current_joint_values()
+        joint_goal = group1.get_current_joint_values()
+        joint_goal2 = group2.get_current_joint_values()
         joint_goal[0] = math.radians(float(self.angleTuple[0] * (180/pi)))
         joint_goal[1] = math.radians(float(self.angleTuple[1] * (180/pi)))
         joint_goal[2] = math.radians(float(self.angleTuple[2] * (180/pi)))
         joint_goal[3] = math.radians(float(self.angleTuple[3] * (180/pi)))
         joint_goal[4] = math.radians(float(self.angleTuple[4] * (180/pi)))
 
-        group.go(joint_goal, wait=True)
-        group.stop()
+        joint_goal2[0] = math.radians(float(self.angleTuple[5] * (180/pi)))
+
+        group1.go(joint_goal, wait=True)
+        group2.go(joint_goal2, wait=True)
+
+        group1.stop()
+        group2.stop()
 
 def main():
     interface = MoveGroupPythonInterface()
