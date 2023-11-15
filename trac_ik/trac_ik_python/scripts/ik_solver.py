@@ -31,7 +31,25 @@ class MoveGroupPythonInterface(object):
         x_pos = 0.2
         y_pos = 0.2
         z_pos = 0.5
-        self.angleTuple = ik.get_ik([0.0] * 6, x_pos, y_pos, z_pos, 0, 0, 0, 1)
+        roll_deg = 10.0
+        pitch_deg = 70.0
+        yaw_deg = 10.0
+
+        # Convert degrees to radians
+        roll_rad = math.radians(roll_deg)
+        pitch_rad = math.radians(pitch_deg)
+        yaw_rad = math.radians(yaw_deg)
+
+        # Specify the orientation as a quaternion
+        orientation_quaternion = [math.cos(roll_rad / 2.0),
+                                  math.sin(roll_rad / 2.0),
+                                  math.cos(pitch_rad / 2.0),
+                                  math.sin(pitch_rad / 2.0) * math.cos(yaw_rad / 2.0),
+                                  math.sin(pitch_rad / 2.0) * math.sin(yaw_rad / 2.0),
+                                  math.cos(pitch_rad / 2.0) * math.sin(yaw_rad / 2.0),
+                                  math.cos(pitch_rad / 2.0) * math.cos(yaw_rad / 2.0)]
+
+        self.angleTuple = ik.get_ik([0.0] * 6, x_pos, y_pos, z_pos, *orientation_quaternion)
         joint = ['Base Joint       ',
                  'Shoulder Joint   ',
                  'Elbow Joint      ',
