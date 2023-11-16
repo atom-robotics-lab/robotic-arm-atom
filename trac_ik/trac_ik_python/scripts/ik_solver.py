@@ -30,10 +30,10 @@ class MoveGroupPythonInterface(object):
         pi = 22 / 7
         x_pos = 0.2
         y_pos = 0.2
-        z_pos = 0.5
+        z_pos = 0.3
         roll_deg = 10.0
-        pitch_deg = 70.0
-        yaw_deg = 10.0
+        pitch_deg = -92.0
+        yaw_deg = -10.0
 
         # Convert degrees to radians
         roll_rad = math.radians(roll_deg)

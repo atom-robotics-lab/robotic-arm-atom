@@ -86,10 +86,10 @@ class ikSolverClass(object):
     def ik_solver(self) :
         
         my_chain = ikpy.chain.Chain.from_urdf_file("arm.urdf")
-        self.target_position = [-0.1, 0.4, 0.5]
+        self.target_position = [0.2, -0.3, 0.3]
 
         roll_deg = 10.0
-        pitch_deg = 42.0
+        pitch_deg = -92.0
         yaw_deg = -10.0
         self.roll_rad = math.radians(roll_deg)
         self.pitch_rad = math.radians(pitch_deg)
