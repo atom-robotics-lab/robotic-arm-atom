@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>pcl_surface</name>
+  <name>ajgar_perception</name>
   <version>0.0.0</version>
   <description>The pcl_surface package</description>
 
