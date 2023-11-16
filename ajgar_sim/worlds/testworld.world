@@ -857,7 +857,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_description/meshes/base_link.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/base_link.stl</uri>
             </mesh>
           </geometry>
           <surface>
@@ -882,7 +882,7 @@
           <geometry>
             <mesh>
               <scale>0.005 0.005 0.005</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ur5_description/meshes/kinect.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ur5_description/meshes/kinect.stl</uri>
             </mesh>
           </geometry>
           <surface>
@@ -904,7 +904,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_description/meshes/base_link.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/base_link.stl</uri>
             </mesh>
           </geometry>
           <material>
@@ -919,7 +919,7 @@
           <geometry>
             <mesh>
               <scale>0.005 0.005 0.005</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ur5_description/meshes/kinect.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ur5_description/meshes/kinect.stl</uri>
             </mesh>
           </geometry>
         </visual>
@@ -1006,7 +1006,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_description/meshes/base_top.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/base_top.stl</uri>
             </mesh>
           </geometry>
           <surface>
@@ -1031,7 +1031,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_description/meshes/base_top.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/base_top.stl</uri>
             </mesh>
           </geometry>
           <material>
@@ -1082,7 +1082,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_description/meshes/shoulder.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/shoulder.stl</uri>
             </mesh>
           </geometry>
           <surface>
@@ -1107,7 +1107,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_description/meshes/shoulder.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/shoulder.stl</uri>
             </mesh>
           </geometry>
           <material>
@@ -1158,7 +1158,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_description/meshes/elbow.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/elbow.stl</uri>
             </mesh>
           </geometry>
           <surface>
@@ -1183,7 +1183,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_description/meshes/elbow.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/elbow.stl</uri>
             </mesh>
           </geometry>
           <material>
@@ -1234,7 +1234,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_description/meshes/wrist.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/wrist.stl</uri>
             </mesh>
           </geometry>
           <surface>
@@ -1259,7 +1259,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_description/meshes/wrist.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/wrist.stl</uri>
             </mesh>
           </geometry>
           <material>
@@ -1310,7 +1310,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_description/meshes/suction.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/suction.stl</uri>
             </mesh>
           </geometry>
           <surface>
@@ -1335,7 +1335,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_description/meshes/suction.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/suction.stl</uri>
             </mesh>
           </geometry>
           <material>
@@ -1386,7 +1386,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_description/meshes/end.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/end.stl</uri>
             </mesh>
           </geometry>
           <surface>
@@ -1411,7 +1411,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>/home/jc/flipkartGrid_ws/src/flipkartGrid/ajgar_description/meshes/end.stl</uri>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/end.stl</uri>
             </mesh>
           </geometry>
           <material>
