@@ -155,7 +155,7 @@ class Perception:
 
     def publish_transforms(self,xyz):
         t = geometry_msgs.msg.TransformStamped()
-        t.header.frame_id = "camera_depth_optical_frame"
+        t.header.frame_id = "camera_depth_frame"
         t.header.stamp = rospy.Time.now()
         t.child_frame_id = "Box"
         t.transform.translation.x = xyz[0]
@@ -185,7 +185,7 @@ class Perception:
         # Create PointCloud2 message
         header = Header()
         header.stamp = rospy.Time.now()
-        header.frame_id = "camera_depth_optical_frame"
+        header.frame_id = "camera_depth_frame"
         point_cloud_msg = pc2.create_cloud(header, fields, mask_xyz)
         self.mask_pub.publish(point_cloud_msg)
         print("Published mask")
@@ -197,15 +197,6 @@ def main():
     # try:
     ps = Perception()
     rospy.sleep(1)
-    while True:
-        pass
-        # ps.detect()
-        
-    # except Exception as e:
-        # print("Error:", str(e))    
-
-
-
 
 if __name__=="__main__" :
     main()

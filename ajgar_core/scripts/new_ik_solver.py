@@ -1,22 +1,15 @@
 #!/usr/bin/env python3
 
 import sys
-import copy
 import rospy
 import moveit_commander
-import moveit_msgs.msg
-import geometry_msgs.msg 
 import math
-from std_msgs.msg import String
-
+import tf
+import tf2_msgs.msg
+import tf2_ros
 import ikpy.chain
-import numpy as np
-import ikpy.utils.plot as plot_utils
-
 from prettytable import PrettyTable
 from moveit_msgs.msg import MoveGroupActionResult
-
-
 
 class ikSolverClass(object):
     
@@ -29,7 +22,54 @@ class ikSolverClass(object):
         group_name    = "arm_group"
         self.group    = moveit_commander.MoveGroupCommander(group_name)
         self.pi       = 22/7
+
+        self.tf_buffer = tf2_ros.Buffer()
+        self.tf_listener = tf2_ros.TransformListener(self.tf_buffer)
+        rospy.Subscriber("/tf", tf2_msgs.msg.TFMessage, self.tf_callback)
         rospy.Subscriber("/move_group/result", MoveGroupActionResult, self.callback)
+
+
+    def tf_callback(self, data):
+        print("Received TF messages:")
+        trans = self.tf_buffer.lookup_transform('base_link', 'camera_depth_frame', rospy.Time(0))
+        print(trans)
+
+        for transform_stamped in data.transforms:
+            transform = transform_stamped.transform
+            # print(f"  Frame ID: {transform_stamped.header.frame_id}")
+            # print(f"  Child Frame ID: {transform_stamped.child_frame_id}")
+            # print("  Translation:")
+            # print(f"    x: {transform.translation.x}")
+            # print(f"    y: {transform.translation.y}")
+            # print(f"    z: {transform.translation.z}")
+            # print("  Rotation:")
+            # print(f"    x: {transform.rotation.x}")
+            # print(f"    y: {transform.rotation.y}")
+            # print(f"    z: {transform.rotation.z}")
+            # print(f"    w: {transform.rotation.w}")
+            # print("----------")
+
+            self.X = transform.translation.x
+            self.Y = transform.translation.y
+            self.Z = transform.translation.z
+
+        # Convert quaternion to degrees directly within the callback
+            quaternion = [transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w]
+            magnitude = math.sqrt(sum(x ** 2 for x in quaternion))
+            quaternion_normalized = [x / magnitude for x in quaternion]
+
+            roll = math.atan2(2 * (quaternion_normalized[1]*quaternion_normalized[3] - quaternion_normalized[0]*quaternion_normalized[2]), 1 - 2*(quaternion_normalized[1]**2 + quaternion_normalized[2]**2))
+            pitch = math.asin(2 * (quaternion_normalized[0]*quaternion_normalized[1] + quaternion_normalized[2]*quaternion_normalized[3]))
+            yaw = math.atan2(2 * (quaternion_normalized[0]*quaternion_normalized[3] - quaternion_normalized[1]*quaternion_normalized[2]), 1 - 2*(quaternion_normalized[0]**2 + quaternion_normalized[1]**2))
+
+            self.roll_deg = math.degrees(roll)
+            self.pitch_deg = math.degrees(pitch)
+            self.yaw_deg = math.degrees(yaw)
+
+            print(f"  Euler Angles (degrees): Roll: {self.roll_deg}, Pitch: {self.pitch_deg}, Yaw: {self.yaw_deg}")
+            print("----------")
+        
+        rospy.sleep(2)
         
     def callback(self, data) :
         
@@ -86,11 +126,16 @@ class ikSolverClass(object):
     def ik_solver(self) :
         
         my_chain = ikpy.chain.Chain.from_urdf_file("arm.urdf")
-        self.target_position = [0.2, -0.3, 0.3]
 
-        roll_deg = 10.0
-        pitch_deg = -92.0
-        yaw_deg = -10.0
+        self.target_position = [self.X, self.Y, self.Z]
+        roll_deg = self.roll_deg 
+        pitch_deg = self.pitch_deg 
+        yaw_deg = self.yaw_deg
+
+        # self.target_position = [0.14, 0.1, 0.3] 
+        # roll_deg = 0.2
+        # pitch_deg = 0.1
+        # yaw_deg = 0.15
         self.roll_rad = math.radians(roll_deg)
         self.pitch_rad = math.radians(pitch_deg)
         self.yaw_rad = math.radians(yaw_deg)
