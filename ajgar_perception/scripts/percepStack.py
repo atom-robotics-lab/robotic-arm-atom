@@ -1,6 +1,9 @@
 #! /usr/bin/env python3
+
 import cv2 
 import rospy
+import numpy as np
+import tf2_msgs.msg
 import message_filters
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image,PointCloud2, PointField
@@ -14,15 +17,23 @@ from ultralytics import YOLO
 import numpy as np
 from pathlib import Path
 
+from ajgar_sim_plugins.plugin_pneumatic_gripper.scripts import attach, detach
 
 class Perception:
+
     def __init__(self) -> None:
-        # Initialisation of CV model
 
-        self.bridge = CvBridge()
-
+        # ROS Setup
+        self.nodeName = "percepStack"
+        rospy.init_node(self.nodeName, anonymous=True)
+        self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
+        self.mask_pub=rospy.Publisher("/mask",PointCloud2,queue_size=1)
         sub_rgb = message_filters.Subscriber("/kinect/color/image_raw", Image)
         sub_depth = message_filters.Subscriber("/kinect/depth/image_raw", Image)
+        
+
+        # OpenCV & YOLO Setup
+        self.bridge = CvBridge()
         ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], queue_size=1, slop=0.5)
         ts.registerCallback(self.callback)
 
@@ -36,10 +47,8 @@ class Perception:
 
         self.model=YOLO('/home/bhavay/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/final_seg_model.pt')
         self.confidence=0.4
-
         self.rgb_image, self.depth_image = None, None
         self.rgb_shape, self.depth_shape = None, None
-
         
         
     def rgb_callback(self, rgb_message) :
@@ -234,7 +243,7 @@ class Perception:
         # Create PointCloud2 message
         header = Header()
         header.stamp = rospy.Time.now()
-        header.frame_id = "camera_depth_frame"
+        header.frame_id = "camera_depth_optical_frame"
         point_cloud_msg = pc2.create_cloud(header, fields, mask_xyz)
         self.mask_pub.publish(point_cloud_msg)
         print("Published mask")
@@ -245,9 +254,18 @@ def main():
     rospy.init_node("percepStack", anonymous=True)
     ps = Perception()
     rospy.sleep(1)
+    while not rospy.is_shutdown():
+        rospy.spin() 
+        # ps.detect()
+        
+    # except Exception as e:
+        # print("Error:", str(e))    
+
+
+
 
 
 
 if __name__=="__main__" :
-    main()
+    perObject=Perception()
     rospy.spin()
