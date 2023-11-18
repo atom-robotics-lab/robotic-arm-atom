@@ -5,7 +5,7 @@ import message_filters
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image,PointCloud2, PointField
 import sensor_msgs.point_cloud2 as pc2
-from std_msgs.msg import Header
+from std_msgs.msg import Header, String
 from geometry_msgs.msg import TransformStamped, PoseStamped
 from tf2_geometry_msgs import do_transform_pose
 import tf2_ros
@@ -30,7 +30,7 @@ class Perception:
         self.mask_pub=rospy.Publisher("/mask",PointCloud2,queue_size=1)
         self.centroid_pub=rospy.Publisher("/centroid",PointCloud2, queue_size=1)
         self.pose_pub=rospy.Publisher("/pose",PoseStamped,queue_size=1)
-        sub_detect=rospy.Subscriber("/detect",str,self.detect)
+        sub_detect=rospy.Subscriber("/detect",String,self.detect)
 
         self.full_path = f'{Path.cwd()}' 
 
