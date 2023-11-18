@@ -12,8 +12,8 @@ def attach_links(model):
 
     rospy.loginfo("Attaching bodies and bodies")
     req = AttachRequest()
-    req.model_name_1 = "robot_arm_urdf"
-    req.link_name_1 = "d_1"
+    req.model_name_1 = "ajgar"
+    req.link_name_1 = "suction"
     req.model_name_2 = model
     req.link_name_2 = "link"
 

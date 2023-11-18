@@ -1,41 +1,40 @@
 #! /usr/bin/env python3
+
 import cv2 
 import rospy
-import message_filters
-from cv_bridge import CvBridge
-from sensor_msgs.msg import Image,PointCloud2, PointField
-import sensor_msgs.point_cloud2 as pc2
-from std_msgs.msg import Header
-import geometry_msgs.msg
-import tf2_ros
-import tf2_msgs.msg
-from ultralytics import YOLO
 import numpy as np
-from pathlib import Path
+import tf2_msgs.msg
+import message_filters
+import geometry_msgs.msg
+from   ultralytics  import YOLO
+from   cv_bridge    import CvBridge
+from   std_msgs.msg import Header
+import sensor_msgs.point_cloud2 as pc2
+from   sensor_msgs.msg import Image,PointCloud2, PointField
 
+from ajgar_sim_plugins.plugin_pneumatic_gripper.scripts import attach, detach
 
 class Perception:
+
     def __init__(self) -> None:
-        # Initialisation of CV model
 
-        self.bridge = CvBridge()
-
-        sub_rgb = message_filters.Subscriber("/kinect/color/image_raw", Image)
-        sub_depth = message_filters.Subscriber("/kinect/depth/image_raw", Image)
-        ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], queue_size=1, slop=0.5)
-        ts.registerCallback(self.callback)
-
+        # ROS Setup
+        self.nodeName = "percepStack"
+        rospy.init_node(self.nodeName, anonymous=True)
         self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
         self.mask_pub=rospy.Publisher("/mask",PointCloud2,queue_size=1)
+        sub_rgb = message_filters.Subscriber("/kinect/color/image_raw", Image)
+        sub_depth = message_filters.Subscriber("/kinect/depth/image_raw", Image)
+        
 
-        self.full_path = f'{Path.cwd()}' 
-
+        # OpenCV & YOLO Setup
+        self.bridge = CvBridge()
+        ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], queue_size=1, slop=0.5)
+        ts.registerCallback(self.callback)
         self.model=YOLO('/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/yolov8m-seg-custom.pt')
         self.confidence=0.4
-
         self.rgb_image, self.depth_image = None, None
         self.rgb_shape, self.depth_shape = None, None
-
         self.found=False
         
         
@@ -149,24 +148,34 @@ class Perception:
         Y = depth * ((point[1]-cy)/fy)
         Z = depth
         # print("XYZ:",X , Y , Z )
-        print(X,Y,Z)
         return (X,Y,Z)
     
 
     def publish_transforms(self,xyz):
-        t = geometry_msgs.msg.TransformStamped()
-        t.header.frame_id = "camera_depth_frame"
-        t.header.stamp = rospy.Time.now()
-        t.child_frame_id = "Box"
-        t.transform.translation.x = xyz[0]
-        t.transform.translation.y = xyz[1]
-        t.transform.translation.z = xyz[2]
-        t.transform.rotation.x = 0
-        t.transform.rotation.y = 0
-        t.transform.rotation.z = 0
-        t.transform.rotation.w = 1            
-        tfm = tf2_msgs.msg.TFMessage([t])
-        self.pub_tf.publish(tfm)
+	
+	# tf of base_link wrt to camera 
+        camera_trans = [-0.144, 0.6131, 1.499]
+	
+        
+        tf = geometry_msgs.msg.TransformStamped()
+        tf.header.frame_id = "base_link"
+        tf.header.stamp = rospy.Time.now()
+        tf.child_frame_id = "box"
+        
+        tf.transform.translation.x = - abs(xyz[1]) + abs(camera_trans[1]) 
+        tf.transform.translation.y =   abs(xyz[0]) - abs(camera_trans[0])
+        tf.transform.translation.z = - abs(xyz[2]) + abs(camera_trans[2])
+        
+        tf.transform.rotation.x = 0
+        tf.transform.rotation.y = 0
+        tf.transform.rotation.z = 0
+        tf.transform.rotation.w = 1
+        
+        print("value : ", tf.transform.translation.x , tf.transform.translation.y , tf.transform.translation.z )
+                
+        tffm = tf2_msgs.msg.TFMessage([tf])
+        
+        self.pub_tf.publish(tffm)
 
 
     def process_box_mask(self,mask):
@@ -185,7 +194,7 @@ class Perception:
         # Create PointCloud2 message
         header = Header()
         header.stamp = rospy.Time.now()
-        header.frame_id = "camera_depth_frame"
+        header.frame_id = "camera_depth_optical_frame"
         point_cloud_msg = pc2.create_cloud(header, fields, mask_xyz)
         self.mask_pub.publish(point_cloud_msg)
         print("Published mask")
@@ -197,7 +206,16 @@ def main():
     # try:
     ps = Perception()
     rospy.sleep(1)
+    while not rospy.is_shutdown():
+        rospy.spin() 
+        # ps.detect()
+        
+    # except Exception as e:
+        # print("Error:", str(e))    
+
+
+
 
 if __name__=="__main__" :
-    main()
+    perObject=Perception()
     rospy.spin()
