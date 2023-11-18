@@ -33,7 +33,7 @@ class Perception:
 
         self.full_path = f'{Path.cwd()}' 
 
-        self.model=YOLO('/home/aakshar/Downloads/best.pt')
+        self.model=YOLO('/home/bhavay/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/final_seg_model.pt')
         self.confidence=0.4
 
         self.rgb_image, self.depth_image = None, None
