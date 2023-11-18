@@ -6,7 +6,8 @@ from cv_bridge import CvBridge
 from sensor_msgs.msg import Image,PointCloud2, PointField
 import sensor_msgs.point_cloud2 as pc2
 from std_msgs.msg import Header
-import geometry_msgs.msg
+from geometry_msgs.msg import TransformStamped, PoseStamped
+from tf2_geometry_msgs import do_transform_pose
 import tf2_ros
 import tf2_msgs.msg
 from ultralytics import YOLO
@@ -27,10 +28,12 @@ class Perception:
 
         self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
         self.mask_pub=rospy.Publisher("/mask",PointCloud2,queue_size=1)
+        self.centroid_pub=rospy.Publisher("/centroid",PointCloud2, queue_size=1)
+        self.pose_pub=rospy.Publisher("/pose",PoseStamped,queue_size=1)
 
         self.full_path = f'{Path.cwd()}' 
 
-        self.model=YOLO('/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/yolov8m-seg-custom.pt')
+        self.model=YOLO('/home/aakshar/Downloads/best.pt')
         self.confidence=0.4
 
         self.rgb_image, self.depth_image = None, None
@@ -72,8 +75,8 @@ class Perception:
             # self.process_box_mask(masks[min_depth_index])
 
             # Extract the bounding box images of the box to be picked
-            new_rgb=self.extract_image(self.rgb_image,boundingboxes[min_depth_index])
-            new_depth=self.extract_image(np.array(self.depth_image, dtype=np.float32),boundingboxes[min_depth_index])
+            # new_rgb=self.extract_image(self.rgb_image,boundingboxes[min_depth_index])
+            # new_depth=self.extract_image(np.array(self.depth_image, dtype=np.float32),boundingboxes[min_depth_index])
 
             new_rgb_points=[]
             for x in range(boundingboxes[min_depth_index][0],boundingboxes[min_depth_index][2]):
@@ -90,6 +93,26 @@ class Perception:
 
             # Publish transforms of box to be picked  
             self.publish_transforms(self.find_XYZ(points[min_depth_index],depths[min_depth_index]))
+            
+            # Publish pose of box to be picked  
+            self.publish_pose(self.find_XYZ(points[min_depth_index],depths[min_depth_index]))
+
+
+            # Publish centroid of the box to picked
+
+            # Define point fields
+            fields = [
+                PointField(name="x", offset=0, datatype=PointField.FLOAT32, count=1),
+                PointField(name="y", offset=4, datatype=PointField.FLOAT32, count=1),
+                PointField(name="z", offset=8, datatype=PointField.FLOAT32, count=1)
+            ]
+            # Create PointCloud2 message
+            header = Header()
+            header.stamp = rospy.Time.now()
+            header.frame_id = "camera_depth_optical_frame"
+            point_cloud_msg = pc2.create_cloud(header, fields, [self.find_XYZ(points[min_depth_index],depths[min_depth_index]),])
+            self.centroid_pub.publish(point_cloud_msg)
+            print("Published centroid")
 
         except Exception as e:
             print("An error occoured",str(e))
@@ -149,12 +172,11 @@ class Perception:
         Y = depth * ((point[1]-cy)/fy)
         Z = depth
         # print("XYZ:",X , Y , Z )
-        print(X,Y,Z)
         return (X,Y,Z)
     
 
     def publish_transforms(self,xyz):
-        t = geometry_msgs.msg.TransformStamped()
+        t = TransformStamped()
         t.header.frame_id = "camera_depth_optical_frame"
         t.header.stamp = rospy.Time.now()
         t.child_frame_id = "Box"
@@ -167,6 +189,35 @@ class Perception:
         t.transform.rotation.w = 1            
         tfm = tf2_msgs.msg.TFMessage([t])
         self.pub_tf.publish(tfm)
+
+
+    def publish_pose(self,xyz):
+
+        # Create a tf2 buffer
+        tf_buffer = tf2_ros.Buffer()
+        tf_listener = tf2_ros.TransformListener(tf_buffer)
+
+        pose = PoseStamped()
+        pose.header.frame_id = "camera_depth_optical_frame"
+        pose.pose.position.x = xyz[0]
+        pose.pose.position.y = xyz[1]
+        pose.pose.position.z = xyz[2]
+        pose.pose.orientation.x = 0.0
+        pose.pose.orientation.y = 0.0
+        pose.pose.orientation.z = 0.0
+        pose.pose.orientation.w = 1.0  # Default orientation
+
+        try:
+            # Lookup the transform from Frame A to Frame B
+            transform = tf_buffer.lookup_transform("world", "camera_depth_optical_frame", rospy.Time(0), rospy.Duration(1.0))
+
+            # Transform the position to Frame B
+            new_pose = do_transform_pose(pose, transform)
+
+        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as e:
+            rospy.logerr("Error during transformation: %s", e)
+
+        self.pose_pub.publish(new_pose)
 
 
     def process_box_mask(self,mask):
@@ -197,8 +248,6 @@ def main():
     # try:
     ps = Perception()
     rospy.sleep(1)
-    while True:
-        pass
         # ps.detect()
         
     # except Exception as e:
