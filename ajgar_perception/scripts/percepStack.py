@@ -30,6 +30,7 @@ class Perception:
         self.mask_pub=rospy.Publisher("/mask",PointCloud2,queue_size=1)
         self.centroid_pub=rospy.Publisher("/centroid",PointCloud2, queue_size=1)
         self.pose_pub=rospy.Publisher("/pose",PoseStamped,queue_size=1)
+        sub_detect=rospy.Subscriber("/detect",str,self.detect)
 
         self.full_path = f'{Path.cwd()}' 
 
@@ -39,7 +40,6 @@ class Perception:
         self.rgb_image, self.depth_image = None, None
         self.rgb_shape, self.depth_shape = None, None
 
-        self.found=False
         
         
     def rgb_callback(self, rgb_message) :
@@ -59,9 +59,12 @@ class Perception:
         return region
 
 
-    def callback(self,depth_data, rgb_data):
+    def callback(self, depth_data, rgb_data):
         self.depth_callback(depth_data)
         self.rgb_callback(rgb_data)
+
+    
+    def detect(self, message):
         try:
             points,masks,boundingboxes = self.rgb_image_processing()
             # print(masks)
@@ -163,11 +166,6 @@ class Perception:
         fx, fy = [554.254691191187, 554.254691191187]
         cx, cy = [320.5, 240.5]
 
-        # tf = TransformFrames()
-        # tf_buffer = tf2_ros.Buffer()
-        # tf_listener=tf2_ros.TransformListener(tf_buffer)
-        # pose_array = PoseArray(header=Header(frame_id = "camera_depth_frame2", stamp = rospy.Time(0)))
-
         X = depth * ((point[0]-cx)/fx)
         Y = depth * ((point[1]-cy)/fy)
         Z = depth
@@ -245,14 +243,8 @@ class Perception:
 
 def main():
     rospy.init_node("percepStack", anonymous=True)
-    # try:
     ps = Perception()
     rospy.sleep(1)
-        # ps.detect()
-        
-    # except Exception as e:
-        # print("Error:", str(e))    
-
 
 
 
