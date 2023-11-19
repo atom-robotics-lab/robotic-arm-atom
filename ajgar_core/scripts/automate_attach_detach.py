@@ -14,7 +14,7 @@ def collision_callback(data):
     #print("In func")
     global count
     global flag
-    global ob2
+    global obj2
     
     #print(data)
     objects = str(data).split(' ')[1].split('-')
@@ -29,8 +29,8 @@ def collision_callback(data):
         if count > 100:
             flag = True
             count = 0
-            automate(obj2)
-            return
+            # automate(obj2)
+            return obj2
 
 def automate(obj):
     print("Starting")
@@ -43,6 +43,7 @@ def main():
     rospy.init_node('collision_subscriber', anonymous=True)
     rospy.Subscriber("/gazebo/collision/info", String, collision_callback)
     rospy.spin()
+    return obj2
 
 if __name__ == '__main__':
     try:
