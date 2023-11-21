@@ -179,7 +179,7 @@ class Perception:
 	
 	# tf of base_link wrt to camera 
         camera_trans = [-0.144, 0.6131, 1.499]
-	
+        
         
         tf = geometry_msgs.msg.TransformStamped()
         tf.header.frame_id = "base_link"
@@ -187,7 +187,7 @@ class Perception:
         tf.child_frame_id = "box"
         
         tf.transform.translation.x = - abs(xyz[1]) + abs(camera_trans[1]) 
-        tf.transform.translation.y =   abs(xyz[0]) - abs(camera_trans[0])
+        tf.transform.translation.y = - (abs(xyz[0])/xyz[0]) *(abs(xyz[0])  + (abs(xyz[0])/xyz[0]) * abs(camera_trans[0]))
         tf.transform.translation.z = - abs(xyz[2]) + abs(camera_trans[2])
         
         tf.transform.rotation.x = 0
