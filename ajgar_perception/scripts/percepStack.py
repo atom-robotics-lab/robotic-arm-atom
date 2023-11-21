@@ -1,8 +1,8 @@
 #! /usr/bin/env python3
 
-# import ROS libraries
 import cv2 
 import rospy
+import numpy as np
 import tf2_msgs.msg
 import message_filters
 from cv_bridge import CvBridge
@@ -17,33 +17,24 @@ from ultralytics import YOLO
 import numpy as np
 from pathlib import Path
 
+from ajgar_sim_plugins.plugin_pneumatic_gripper.scripts import attach, detach
 
 class Perception:
 
     def __init__(self) -> None:
 
         # ROS Setup
-        node    = "percepStack"
-        tfPub   = "/tf"
-        maskPub = "/mask"
-        kinectColorSub   = "/kinect/color/image_raw"
-        kinectDepthSub   = "/kinect/depth/image_raw"
-        self.pub = rospy.Publisher('processedImg', Image, queue_size=10)
-
-        self.processBool = True
-
-        rospy.init_node(node, anonymous=True)
+        self.nodeName = "percepStack"
+        rospy.init_node(self.nodeName, anonymous=True)
+        self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
+        self.mask_pub=rospy.Publisher("/mask",PointCloud2,queue_size=1)
+        sub_rgb = message_filters.Subscriber("/kinect/color/image_raw", Image)
+        sub_depth = message_filters.Subscriber("/kinect/depth/image_raw", Image)
         
-        self.pub_tf   = rospy.Publisher(tfPub   , tf2_msgs.msg.TFMessage, queue_size=1)
-        self.mask_pub = rospy.Publisher(maskPub , PointCloud2,queue_size=1)
-        rospy.Subscriber("imgProcessBool", Int32, self.imageProcessBoolCallback)
-        sub_rgb       = message_filters.Subscriber(kinectColorSub, Image)
-        sub_depth     = message_filters.Subscriber(kinectDepthSub, Image)
 
+        # OpenCV & YOLO Setup
         self.bridge = CvBridge()
-        ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], 
-                                                          queue_size=1, 
-                                                          slop=0.5 )
+        ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], queue_size=1, slop=0.5)
         ts.registerCallback(self.callback)
 
         self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
@@ -60,20 +51,20 @@ class Perception:
         self.rgb_shape, self.depth_shape = None, None
         
         
-    def process_rgb(self, rgb_message) :
-        self.rgb_image = self.bridge.imgmsg_to_cv2(rgb_message, 
-                                                   desired_encoding = "bgr8")
+    def rgb_callback(self, rgb_message) :
+        self.rgb_image = self.bridge.imgmsg_to_cv2(rgb_message, desired_encoding = "bgr8")
         self.rgb_shape = self.rgb_image.shape
 
     
-    def process_depth(self, depth_message) :
-        self.depth_image = self.bridge.imgmsg_to_cv2(depth_message, desired_encoding = depth_message.encoding)
+    def depth_callback(self, depth_message) :
+        self.depth_image = self.bridge.imgmsg_to_cv2(depth_message, desired_encoding=depth_message.encoding)
         self.depth_shape = self.depth_image.shape 
 
     
     def extract_image(self,image,boundingbox):
-        region=image[boundingbox[1]:boundingbox[3],
-                     boundingbox[0]:boundingbox[2]]
+        region=image[boundingbox[1]:boundingbox[3],boundingbox[0]:boundingbox[2]]
+        # cv2.imshow("reigon",region)
+        # cv2.waitKey(0)
         return region
 
 
@@ -84,34 +75,33 @@ class Perception:
     
     def detect(self, message):
         try:
-
-            # points,masks,boundingboxes = self.rgb_image_processing()
-
-            self.points, boundingboxes = self.rgb_image_processing()
-            self.depths                = self.depth_image_processing(self.points)
-            self.min_depth_index       = self.depths.index(min(self.depths))
+            points,masks,boundingboxes = self.rgb_image_processing()
+            # print(masks)
+            depths = self.depth_image_processing(points)
+            # print(points,depths)
             
-            # self.extract_image(self.rgb_image,
-            #                    boundingboxes[min_depth_index])
+            min_depth_index = depths.index(min(depths))
+            # print(points[min_depth_index])
+
+            # Process the mask of the box to be picked
+            # self.process_box_mask(masks[min_depth_index])
 
             # Extract the bounding box images of the box to be picked
             # new_rgb=self.extract_image(self.rgb_image,boundingboxes[min_depth_index])
             # new_depth=self.extract_image(np.array(self.depth_image, dtype=np.float32),boundingboxes[min_depth_index])
 
             new_rgb_points=[]
-
-            for x in range(boundingboxes[self.min_depth_index][0],boundingboxes[self.min_depth_index][2]):
-                for y in range(boundingboxes[self.min_depth_index][1],boundingboxes[self.min_depth_index][3]):
+            for x in range(boundingboxes[min_depth_index][0],boundingboxes[min_depth_index][2]):
+                for y in range(boundingboxes[min_depth_index][1],boundingboxes[min_depth_index][3]):
                     new_rgb_points.append((x,y))
             
             # Process the mask of the box to be picked
             self.process_box_mask(new_rgb_points)
 
 
-            cv2.circle(self.rgb_image, self.points[self.min_depth_index],8,(255,0,0),3)
-            
-            #cv2.imshow("point",self.rgb_image)
-            #cv2.waitKey(1)
+            cv2.circle(self.rgb_image,points[min_depth_index],8,(255,0,0),3)
+            cv2.imshow("point",self.rgb_image)
+            cv2.waitKey(1)
 
             # Publish transforms of box to be picked  
             self.publish_transforms(self.find_XYZ(points[min_depth_index],depths[min_depth_index]))
@@ -138,24 +128,18 @@ class Perception:
 
         except Exception as e:
             print("An error occoured",str(e))
-
-      else:
-            img = self.bridge.cv2_to_imgmsg(self.rgb_image, encoding="passthrough")
-            self.pub.publish(img)
-            self.publish_transforms(self.find_XYZ(self.points[self.min_depth_index], self.depths[self.min_depth_index]))
-
-          
     
 
     def rgb_image_processing(self):
-        rgb_image     = self.rgb_image 
-        points        = []
-        # masks         = []
-        boundingboxes = []
+        rgb_image = self.rgb_image 
+        # cv2.imshow("RGB Image",rgb_image)
+        # cv2.waitKey(1) 
+        # print("RGB Image shape:",rgb_image.shape)
+        points=[]
+        masks=[]
+        boundingboxes=[]
 
-        results = self.model.predict(source = rgb_image,
-                                     conf=self.confidence,
-                                     show=False)
+        results = self.model.predict(source=rgb_image,conf=self.confidence,show=True)
 
         for i in results[0].boxes.xywh:
             cv2.circle(rgb_image,(int(i[0]),int(i[1])),5,(0,0,255),2)
@@ -164,21 +148,26 @@ class Perception:
         for i in results[0].boxes.xyxy:
             boundingboxes.append((int(i[0]),int(i[1]),int(i[2]),int(i[3])))
         
-        # for mask in results[0].masks:
-        #     masks.append(mask.xy[0])
-
-        # return points,masks,boundingboxes
-        return points,boundingboxes
+        for mask in results[0].masks:
+            masks.append(mask.xy[0])
+        
+        # cv2.imshow("points",rgb_image)
+        # cv2.waitKey(1) 
+        return points,masks,boundingboxes
     
 
-    def depth_image_processing(self, points):
+    def depth_image_processing(self,points):
+        # print("Depth Image Shape:",self.depth_image.shape)
         depth_array = np.array(self.depth_image, dtype=np.float32)
-        depths = []
-
+        depths=[]
         for i in range(len(points)):
             x_center, y_center = int(points[i][1]), int(points[i][0])
             depths.append(depth_array[x_center, y_center])
+            # cv2.circle(depth_image,(points[i][0], points[i][1]),5,(0,0,255),2)
 
+        # Show the depth image
+        # cv2.imshow("Depth Image",depth_image)
+        # cv2.waitKey(1) 
         return depths
 
 
@@ -189,6 +178,7 @@ class Perception:
         X = depth * ((point[0]-cx)/fx)
         Y = depth * ((point[1]-cy)/fy)
         Z = depth
+        # print("XYZ:",X , Y , Z )
         return (X,Y,Z)
     
 
@@ -277,7 +267,5 @@ def main():
 
 
 if __name__=="__main__" :
-
-    while not rospy.is_shutdown():
-        perObject=Perception()
-        rospy.spin()
+    perObject=Perception()
+    rospy.spin()

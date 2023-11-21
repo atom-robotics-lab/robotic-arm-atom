@@ -142,13 +142,13 @@ class ikSolverClass(object):
         self.target_position = [-0.24 , -0.2 , 0.05]
         roll_deg = 0.10
         pitch_deg = -0.90
-        yaw_deg = -0.10
+        yaw_deg = 0.10
         self.roll_rad = math.radians(roll_deg)
         self.pitch_rad = math.radians(pitch_deg)
         self.yaw_rad = math.radians(yaw_deg)
         self.target_orientation = [[self.roll_rad, 0, 0],[0, self.pitch_rad, 0],[0, 0, self.yaw_rad]]
         
-        self.go_to_joint_state(my_chain.inverse_kinematics(self.target_position, self.target_orientation, orientation_mode="all"))
+        self.go_to_joint_state(my_chain.inverse_kinematics(self.target_position)) #, self.target_orientation, orientation_mode="all"))
         detach.detach_links(self.obj)
         self.obj2 = None
         self.obj = None
@@ -178,12 +178,12 @@ class ikSolverClass(object):
             if self.X != None:    
                 break
 
-        self.target_position = [self.X, self.Y, self.Z]
+        self.target_position = [self.X, self.Y, self.Z + 0.05]
         # roll_deg = self.roll_deg 
         # pitch_deg = self.pitch_deg 
         # yaw_deg = self.yaw_deg
 
-        # self.target_position = [0.44, -0.02, 0.16 + 0.07] 
+        # self.target_position = [0.16, -0.072, 0.100] 
         roll_deg = 0.10
         pitch_deg = -0.90
         yaw_deg = 0.10
@@ -192,7 +192,7 @@ class ikSolverClass(object):
         self.yaw_rad = math.radians(yaw_deg)
         self.target_orientation = [[self.roll_rad, 0, 0],[0, self.pitch_rad, 0],[0, 0, self.yaw_rad]]
         
-        self.go_to_joint_state(my_chain.inverse_kinematics(self.target_position, self.target_orientation, orientation_mode="all"))
+        self.go_to_joint_state(my_chain.inverse_kinematics(self.target_position)) #, self.target_orientation, orientation_mode="all"))
         while True:
             if self.obj2 != None:
                 rospy.logwarn("inside loop")
