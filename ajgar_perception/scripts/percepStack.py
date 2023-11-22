@@ -178,7 +178,7 @@ class Perception:
     def publish_transforms(self,xyz):
 	
 	# tf of base_link wrt to camera 
-        camera_trans = [-0.144, 0.6131, 1.499]
+        camera_trans = [-0.15, 0.612, 1.5]
         
         
         tf = geometry_msgs.msg.TransformStamped()

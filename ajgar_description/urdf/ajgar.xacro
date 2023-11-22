@@ -154,6 +154,25 @@
   </collision>
 </link>
 
+<link name="camera_depth_frame">
+  <collision>
+    <origin xyz="0 0 0" rpy="1.57 0 0" />
+    <geometry>
+      <mesh filename="package://ur5_description/meshes/kinect.stl" scale="0.005 0.005 0.005" />
+    </geometry>
+  </collision>
+  <visual>
+    <origin xyz="0 0 0" rpy="1.57 -1.57 0" />
+    <geometry>
+      <mesh filename="package://ur5_description/meshes/kinect.stl" scale="0.005 0.005 0.005" />
+    </geometry>
+  </visual>
+  <inertial>
+    <mass value="1e-5" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+  </inertial>
+</link> 
 
 <joint name="world_joint" type="fixed">
     <parent link="world" />
@@ -207,6 +226,12 @@
   <child link="end"/>
   <axis xyz="-0.0 -0.0 -1.0"/>
     <limit upper="3.14159" lower="-3.14159" effort="100" velocity="100" />
+</joint>
+
+<joint name="kinect_joint" type="fixed">
+  <origin xyz="0.612 -0.15 1.5" rpy="0 1.57 0" />
+  <parent link="base_link" />
+  <child link="camera_depth_frame" />
 </joint>
 
 </robot>
