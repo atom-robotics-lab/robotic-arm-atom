@@ -49,3 +49,16 @@ std::vector<std::string> calculateNormals(const PointCloud::Ptr& cloud1, const P
 
     return orientations;
 }
+
+int main(int argc, char** argv)
+{
+    // Initialize ROS
+    ros::init(argc, argv, "normals");
+
+    // Create a ROS node handle
+    ros::NodeHandle nh;
+
+    // Add the rest of your code here, e.g., subscribing to PointCloud2 messages, calling calculateNormals, etc.
+
+    return 0;
+}
