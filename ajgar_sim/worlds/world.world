@@ -1,7 +1,7 @@
 <sdf version='1.7'>
   <world name='default'>
-  <plugin name="ros_link_attacher_plugin" filename="libplugin_pneumatic_gripper.so"/>
-  <plugin name="plugin_collision_publish" filename="libplugin_collision_publish.so"/>
+    <plugin name='ros_link_attacher_plugin' filename='libplugin_pneumatic_gripper.so'/>
+    <plugin name='plugin_collision_publish' filename='libplugin_collision_publish.so'/>
     <light name='sun' type='directional'>
       <cast_shadows>1</cast_shadows>
       <pose>0 0 10 0 -0 0</pose>
@@ -37,13 +37,13 @@
                 <mu2>50</mu2>
               </ode>
               <torsional>
-                <ode />
+                <ode/>
               </torsional>
             </friction>
             <contact>
-              <ode />
+              <ode/>
             </contact>
-            <bounce />
+            <bounce/>
           </surface>
           <max_contacts>10</max_contacts>
         </collision>
@@ -69,7 +69,7 @@
     </model>
     <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
-    <atmosphere type='adiabatic' />
+    <atmosphere type='adiabatic'/>
     <physics type='ode'>
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1</real_time_factor>
@@ -80,7 +80,7 @@
       <background>0.7 0.7 0.7 1</background>
       <shadows>1</shadows>
     </scene>
-    <wind />
+    <wind/>
     <spherical_coordinates>
       <surface_model>EARTH_WGS84</surface_model>
       <latitude_deg>0</latitude_deg>
@@ -112,14 +112,14 @@
           <max_contacts>10</max_contacts>
           <surface>
             <contact>
-              <ode />
+              <ode/>
             </contact>
-            <bounce />
+            <bounce/>
             <friction>
               <torsional>
-                <ode />
+                <ode/>
               </torsional>
-              <ode />
+              <ode/>
             </friction>
           </surface>
         </collision>
@@ -163,14 +163,14 @@
           <max_contacts>10</max_contacts>
           <surface>
             <contact>
-              <ode />
+              <ode/>
             </contact>
-            <bounce />
+            <bounce/>
             <friction>
               <torsional>
-                <ode />
+                <ode/>
               </torsional>
-              <ode />
+              <ode/>
             </friction>
           </surface>
         </collision>
@@ -192,58 +192,104 @@
       <pose>-0.744045 -0.901547 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>1245 160000000</sim_time>
-      <real_time>871 16977284</real_time>
-      <wall_time>1690813495 660682213</wall_time>
-      <iterations>761923</iterations>
+      <sim_time>1251 188000000</sim_time>
+      <real_time>17 714218133</real_time>
+      <wall_time>1700679463 23295866</wall_time>
+      <iterations>6028</iterations>
+      <model name='ajgar'>
+        <pose>0.65 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='base_link'>
+          <pose>0.65 0 0 0 0 -3.14119</pose>
+          <velocity>-0 -0 1e-06 -5e-06 4e-05 0</velocity>
+          <acceleration>0.001788 0.000157 0.002756 -0.009081 0.07963 3e-05</acceleration>
+          <wrench>0.008947 0.000786 0.013791 0 -0 0</wrench>
+        </link>
+        <link name='base_top'>
+          <pose>0.650002 1e-06 0.049 -4e-06 5e-06 -3.14119</pose>
+          <velocity>-4e-06 -0 1e-06 -7e-06 6.2e-05 -3.5e-05</velocity>
+          <acceleration>-0.001341 -8.9e-05 0.001939 -0.01258 0.124287 0.022333</acceleration>
+          <wrench>-0.000599 -4e-05 0.000866 0 -0 0</wrench>
+        </link>
+        <link name='elbow'>
+          <pose>0.654598 -0.027993 0.453478 1.6e-05 3.8e-05 -3.14119</pose>
+          <velocity>0.001278 0 2e-06 -1e-06 0.004618 -3.5e-05</velocity>
+          <acceleration>-0.000141 -2.4e-05 0.000405 0.001126 -0.003815 0.001882</acceleration>
+          <wrench>-0.000334 -5.6e-05 0.000957 0 -0 0</wrench>
+        </link>
+        <link name='end'>
+          <pose>0.654577 1.1e-05 0.722977 1.8e-05 3.5e-05 -3.14119</pose>
+          <velocity>0.002548 1e-06 2e-06 -2e-06 0.005598 -1.5e-05</velocity>
+          <acceleration>-0.000256 -0.000103 0.000231 -4.6e-05 -0.000794 0.001123</acceleration>
+          <wrench>-2e-05 -8e-06 1.8e-05 0 -0 0</wrench>
+        </link>
+        <link name='shoulder'>
+          <pose>0.65499 0.030003 0.174626 1.6e-05 3.8e-05 -3.14119</pose>
+          <velocity>2e-06 0 0 -1e-06 0.004583 -3.4e-05</velocity>
+          <acceleration>0.000672 0.000181 0.000447 0.001071 -0.004486 0.004843</acceleration>
+          <wrench>0.003308 0.000891 0.002199 0 -0 0</wrench>
+        </link>
+        <link name='suction'>
+          <pose>0.654563 0.037011 0.698476 1.8e-05 3.5e-05 -3.14119</pose>
+          <velocity>0.002412 1e-06 2e-06 -2e-06 0.005598 -3e-05</velocity>
+          <acceleration>-0.000306 -0.00012 0.000257 -4.4e-05 -0.000411 0.00128</acceleration>
+          <wrench>-0.000185 -7.2e-05 0.000155 0 -0 0</wrench>
+        </link>
+        <link name='wrist'>
+          <pose>0.654579 1e-05 0.653477 1.5e-05 4e-05 -3.14119</pose>
+          <velocity>0.002203 1e-06 2e-06 -1e-06 0.004618 -3e-05</velocity>
+          <acceleration>-0.00045 -0.000138 0.000413 0.000725 -0.0042 0.000178</acceleration>
+          <wrench>-0.000152 -4.7e-05 0.00014 0 -0 0</wrench>
+        </link>
+      </model>
       <model name='flyer_box_1'>
-        <pose>-0.058636 0.542791 0.191496 0.156767 -0.054427 1.06147</pose>
+        <pose>-0.059335 0.543871 0.191833 0.162432 -0.079324 1.06988</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.058636 0.542791 0.191496 0.156767 -0.054427 1.06147</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-2.72806 0.971614 -10.624 1.01786 0.736509 -0.04804</acceleration>
-          <wrench>-2.72806 0.971614 -10.624 0 -0 0</wrench>
+          <pose>-0.059335 0.543871 0.191833 0.162432 -0.079324 1.06988</pose>
+          <velocity>0.001022 -0.001953 -0.021981 0.056138 0.001638 0.003043</velocity>
+          <acceleration>1.36317 -1.66433 0.369284 0.467036 -0.40586 2.96732</acceleration>
+          <wrench>1.36317 -1.66433 0.369284 0 -0 0</wrench>
         </link>
       </model>
       <model name='flyer_box_1_clone'>
-        <pose>-0.132973 0.002891 0.178195 0.33624 -0.532502 1.56068</pose>
+        <pose>-0.132869 -0.001484 0.177407 0.336583 -0.529226 1.56199</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.132973 0.002891 0.178195 0.33624 -0.532502 1.56068</pose>
+          <pose>-0.132869 -0.001484 0.177407 0.336583 -0.529226 1.56199</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0.056476 0.447408 -0.105347 1.73788 -0.539352 0.543137</acceleration>
-          <wrench>0.056476 0.447408 -0.105347 0 -0 0</wrench>
+          <acceleration>1.74201 -0.413371 -0.714304 0.858588 -1.10874 2.85467</acceleration>
+          <wrench>1.74201 -0.413371 -0.714304 0 -0 0</wrench>
         </link>
       </model>
       <model name='flyer_box_1_clone_0'>
-        <pose>-0.049473 -0.264317 0.144376 0.052194 -0.039438 2.40805</pose>
+        <pose>-0.049285 -0.264456 0.14454 0.050097 -0.048693 2.41897</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.049473 -0.264317 0.144376 0.052194 -0.039438 2.40805</pose>
+          <pose>-0.049285 -0.264456 0.14454 0.050097 -0.048693 2.41897</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>2.67123 -1.08363 6.02793 -3.00438 0.809787 -1.17623</acceleration>
-          <wrench>2.67123 -1.08363 6.02793 0 -0 0</wrench>
+          <acceleration>-0.113582 0.644572 -8.64564 0.029891 -0.180431 0.072423</acceleration>
+          <wrench>-0.113582 0.644572 -8.64564 0 -0 0</wrench>
         </link>
       </model>
       <model name='flyer_box_1_clone_1'>
-        <pose>0.153531 -0.173205 0.087408 0.698681 0.000593 2.38697</pose>
+        <pose>0.151254 -0.174993 0.089135 0.716225 0.000626 2.37618</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>0.153531 -0.173205 0.087408 0.698681 0.000593 2.38697</pose>
+          <pose>0.151254 -0.174993 0.089135 0.716225 0.000626 2.37618</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -9.8 0 -0 0</acceleration>
-          <wrench>0 0 -9.8 0 -0 0</wrench>
+          <acceleration>-0.740109 -1.26039 -1.30894 -1.39305 -1.23179 1.32979</acceleration>
+          <wrench>-0.740109 -1.26039 -1.30894 0 -0 0</wrench>
         </link>
       </model>
       <model name='flyer_box_1_clone_2'>
-        <pose>0.151598 0.350512 0.146966 0.036251 0.208967 -0.593641</pose>
+        <pose>0.151062 0.354361 0.146568 0.040053 0.20535 -0.613993</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>0.151598 0.350512 0.146966 0.036251 0.208967 -0.593641</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-2.45616 -0.141042 0.390964 0.52783 -0.359103 -2.89126</acceleration>
-          <wrench>-2.45616 -0.141042 0.390964 0 -0 0</wrench>
+          <pose>0.151062 0.354361 0.146568 0.040053 0.20535 -0.613993</pose>
+          <velocity>8e-05 0.001878 -0.019306 -0.066989 -0.007466 -0.000732</velocity>
+          <acceleration>-0.658562 -0.156092 -9.4081 -0.275121 -0.992252 -1.45313</acceleration>
+          <wrench>-0.658562 -0.156092 -9.4081 0 -0 0</wrench>
         </link>
       </model>
       <model name='ground_plane'>
@@ -257,103 +303,103 @@
         </link>
       </model>
       <model name='medium_box_1'>
-        <pose>-0.020673 0.618853 0.111982 -0.000992 -0.000183 0.057388</pose>
+        <pose>-0.021229 0.620864 0.111852 -0.001607 0.000406 0.068174</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.020673 0.618853 0.111982 -0.000992 -0.000183 0.057388</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0.122721 0.227781 -7.35028 -2.1107 1.114 -0.003978</acceleration>
-          <wrench>0.122721 0.227781 -7.35028 0 -0 0</wrench>
+          <pose>-0.021229 0.620864 0.111852 -0.001607 0.000406 0.068174</pose>
+          <velocity>0.000748 -0.000386 -0.014083 0.003441 0.00679 -1.8e-05</velocity>
+          <acceleration>0.747637 -0.386132 -14.0832 -2.84192 0.506886 -0.022631</acceleration>
+          <wrench>0.747637 -0.386132 -14.0832 0 -0 0</wrench>
         </link>
       </model>
       <model name='medium_box_1_clone'>
-        <pose>0.016312 0.135673 0.145878 0.682526 -0.000377 -0.665957</pose>
+        <pose>0.019012 0.133698 0.146514 0.681312 0.003186 -0.659612</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>0.016312 0.135673 0.145878 0.682526 -0.000377 -0.665957</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -9.8 0 -0 0</acceleration>
-          <wrench>0 0 -9.8 0 -0 0</wrench>
+          <pose>0.019012 0.133698 0.146514 0.681312 0.003186 -0.659612</pose>
+          <velocity>0.001258 0.000921 -0.00586 -0.005732 0.007817 2.9e-05</velocity>
+          <acceleration>1.25807 0.920592 -5.86024 0.282643 1.18425 0.594088</acceleration>
+          <wrench>1.25807 0.920592 -5.86024 0 -0 0</wrench>
         </link>
       </model>
       <model name='medium_box_1_clone_0'>
-        <pose>0.015818 -0.305238 0.067632 0.018448 2e-06 -0.505309</pose>
+        <pose>0.015963 -0.305212 0.067532 0.016502 8e-06 -0.504949</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>0.015818 -0.305238 0.067632 0.018448 2e-06 -0.505309</pose>
+          <pose>0.015963 -0.305212 0.067532 0.016502 8e-06 -0.504949</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0.427083 0.808643 -6.84398 2.12107 -0.724879 3.12168</acceleration>
-          <wrench>0.427083 0.808643 -6.84398 0 -0 0</wrench>
+          <acceleration>-0.09655 0.385911 -3.92847 2.77411 -0.894598 -0.032942</acceleration>
+          <wrench>-0.09655 0.385911 -3.92847 0 -0 0</wrench>
         </link>
       </model>
       <model name='medium_box_1_clone_1'>
-        <pose>0.125169 -0.078401 0.179834 -2.25497 0.48676 -0.047731</pose>
+        <pose>0.124788 -0.079125 0.180459 -2.25921 0.49405 -0.048819</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>0.125169 -0.078401 0.179834 -2.25497 0.48676 -0.047731</pose>
+          <pose>0.124788 -0.079125 0.180459 -2.25921 0.49405 -0.048819</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-1.62987 -0.142017 -1.531 2.2023 0.049183 -0.97703</acceleration>
-          <wrench>-1.62987 -0.142017 -1.531 0 -0 0</wrench>
+          <acceleration>0.099872 -0.054792 -6.84802 -0.530059 0.155351 0.204672</acceleration>
+          <wrench>0.099872 -0.054792 -6.84802 0 -0 0</wrench>
         </link>
       </model>
       <model name='medium_box_1_clone_2'>
-        <pose>0.143907 0.220937 0.250117 -2.78755 -0.326001 3.03922</pose>
+        <pose>0.12232 0.185527 0.258279 -2.70058 -0.400084 -3.1161</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>0.143907 0.220937 0.250117 -2.78755 -0.326001 3.03922</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.187609 0.047295 -8.55921 -2.75657 0.80389 0.270532</acceleration>
-          <wrench>-0.187609 0.047295 -8.55921 0 -0 0</wrench>
+          <pose>0.12232 0.185527 0.258279 -2.70058 -0.400084 -3.1161</pose>
+          <velocity>0.005377 0.005144 -0.021383 -0.023723 0.050745 0.026524</velocity>
+          <acceleration>0.632522 -2.05105 0.657321 2.40441 -1.1684 -2.12054</acceleration>
+          <wrench>0.632522 -2.05105 0.657321 0 -0 0</wrench>
         </link>
       </model>
       <model name='small_box_1'>
-        <pose>0.240835 0.618408 0.081818 -0.000386 -0.497716 0.926336</pose>
+        <pose>0.240781 0.618348 0.08242 0.002383 -0.491296 0.92542</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>0.240835 0.618408 0.081818 -0.000386 -0.497716 0.926336</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0.08717 0.319653 0.524132 -0.332375 1.24744 -2.40804</acceleration>
-          <wrench>0.062762 0.23015 0.377375 0 -0 0</wrench>
+          <pose>0.240781 0.618348 0.08242 0.002383 -0.491296 0.92542</pose>
+          <velocity>9.3e-05 -0.000148 -0.001726 0.0114 -0.008118 0.002781</velocity>
+          <acceleration>0.093201 -0.148481 -1.72631 -0.680973 -1.18332 -2.99915</acceleration>
+          <wrench>0.067105 -0.106906 -1.24294 0 -0 0</wrench>
         </link>
       </model>
       <model name='small_box_1_clone'>
-        <pose>-0.175396 0.228553 0.089355 3.1402 -1.17544 -0.076289</pose>
+        <pose>-0.173523 0.227458 0.088998 3.14031 -1.15333 -0.090033</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.175396 0.228553 0.089355 3.1402 -1.17544 -0.076289</pose>
+          <pose>-0.173523 0.227458 0.088998 3.14031 -1.15333 -0.090033</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.003138 0.001133 0.00219 -0.011083 -0.036286 -0.004613</acceleration>
-          <wrench>-0.002259 0.000816 0.001577 0 -0 0</wrench>
+          <acceleration>0.016039 0.056441 -0.026024 -0.022675 0.161655 1.15998</acceleration>
+          <wrench>0.011548 0.040637 -0.018737 0 -0 0</wrench>
         </link>
       </model>
       <model name='small_box_1_clone_0'>
-        <pose>-0.106467 -0.092826 0.027516 3.04282 -0.000557 -1.93441</pose>
+        <pose>-0.105994 -0.093473 0.028019 3.03364 -0.000528 -1.94242</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.106467 -0.092826 0.027516 3.04282 -0.000557 -1.93441</pose>
+          <pose>-0.105994 -0.093473 0.028019 3.03364 -0.000528 -1.94242</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0.03419 -0.028499 0.611067 1.35103 1.40333 0.019254</acceleration>
-          <wrench>0.024617 -0.020519 0.439968 0 -0 0</wrench>
+          <acceleration>0.209995 -0.278002 -0.381161 0.222147 0.747113 -0.009524</acceleration>
+          <wrench>0.151196 -0.200162 -0.274436 0 -0 0</wrench>
         </link>
       </model>
       <model name='small_box_1_clone_1'>
-        <pose>0.141906 0.230323 0.060554 1.60557 -0.000329 -0.647732</pose>
+        <pose>0.159976 0.23246 0.060602 1.6088 -0.000392 -0.76229</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>0.141906 0.230323 0.060554 1.60557 -0.000329 -0.647732</pose>
+          <pose>0.159976 0.23246 0.060602 1.6088 -0.000392 -0.76229</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.262661 0.013542 0.499452 -2.41456 0.120776 -3.12384</acceleration>
-          <wrench>-0.189116 0.009751 0.359606 0 -0 0</wrench>
+          <acceleration>0.83195 -0.74925 -0.380155 -2.20184 1.07824 2.59349</acceleration>
+          <wrench>0.599004 -0.53946 -0.273712 0 -0 0</wrench>
         </link>
       </model>
       <model name='small_box_1_clone_2'>
-        <pose>-0.198769 -0.076743 0.046246 -1.57077 -0.000567 -1.67604</pose>
+        <pose>-0.199036 -0.07672 0.046245 -1.57076 -0.000576 -1.67809</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.198769 -0.076743 0.046246 -1.57077 -0.000567 -1.67604</pose>
+          <pose>-0.199036 -0.07672 0.046245 -1.57076 -0.000576 -1.67809</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.006989 0.05004 0.470959 -0.68722 -0.204377 -0.045336</acceleration>
-          <wrench>-0.005032 0.036029 0.339091 0 -0 0</wrench>
+          <acceleration>0 0 -9.8 0 -0 1e-06</acceleration>
+          <wrench>0 0 -7.056 0 -0 0</wrench>
         </link>
       </model>
       <model name='trolley'>
@@ -390,7 +436,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>-2.3019 -0.108378 2.12672 0 0.721797 -0.040192</pose>
+        <pose>-1.9824 -0.534706 2.50885 0 0.721797 -0.040192</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -1480,14 +1526,14 @@
           <max_contacts>10</max_contacts>
           <surface>
             <contact>
-              <ode />
+              <ode/>
             </contact>
-            <bounce />
+            <bounce/>
             <friction>
               <torsional>
-                <ode />
+                <ode/>
               </torsional>
-              <ode />
+              <ode/>
             </friction>
           </surface>
         </collision>
@@ -1531,14 +1577,14 @@
           <max_contacts>10</max_contacts>
           <surface>
             <contact>
-              <ode />
+              <ode/>
             </contact>
-            <bounce />
+            <bounce/>
             <friction>
               <torsional>
-                <ode />
+                <ode/>
               </torsional>
-              <ode />
+              <ode/>
             </friction>
           </surface>
         </collision>
@@ -1582,14 +1628,14 @@
           <max_contacts>10</max_contacts>
           <surface>
             <contact>
-              <ode />
+              <ode/>
             </contact>
-            <bounce />
+            <bounce/>
             <friction>
               <torsional>
-                <ode />
+                <ode/>
               </torsional>
-              <ode />
+              <ode/>
             </friction>
           </surface>
         </collision>
@@ -1633,14 +1679,14 @@
           <max_contacts>10</max_contacts>
           <surface>
             <contact>
-              <ode />
+              <ode/>
             </contact>
-            <bounce />
+            <bounce/>
             <friction>
               <torsional>
-                <ode />
+                <ode/>
               </torsional>
-              <ode />
+              <ode/>
             </friction>
           </surface>
         </collision>
@@ -1673,6 +1719,11 @@
         <quadratic>0.001</quadratic>
       </attenuation>
       <cast_shadows>1</cast_shadows>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
     </light>
     <light name='user_directional_light_5' type='directional'>
       <pose>-0.277591 -9.80792 1 0 -0 0</pose>
@@ -1686,6 +1737,610 @@
         <quadratic>0.001</quadratic>
       </attenuation>
       <cast_shadows>1</cast_shadows>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
     </light>
+    <model name='ajgar'>
+      <joint name='world_joint' type='fixed'>
+        <pose relative_to='__model__'>0 0 0 0 0 -3.14119</pose>
+        <parent>world</parent>
+        <child>base_link</child>
+      </joint>
+      <link name='base_link'>
+        <pose relative_to='world_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.010105 -0 0.023181 0 -0 0</pose>
+          <mass>5.00455</mass>
+          <inertia>
+            <ixx>0.013929</ixx>
+            <ixy>9.02843e-07</ixy>
+            <ixz>-8.88891e-06</ixz>
+            <iyy>0.0182044</iyy>
+            <iyz>2.21523e-06</iyz>
+            <izz>0.0290188</izz>
+          </inertia>
+        </inertial>
+        <collision name='base_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/base_link.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='base_link_fixed_joint_lump__camera_depth_frame_collision_1'>
+          <pose>0.612 -0.15 1.5 -1.57079 1.57079 3.14159</pose>
+          <geometry>
+            <mesh>
+              <scale>0.005 0.005 0.005</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ur5_description/meshes/kinect.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='base_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/base_link.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Silver</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <visual name='base_link_fixed_joint_lump__camera_depth_frame_visual_1'>
+          <pose>0.612 -0.15 1.5 1.57 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.005 0.005 0.005</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ur5_description/meshes/kinect.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>1</self_collide>
+        <gravity>1</gravity>
+        <sensor name='cm2' type='depth'>
+          <update_rate>20</update_rate>
+          <camera>
+            <horizontal_fov>1.0472</horizontal_fov>
+            <image>
+              <width>640</width>
+              <height>480</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.05</near>
+              <far>3</far>
+            </clip>
+          </camera>
+          <plugin name='depth_link_controller' filename='libgazebo_ros_openni_kinect.so'>
+            <baseline>0.2</baseline>
+            <alwaysOn>1</alwaysOn>
+            <updateRate>1.0</updateRate>
+            <cameraName>kinect_ir</cameraName>
+            <imageTopicName>/kinect/color/image_raw</imageTopicName>
+            <cameraInfoTopicName>/kinect/color/camera_info</cameraInfoTopicName>
+            <depthImageTopicName>/kinect/depth/image_raw</depthImageTopicName>
+            <depthImageInfoTopicName>/kinect/depth/camera_info</depthImageInfoTopicName>
+            <pointCloudTopicName>/kinect/depth/points</pointCloudTopicName>
+            <frameName>camera_depth_optical_frame</frameName>
+            <pointCloudCutoff>0.5</pointCloudCutoff>
+            <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+            <distortionK1>0.00000001</distortionK1>
+            <distortionK2>0.00000001</distortionK2>
+            <distortionK3>0.00000001</distortionK3>
+            <distortionT1>0.00000001</distortionT1>
+            <distortionT2>0.00000001</distortionT2>
+            <CxPrime>0</CxPrime>
+            <Cx>0</Cx>
+            <Cy>0</Cy>
+            <focalLength>0</focalLength>
+            <hackBaseline>0</hackBaseline>
+            <robotNamespace>/</robotNamespace>
+          </plugin>
+          <pose>0.612 -0.15 1.5 3.14159 1.57079 3.14159</pose>
+        </sensor>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='base' type='revolute'>
+        <pose relative_to='base_link'>0 0 0.049 0 -0 0</pose>
+        <parent>base_link</parent>
+        <child>base_top</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.87979</lower>
+            <upper>2.87979</upper>
+            <effort>100</effort>
+            <velocity>100</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='base_top'>
+        <pose relative_to='base'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.000408 -0.00154 0.055522 0 -0 0</pose>
+          <mass>0.446819</mass>
+          <inertia>
+            <ixx>0.00111</ixx>
+            <ixy>-6e-06</ixy>
+            <ixz>3.9e-05</ixz>
+            <iyy>0.000992</iyy>
+            <iyz>4.9e-05</iyz>
+            <izz>0.00053</izz>
+          </inertia>
+        </inertial>
+        <collision name='base_top_collision'>
+          <pose>0 0 -0.049 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/base_top.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='base_top_visual'>
+          <pose>0 0 -0.049 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/base_top.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Silver</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='shoulder_joint' type='revolute'>
+        <pose relative_to='base_top'>-0.005001 -0.03 0.125627 0 -0 0</pose>
+        <parent>base_top</parent>
+        <child>shoulder</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-2.87979</lower>
+            <upper>2.87979</upper>
+            <effort>100</effort>
+            <velocity>100</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='shoulder'>
+        <pose relative_to='shoulder_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>9.4e-05 0.031353 0.161728 0 -0 0</pose>
+          <mass>4.91978</mass>
+          <inertia>
+            <ixx>0.043238</ixx>
+            <ixy>-9e-06</ixy>
+            <ixz>-3.7e-05</ixz>
+            <iyy>0.042205</iyy>
+            <iyz>-0.001721</iyz>
+            <izz>0.00519</izz>
+          </inertia>
+        </inertial>
+        <collision name='shoulder_collision'>
+          <pose>0.005001 0.03 -0.174627 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/shoulder.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='shoulder_visual'>
+          <pose>0.005001 0.03 -0.174627 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/shoulder.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Silver</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='elbow_joint' type='revolute'>
+        <pose relative_to='shoulder'>0.000405 0.058 0.278851 0 -0 0</pose>
+        <parent>shoulder</parent>
+        <child>elbow</child>
+        <axis>
+          <xyz>0 -1 0</xyz>
+          <limit>
+            <lower>-2.87979</lower>
+            <upper>2.87979</upper>
+            <effort>100</effort>
+            <velocity>100</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='elbow'>
+        <pose relative_to='elbow_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.000337 -0.027977 0.079133 0 -0 0</pose>
+          <mass>2.36516</mass>
+          <inertia>
+            <ixx>0.012144</ixx>
+            <ixy>-2e-06</ixy>
+            <ixz>8.9e-05</ixz>
+            <iyy>0.012502</iyy>
+            <iyz>-4e-06</iyz>
+            <izz>0.001475</izz>
+          </inertia>
+        </inertial>
+        <collision name='elbow_collision'>
+          <pose>0.004596 -0.028 -0.453478 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/elbow.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='elbow_visual'>
+          <pose>0.004596 -0.028 -0.453478 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/elbow.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Silver</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='lower_wrist_joint' type='revolute'>
+        <pose relative_to='elbow'>0 -0.028 0.2 0 -0 0</pose>
+        <parent>elbow</parent>
+        <child>wrist</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.87979</lower>
+            <upper>2.87979</upper>
+            <effort>100</effort>
+            <velocity>100</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='wrist'>
+        <pose relative_to='lower_wrist_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.008311 -0.010419 0.025505 0 -0 0</pose>
+          <mass>0.338076</mass>
+          <inertia>
+            <ixx>0.000584</ixx>
+            <ixy>8.6e-05</ixy>
+            <ixz>-5.5e-05</ixz>
+            <iyy>0.00026</iyy>
+            <iyz>7e-05</iyz>
+            <izz>0.000535</izz>
+          </inertia>
+        </inertial>
+        <collision name='wrist_collision'>
+          <pose>0.004596 0 -0.653478 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/wrist.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='wrist_visual'>
+          <pose>0.004596 0 -0.653478 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/wrist.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Silver</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='upper_wrist_joint' type='revolute'>
+        <pose relative_to='wrist'>0 -0.037 0.045 0 -0 0</pose>
+        <parent>wrist</parent>
+        <child>suction</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-2.87979</lower>
+            <upper>2.87979</upper>
+            <effort>100</effort>
+            <velocity>100</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='suction'>
+        <pose relative_to='upper_wrist_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-8.5e-05 0.03652 8.9e-05 0 -0 0</pose>
+          <mass>0.605325</mass>
+          <inertia>
+            <ixx>0.000476</ixx>
+            <ixy>0</ixy>
+            <ixz>1.7e-05</ixz>
+            <iyy>0.000398</iyy>
+            <iyz>0</iyz>
+            <izz>0.000554</izz>
+          </inertia>
+        </inertial>
+        <collision name='suction_collision'>
+          <pose>0.004596 0.037 -0.698478 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/suction.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='suction_visual'>
+          <pose>0.004596 0.037 -0.698478 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/suction.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Silver</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='end_joint' type='revolute'>
+        <pose relative_to='suction'>0 0.037 0.0245 0 -0 0</pose>
+        <parent>suction</parent>
+        <child>end</child>
+        <axis>
+          <xyz>0 0 -1</xyz>
+          <limit>
+            <lower>-2.87979</lower>
+            <upper>2.87979</upper>
+            <effort>100</effort>
+            <velocity>100</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='end'>
+        <pose relative_to='end_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0 -0 0.005897 0 -0 0</pose>
+          <mass>0.0764269</mass>
+          <inertia>
+            <ixx>7e-06</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>5e-06</iyy>
+            <iyz>0</iyz>
+            <izz>8e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='end_collision'>
+          <pose>0.004596 0 -0.722978 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/end.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.2</mu>
+                <mu2>0.2</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='end_visual'>
+          <pose>0.004596 0 -0.722978 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_description/meshes/end.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Silver</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <static>0</static>
+      <plugin name='control' filename='libgazebo_ros_control.so'>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <pose>0.65 0 0 0 -0 0</pose>
+    </model>
   </world>
 </sdf>
