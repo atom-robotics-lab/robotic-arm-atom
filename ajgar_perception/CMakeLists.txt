@@ -158,7 +158,7 @@ target_link_libraries(boundary_detector
   ${PCL_LIBRARIES}
 )
 
-add_executable(normal scripts/centroid_normal.cpp)
+add_executable(normal src/centroid_normal.cpp)
 target_link_libraries(normal 
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}
