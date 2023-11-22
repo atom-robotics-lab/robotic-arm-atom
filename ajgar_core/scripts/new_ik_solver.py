@@ -178,7 +178,7 @@ class ikSolverClass(object):
             if self.X != None:    
                 break
 
-        self.target_position = [self.X, self.Y, self.Z]
+        self.target_position = [self.X, self.Y, self.Z + 0.2]
         # roll_deg = self.roll_deg 
         # pitch_deg = self.pitch_deg 
         # yaw_deg = self.yaw_deg
