@@ -16,7 +16,7 @@ typedef pcl::Normal NormalType;
 typedef pcl::PointCloud<PointType> PointCloud;
 typedef pcl::PointCloud<NormalType> NormalCloud;
 
-void calculateNormals(const PointCloud::Ptr& cloud1, const PointCloud::Ptr& cloud2,)
+void calculateNormals(const PointCloud::Ptr& cloud1, const PointCloud::Ptr& cloud2)
 {
     // cloud1 is centroid
     //PointCloud::Ptr cloud1(new PointCloud);
