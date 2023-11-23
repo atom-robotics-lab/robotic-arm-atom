@@ -28,7 +28,7 @@ std::vector<std::string> calculateNormals(const PointCloud::Ptr& cloud1, const P
     ne.setSearchMethod(tree);
 
     // Output datasets
-    ne.setRadiusSearch(0.03);
+    ne.setRadiusSearch(0.5);
     ne.compute(*normals);
 
     std::vector<std::string> orientations;
@@ -48,4 +48,39 @@ std::vector<std::string> calculateNormals(const PointCloud::Ptr& cloud1, const P
     }
 
     return orientations;
+}
+
+int main()
+{
+    // Example usage
+    PointCloud::Ptr cloud1(new PointCloud);
+    PointCloud::Ptr cloud2(new PointCloud);
+
+    // Add a single point to cloud2
+    PointType single_point;
+    single_point.x = 0.0;
+    single_point.y = 0.0;
+    single_point.z = 0.0;
+    cloud2->push_back(single_point);#centroid
+
+    // Fill in sample point cloud data for testing in cloud1
+    for (float x = -1.0; x <= 1.0; x += 0.1) {
+        for (float y = -1.0; y <= 1.0; y += 0.1) {
+            PointType point;
+            point.x = x;
+            point.y = y;
+            point.z = 0.0;
+            cloud1->push_back(point);
+        }
+    }
+
+    // Calculate normals and get orientations as strings
+    std::vector<std::string> normal_orientations = calculateNormals(cloud1, cloud2);
+
+    // Display the calculated orientations
+    for (size_t i = 0; i < normal_orientations.size(); ++i) {
+        std::cout << "Point " << i << " Normal Orientation: " << normal_orientations[i] << std::endl;
+    }
+
+    return 0;
 }

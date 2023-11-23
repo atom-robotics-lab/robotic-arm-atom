@@ -34,6 +34,7 @@ class Perception:
         self.full_path = f'{Path.cwd()}' 
 
         self.model=YOLO('/home/aakshar/Downloads/best.pt')
+        self.qrmodel = YOLO("/home/aakshar/catkin_ws/src/flipkartGrid/perception/scripts/ml_models/qr_detect.pt")
         self.confidence=0.4
 
         self.rgb_image, self.depth_image = None, None
@@ -63,6 +64,7 @@ class Perception:
         self.depth_callback(depth_data)
         self.rgb_callback(rgb_data)
         try:
+
             points,masks,boundingboxes = self.rgb_image_processing()
             # print(masks)
             depths = self.depth_image_processing(points)
@@ -128,6 +130,7 @@ class Perception:
         boundingboxes=[]
 
         results = self.model.predict(source=rgb_image,conf=self.confidence,show=True)
+
 
         for i in results[0].boxes.xywh:
             cv2.circle(rgb_image,(int(i[0]),int(i[1])),5,(0,0,255),2)
@@ -219,6 +222,51 @@ class Perception:
 
         self.pose_pub.publish(new_pose)
 
+
+    def cost_analysis(self, depths, points ,masks):
+        """
+        Mark the center of the bounding box with the lowest depth in blue.
+
+        Parameters:
+        - depths: List of depths corresponding to the detected objects.
+        - points: List of (x, y) coordinates representing the centers of detected bounding boxes.
+
+        Returns:
+        - index_of_min_depth: Index of the center with the lowest depth.
+        """
+        cost=[]
+        QR=[1]
+        MF_depth=1
+        for i in range(len(masks)):
+            mask = masks[i]
+
+            # Create a masked image using the bounding box
+            masked_image = cv2.fillPoly(np.zeros_like(self.rgb_image), [np.array(mask)], (255, 255, 255))
+            gray_masked = cv2.cvtColor(masked_image, cv2.COLOR_BGR2GRAY)
+
+            # Perform QR code detection (replace with your actual QR code scanning logic)
+            qr_code_found = detect_qr_code(gray_masked)
+
+            if qr_code_found:
+                result = 2  # QR code found, update result and break out of the loop
+                break
+            
+            cost.append(len(masks[i])*(QR))/(depths[i]*MF_depth)
+
+
+
+
+        # Find the index of the center with the max cost
+        index_of_max_cost = cost.index(max(cost))
+
+        # Mark the center with the lowest depth in blue
+        cv2.circle(self.rgb_image, points[index_of_max_cost], 8, (0, 0, 255), 3)
+
+        # Display the annotated image (optional)
+        cv2.imshow("Annotated Image", self.rgb_image)
+        cv2.waitKey(1)
+
+        return index_of_max_cost
 
     def process_box_mask(self,mask):
         depths=self.depth_image_processing(mask)
