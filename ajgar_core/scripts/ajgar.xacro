@@ -133,7 +133,7 @@
   </collision>
 </link>
 
-<link name="end">
+<!-- <link name="end">
   <inertial>
     <origin xyz="-8.702208040972659e-08 -2.1072130740783367e-09 0.005896611642581373" rpy="0 0 0"/>
     <mass value="0.07642686015416068"/>
@@ -152,10 +152,10 @@
       <mesh filename="package://ajgar_description/meshes/end.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
-</link>
+</link> -->
 
 
-<link name="camera_depth_frame">
+<link name="camera_link">
     <collision>
       <origin xyz="0 0 0" rpy="1.57 0 0" />
       <geometry>
@@ -234,7 +234,7 @@
 <joint name="kinect_joint" type="fixed">
   <origin xyz="0.60 -0.15 1.3" rpy="0 1.57 0" />
   <parent link="base_link" />
-  <child link="camera_depth_frame" />
+  <child link="camera_link" />
 </joint>
 
 
