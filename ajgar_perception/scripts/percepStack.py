@@ -13,6 +13,8 @@ import tf2_msgs.msg
 from ultralytics import YOLO
 import numpy as np
 from pathlib import Path
+import ctypes
+
 
 
 class Perception:
@@ -36,6 +38,10 @@ class Perception:
 
         self.model=YOLO('/home/bhavay/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/final_seg_model.pt')
         self.confidence=0.4
+
+        self.calculate_normals_function = ctypes.CDLL('/home/bhavay/catkin_ws/devel/lib/libnormals.so').calculateNormals
+        # self.calculate_normals_function.argtypes = [ctypes.POINTER(PointCloud2), ctypes.POINTER(PointCloud2)]
+        self.calculate_normals_function.restype = ctypes.POINTER(ctypes.c_char_p)
 
         self.rgb_image, self.depth_image = None, None
         self.rgb_shape, self.depth_shape = None, None
@@ -87,7 +93,7 @@ class Perception:
                     new_rgb_points.append((x,y))
             
             # Process the mask of the box to be picked
-            self.process_box_mask(new_rgb_points)
+            mask_point_cloud= self.process_box_mask(new_rgb_points)
 
 
             cv2.circle(self.rgb_image,points[min_depth_index],8,(255,0,0),3)
@@ -113,10 +119,14 @@ class Perception:
             header = Header()
             header.stamp = rospy.Time.now()
             header.frame_id = "camera_depth_optical_frame"
-            point_cloud_msg = pc2.create_cloud(header, fields, [self.find_XYZ(points[min_depth_index],depths[min_depth_index]),])
-            self.centroid_pub.publish(point_cloud_msg)
+            centroid_point_cloud_msg = pc2.create_cloud(header, fields, [self.find_XYZ(points[min_depth_index],depths[min_depth_index]),])
+            self.centroid_pub.publish(centroid_point_cloud_msg)
             print("Published centroid")
 
+            # Calculate the normals
+            result = self.calculate_normals_function(ctypes.byref(mask_point_cloud), ctypes.byref(centroid_point_cloud_msg))
+            print(result)
+            
         except Exception as e:
             print("An error occoured",str(e))
     
@@ -238,6 +248,7 @@ class Perception:
         point_cloud_msg = pc2.create_cloud(header, fields, mask_xyz)
         self.mask_pub.publish(point_cloud_msg)
         print("Published mask")
+        return point_cloud_msg
 
 
 
