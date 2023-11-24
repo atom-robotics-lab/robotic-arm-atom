@@ -10,6 +10,7 @@ from   std_msgs.msg import Header
 import sensor_msgs.point_cloud2 as pc2
 from   sensor_msgs.msg import Image,PointCloud2, PointField
 from   std_msgs.msg    import Int32 
+import rospkg
 
 # import Image Processing libraries
 import numpy as np
@@ -48,7 +49,11 @@ class Perception:
         
 
         # OpenCV & YOLO Setup
-        modelPath = '/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/yolov8m-seg-custom.pt'
+        rospack = rospkg.RosPack()
+        package_path = rospack.get_path('ajgar_perception')
+        
+        #modelPath = '/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/yolov8m-seg-custom.pt'
+        modelPath = package_path + '/scripts/ml_models/yolov8m-seg-custom.pt' 
         self.model  = YOLO(modelPath)
 
 
