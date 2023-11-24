@@ -36,10 +36,10 @@ class Perception:
 
         self.full_path = f'{Path.cwd()}' 
 
-        self.model=YOLO('/home/bhavay/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/final_seg_model.pt')
+        self.model=YOLO('/home/aakshar/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/final_seg_model.pt')
         self.confidence=0.4
 
-        self.calculate_normals_function = ctypes.CDLL('/home/bhavay/catkin_ws/devel/lib/libnormals.so').calculateNormals
+        self.calculate_normals_function = ctypes.CDLL('/home/aakshar/catkin_ws/devel/lib/libnormals.so').calculateNormals
         # self.calculate_normals_function.argtypes = [ctypes.POINTER(PointCloud2), ctypes.POINTER(PointCloud2)]
         self.calculate_normals_function.restype = ctypes.POINTER(ctypes.c_char_p)
 
@@ -71,64 +71,65 @@ class Perception:
 
     
     def detect(self, message):
-        try:
-            points,masks,boundingboxes = self.rgb_image_processing()
-            # print(masks)
-            depths = self.depth_image_processing(points)
-            # print(points,depths)
+        # try:
+        points,masks,boundingboxes = self.rgb_image_processing()
+        # print(masks)
+        depths = self.depth_image_processing(points)
+        # print(points,depths)
+        
+        min_depth_index = depths.index(min(depths))
+        # print(points[min_depth_index])
+
+        # Process the mask of the box to be picked
+        # self.process_box_mask(masks[min_depth_index])
+
+        # Extract the bounding box images of the box to be picked
+        # new_rgb=self.extract_image(self.rgb_image,boundingboxes[min_depth_index])
+        # new_depth=self.extract_image(np.array(self.depth_image, dtype=np.float32),boundingboxes[min_depth_index])
+
+        new_rgb_points=[]
+        for x in range(boundingboxes[min_depth_index][0],boundingboxes[min_depth_index][2]):
+            for y in range(boundingboxes[min_depth_index][1],boundingboxes[min_depth_index][3]):
+                new_rgb_points.append((x,y))
+        
+        # Process the mask of the box to be picked
+        mask_xyz= self.process_box_mask(new_rgb_points)
+
+
+        cv2.circle(self.rgb_image,points[min_depth_index],8,(255,0,0),3)
+        cv2.imshow("point",self.rgb_image)
+        cv2.waitKey(1)
+
+        # Publish transforms of box to be picked  
+        self.publish_transforms(self.find_XYZ(points[min_depth_index],depths[min_depth_index]))
+        
+        # Publish pose of box to be picked  
+        self.publish_pose(self.find_XYZ(points[min_depth_index],depths[min_depth_index]))
+
+
+        # Publish centroid of the box to picked
+
+        # Define point fields
+        fields = [
+            PointField(name="x", offset=0, datatype=PointField.FLOAT32, count=1),
+            PointField(name="y", offset=4, datatype=PointField.FLOAT32, count=1),
+            PointField(name="z", offset=8, datatype=PointField.FLOAT32, count=1)
+        ]
+        # Create PointCloud2 message
+        header = Header()
+        header.stamp = rospy.Time.now()
+        header.frame_id = "camera_depth_optical_frame"
+        centroid_point_cloud_msg = pc2.create_cloud(header, fields, [self.find_XYZ(points[min_depth_index],depths[min_depth_index]),])
+        self.centroid_pub.publish(centroid_point_cloud_msg)
+        print("Published centroid")
+
+        # Calculate the normals
+        centroid= self.find_XYZ(points[min_depth_index],depths[min_depth_index])
+        result = self.calculate_normals_function(ctypes.byref(mask_xyz), ctypes.byref(centroid))
+        print(result)
             
-            min_depth_index = depths.index(min(depths))
-            # print(points[min_depth_index])
-
-            # Process the mask of the box to be picked
-            # self.process_box_mask(masks[min_depth_index])
-
-            # Extract the bounding box images of the box to be picked
-            # new_rgb=self.extract_image(self.rgb_image,boundingboxes[min_depth_index])
-            # new_depth=self.extract_image(np.array(self.depth_image, dtype=np.float32),boundingboxes[min_depth_index])
-
-            new_rgb_points=[]
-            for x in range(boundingboxes[min_depth_index][0],boundingboxes[min_depth_index][2]):
-                for y in range(boundingboxes[min_depth_index][1],boundingboxes[min_depth_index][3]):
-                    new_rgb_points.append((x,y))
-            
-            # Process the mask of the box to be picked
-            mask_point_cloud= self.process_box_mask(new_rgb_points)
-
-
-            cv2.circle(self.rgb_image,points[min_depth_index],8,(255,0,0),3)
-            cv2.imshow("point",self.rgb_image)
-            cv2.waitKey(1)
-
-            # Publish transforms of box to be picked  
-            self.publish_transforms(self.find_XYZ(points[min_depth_index],depths[min_depth_index]))
-            
-            # Publish pose of box to be picked  
-            self.publish_pose(self.find_XYZ(points[min_depth_index],depths[min_depth_index]))
-
-
-            # Publish centroid of the box to picked
-
-            # Define point fields
-            fields = [
-                PointField(name="x", offset=0, datatype=PointField.FLOAT32, count=1),
-                PointField(name="y", offset=4, datatype=PointField.FLOAT32, count=1),
-                PointField(name="z", offset=8, datatype=PointField.FLOAT32, count=1)
-            ]
-            # Create PointCloud2 message
-            header = Header()
-            header.stamp = rospy.Time.now()
-            header.frame_id = "camera_depth_optical_frame"
-            centroid_point_cloud_msg = pc2.create_cloud(header, fields, [self.find_XYZ(points[min_depth_index],depths[min_depth_index]),])
-            self.centroid_pub.publish(centroid_point_cloud_msg)
-            print("Published centroid")
-
-            # Calculate the normals
-            result = self.calculate_normals_function(ctypes.byref(mask_point_cloud), ctypes.byref(centroid_point_cloud_msg))
-            print(result)
-            
-        except Exception as e:
-            print("An error occoured",str(e))
+        # except Exception as e:
+        #     print("An error occoured",str(e))
     
 
     def rgb_image_processing(self):
@@ -248,7 +249,7 @@ class Perception:
         point_cloud_msg = pc2.create_cloud(header, fields, mask_xyz)
         self.mask_pub.publish(point_cloud_msg)
         print("Published mask")
-        return point_cloud_msg
+        return mask_xyz
 
 
 
