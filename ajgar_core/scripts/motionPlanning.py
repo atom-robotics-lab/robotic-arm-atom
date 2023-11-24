@@ -6,6 +6,7 @@ import rospy
 import moveit_commander
 import moveit_msgs.msg
 import geometry_msgs.msg 
+import rospkg
 from math import pi
 from std_msgs.msg import String
 
@@ -15,6 +16,7 @@ import ikpy.utils.plot as plot_utils
 
 from prettytable import PrettyTable
 from moveit_msgs.msg import MoveGroupActionResult
+
 
 
 
@@ -28,8 +30,15 @@ class ikSolverClass(object):
         robot         = moveit_commander.RobotCommander()
         group_name    = "arm_group"
         self.group    = moveit_commander.MoveGroupCommander(group_name)
+        
+        rospack = rospkg.RosPack()
+        self.package_path = rospack.get_path('ajgar_core') + '/scripts/arm.urdf'
+        
         self.pi       = 22/7
         rospy.Subscriber("/move_group/result", MoveGroupActionResult, self.callback)
+        
+        
+
         
     def callback(self, data) :
         
@@ -85,8 +94,8 @@ class ikSolverClass(object):
     
     def ik_solver(self) :
         
-        my_chain = ikpy.chain.Chain.from_urdf_file("ajgar.xacro")
-        target_position = [0.3, 0.6, 0.5]
+        my_chain = ikpy.chain.Chain.from_urdf_file(self.package_path)
+        target_position = [0.37, -0.117, 0.165]
         pi = 22/7 
         self.go_to_joint_state(my_chain.inverse_kinematics(target_position))
          
