@@ -2,6 +2,8 @@
 
 import rospy
 from sensor_msgs.msg import PointCloud2
+from std_msgs.msg    import Int32
+from std_srvs.srv    import Empty
 from ajgar_perception.srv import AddTwoInts
 
 class PointCloudModifier:
@@ -13,11 +15,16 @@ class PointCloudModifier:
         self.kinectPCTopic =  "/kinect/depth/points" 
         self.maskPCtopic   =  "/mask"
         self.pubTopic      =  "/uncommon_points_topic"
+        self.imageProcessBoolTopic = "/imgProcessBool"
 
         self.kinectPCData = None
         self.maskPCData   = None
+        self.pointBool    = None 
+       
+        self.cnt = 0 
 
         self.pub = rospy.Publisher(self.pubTopic, PointCloud2, queue_size=10)
+        self.imageProcessBool = rospy.Publisher(self.imageProcessBoolTopic, Int32, queue_size=10)
 
     def run(self):
         
@@ -31,18 +38,43 @@ class PointCloudModifier:
                 
         rospy.wait_for_service('add_two_ints')
         pointsCall = rospy.ServiceProxy('add_two_ints', AddTwoInts)
-        print(self.kinectPCData)
-        print(self.maskPCData)
-        pointsBool = pointsCall(self.kinectPCData, self.maskPCData)
         
-        print(" Publishing @ /uncommon_points_topic")
-
+        self.pointsBool = pointsCall(self.kinectPCData, self.maskPCData)
+        
+        
+    def main(self):
+        
         while not rospy.is_shutdown():
-            self.pub.publish(pointsBool.outputPt)
+           
+            self.run()
+
+            print ("Clearing Octomap")
+            rospy.wait_for_service('/clear_octomap')
+            clear_octomap = rospy.ServiceProxy('/clear_octomap', Empty)
+            if (self.cnt == 60000) :
+                    self.cnt = 0
+                    break
+
+            print(" Publishing @ /uncommon_points_topic")
+            while not rospy.is_shutdown():
+                self.pub.publish(self.pointsBool.outputPt)
+                self.cnt += 1 
+                if (self.cnt == 60000) :
+                    self.cnt = 0
+                    break 
+            
+            print(" Publishing @ /imgProcessBool : 1")
+            while not rospy.is_shutdown():
+                self.imageProcessBool.publish(1)
+                self.cnt += 1 
+                if (self.cnt == 60000) :
+                        self.cnt = 0
+                        break 
+            
 
         
 
 if __name__ == "__main__":
 
     modifier = PointCloudModifier()
-    modifier.run()
+    modifier.main()

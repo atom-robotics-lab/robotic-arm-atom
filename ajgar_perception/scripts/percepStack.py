@@ -35,8 +35,8 @@ class Perception:
 
         rospy.init_node(node, anonymous=True)
         
-        self.pub_tf   = rospy.Publisher(tfPub   , tf2_msgs.msg.TFMessage, queue_size=1)
-        self.mask_pub = rospy.Publisher(maskPub , PointCloud2,queue_size=1)
+        self.pub_tf   = rospy.Publisher(tfPub   , tf2_msgs.msg.TFMessage, queue_size=10)
+        self.mask_pub = rospy.Publisher(maskPub , PointCloud2,queue_size=10)
         
         rospy.Subscriber("imgProcessBool", Int32, self.imageProcessBoolCallback)
         sub_rgb       = message_filters.Subscriber(kinectColorSub, Image)
@@ -44,10 +44,11 @@ class Perception:
 
         self.bridge = CvBridge()
         ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], 
-                                                          queue_size=1, 
+                                                          queue_size=10, 
                                                           slop=0.5 )
         ts.registerCallback(self.callback)
         
+        self.rate = rospy.Rate(1) 
 
         # OpenCV & YOLO Setup
         rospack = rospkg.RosPack()
@@ -55,7 +56,7 @@ class Perception:
         modelPath = package_path + '/scripts/ml_models/yolov8m-seg-custom.pt' 
         self.model  = YOLO(modelPath)
 
-        self.maskValue = None ;
+        self.maskValue = None 
 
         self.confidence = 0.4
         self.rgb_image, self.depth_image = None, None
@@ -124,6 +125,8 @@ class Perception:
             # Publish transforms of box to be picked  
             # self.publish_transforms(self.find_XYZ(self.points[self.min_depth_index],self.depths[self.min_depth_index]))
             print("image Processed")
+            self.processBool = False
+            
         except Exception as e:
             print("An error occoured",str(e))
 
@@ -132,6 +135,7 @@ class Perception:
             self.pub.publish(img)
             self.publish_transforms(self.find_XYZ(self.points[self.min_depth_index], self.depths[self.min_depth_index]))
             self.mask_pub.publish(self.maskValue)
+            self.rate.sleep()
 
           
     
@@ -201,7 +205,7 @@ class Perception:
         tf.transform.rotation.z = 0
         tf.transform.rotation.w = 1
         
-        print("value : ", tf.transform.translation.x , tf.transform.translation.y , tf.transform.translation.z )
+        #print("value : ", tf.transform.translation.x , tf.transform.translation.y , tf.transform.translation.z )
                 
         tffm = tf2_msgs.msg.TFMessage([tf])
         
@@ -227,7 +231,7 @@ class Perception:
         header.frame_id = "camera_depth_optical_frame"
         point_cloud_msg = pc2.create_cloud(header, fields, mask_xyz)
         self.maskValue = point_cloud_msg 
-        print(self.maskValue)
+        #print(self.maskValue)
         print(" Mask Calculated ")
 
 
