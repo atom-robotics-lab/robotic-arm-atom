@@ -25,6 +25,7 @@ class Perception:
 
         sub_rgb = message_filters.Subscriber("/kinect/color/image_raw", Image)
         sub_depth = message_filters.Subscriber("/kinect/depth/image_raw", Image)
+
         ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], queue_size=1, slop=0.5)
         ts.registerCallback(self.callback)
 
@@ -125,12 +126,13 @@ class Perception:
 
         # Calculate the normals
         centroid= self.find_XYZ(points[min_depth_index],depths[min_depth_index])
-        result = self.calculate_normals_function(ctypes.byref(mask_xyz), ctypes.byref(centroid))
+
+        result = self.calculate_normals_function(ctypes.byref(mask_xyz),len(mask_xyz), ctypes.byref(centroid),len(centroid))
         print(result)
             
         # except Exception as e:
         #     print("An error occoured",str(e))
-    
+
 
     def rgb_image_processing(self):
         rgb_image = self.rgb_image 
