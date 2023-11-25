@@ -245,8 +245,9 @@ class Perception:
         header.stamp = rospy.Time.now()
         header.frame_id = "camera_depth_optical_frame"
         point_cloud_msg = pc2.create_cloud(header, fields, mask_xyz)
-        self.mask_pub.publish(point_cloud_msg)
-        print("Published mask")
+        self.maskValue = point_cloud_msg 
+        print(self.maskValue)
+        print(" Mask Calculated ")
 
 
 
