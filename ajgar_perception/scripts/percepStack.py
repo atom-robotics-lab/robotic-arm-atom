@@ -246,7 +246,7 @@ class Perception:
         header.frame_id = "camera_depth_optical_frame"
         point_cloud_msg = pc2.create_cloud(header, fields, mask_xyz)
         self.maskValue = point_cloud_msg 
-        print(self.maskValue)
+        #print(self.maskValue)
         print(" Mask Calculated ")
 
 
