@@ -37,6 +37,7 @@ class Perception:
         
         self.pub_tf   = rospy.Publisher(tfPub   , tf2_msgs.msg.TFMessage, queue_size=1)
         self.mask_pub = rospy.Publisher(maskPub , PointCloud2,queue_size=1)
+        
         rospy.Subscriber("imgProcessBool", Int32, self.imageProcessBoolCallback)
         sub_rgb       = message_filters.Subscriber(kinectColorSub, Image)
         sub_depth     = message_filters.Subscriber(kinectDepthSub, Image)
@@ -51,11 +52,10 @@ class Perception:
         # OpenCV & YOLO Setup
         rospack = rospkg.RosPack()
         package_path = rospack.get_path('ajgar_perception')
-        
-        #modelPath = '/home/arsenious/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/yolov8m-seg-custom.pt'
         modelPath = package_path + '/scripts/ml_models/yolov8m-seg-custom.pt' 
         self.model  = YOLO(modelPath)
 
+        self.maskValue = None ;
 
         self.confidence = 0.4
         self.rgb_image, self.depth_image = None, None
@@ -131,6 +131,7 @@ class Perception:
             img = self.bridge.cv2_to_imgmsg(self.rgb_image, encoding="passthrough")
             self.pub.publish(img)
             self.publish_transforms(self.find_XYZ(self.points[self.min_depth_index], self.depths[self.min_depth_index]))
+            self.mask_pub.publish(self.maskValue)
 
           
     
@@ -225,8 +226,9 @@ class Perception:
         header.stamp = rospy.Time.now()
         header.frame_id = "camera_depth_optical_frame"
         point_cloud_msg = pc2.create_cloud(header, fields, mask_xyz)
-        self.mask_pub.publish(point_cloud_msg)
-        print("Published mask")
+        self.maskValue = point_cloud_msg 
+        print(self.maskValue)
+        print(" Mask Calculated ")
 
 
 

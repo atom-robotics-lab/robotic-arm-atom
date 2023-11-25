@@ -1,0 +1,6 @@
+sensor_msgs/PointCloud2 kinectInputPt
+sensor_msgs/PointCloud2 maskInputPt 
+---
+sensor_msgs/PointCloud2 outputPt 
+ 
+

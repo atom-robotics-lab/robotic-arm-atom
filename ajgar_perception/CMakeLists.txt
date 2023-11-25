@@ -12,6 +12,9 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_ros
   roscpp
   sensor_msgs
+  std_msgs
+  sensor_msgs
+  message_generation
 )
 find_package(PCL REQUIRED)
 
@@ -57,11 +60,11 @@ find_package(PCL REQUIRED)
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
+ add_service_files(
+   FILES
+   AddTwoInts.srv
 #   Service2.srv
-# )
+ )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -71,10 +74,12 @@ find_package(PCL REQUIRED)
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
+ generate_messages(
+   DEPENDENCIES
 #   sensor_msgs
-# )
+   std_msgs
+   sensor_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -163,6 +168,18 @@ target_link_libraries(filter
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}
 )
+
+add_executable(octomapFilter src/octomapFilter.cpp)
+target_link_libraries(octomapFilter 
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
+)
+
+#add_executable(server src/server.cpp)
+#target_link_libraries(server 
+ # ${catkin_LIBRARIES}
+#)
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -187,10 +204,16 @@ target_link_libraries(filter
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# catkin_install_python(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+#catkin_install_python(PROGRAMS
+  # scripts/client.py
+  # DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
+
+#catkin_install_python(PROGRAMS
+ #  scripts/server.py
+ #  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+ #)
+
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
