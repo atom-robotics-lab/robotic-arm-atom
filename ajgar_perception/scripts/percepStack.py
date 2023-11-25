@@ -37,10 +37,10 @@ class Perception:
 
         self.full_path = f'{Path.cwd()}' 
 
-        self.model=YOLO('/home/aakshar/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/final_seg_model.pt')
+        self.model=YOLO('/home/bhavay/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/final_seg_model.pt')
         self.confidence=0.4
 
-        self.calculate_normals_function = ctypes.CDLL('/home/aakshar/catkin_ws/devel/lib/libnormals.so').calculateNormals
+        self.calculate_normals_function = ctypes.CDLL('/home/bhavay/catkin_ws/devel/lib/libnormals.so').calculateNormals
         # self.calculate_normals_function.argtypes = [ctypes.POINTER(PointCloud2), ctypes.POINTER(PointCloud2)]
         self.calculate_normals_function.restype = ctypes.POINTER(ctypes.c_char_p)
 
@@ -127,11 +127,21 @@ class Perception:
         # Calculate the normals
         centroid= self.find_XYZ(points[min_depth_index],depths[min_depth_index])
 
-        result = self.calculate_normals_function(ctypes.byref(mask_xyz),len(mask_xyz), ctypes.byref(centroid),len(centroid))
-        print(result)
+
+        self.calculate_normals_function.argtypes = [
+            np.ctypeslib.ndpointer(dtype=np.float32, ndim=2, flags='C_CONTIGUOUS'),
+            ctypes.c_int,
+            np.ctypeslib.ndpointer(dtype=np.float32, ndim=1, flags='C_CONTIGUOUS'),
+            ctypes.c_int
+        ]
+
+        try:
+        
+            result = self.calculate_normals_function(np.array(mask_xyz, dtype=np.float32),len(mask_xyz), np.array(centroid, dtype=np.float32),len(centroid))
+            print(result)
             
-        # except Exception as e:
-        #     print("An error occoured",str(e))
+        except Exception as e:
+            print("An error occoured",str(e))
 
 
     def rgb_image_processing(self):
