@@ -41,7 +41,7 @@ class Perception:
         self.model=YOLO('/home/aakshar/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/final_seg_model.pt')
         self.confidence=0.4
         self.calculate_normals_function = ctypes.CDLL('/home/aakshar/catkin_ws/devel/lib/libnormals.so').calculateNormals
-        # self.calculate_normals_function.argtypes = [ctypes.POINTER(PointCloud2), ctypes.POINTER(PointCloud2)]
+        #self.calculate_normals_function.argtypes = [ctypes.POINTER(PointCloud2), ctypes.POINTER(PointCloud2)]
         self.calculate_normals_function.restype = ctypes.POINTER(ctypes.c_char_p)
 
 
@@ -129,7 +129,7 @@ class Perception:
         # Calculate the normals
         centroid= self.find_XYZ(points[min_depth_index],depths[min_depth_index])
 
-
+        
         mask_xyz_array = np.array(mask_xyz, dtype=np.float32).flatten()
         centroid_array = np.array(centroid, dtype=np.float32).flatten()
 
@@ -137,14 +137,15 @@ class Perception:
         try:
 
             #print(len(centroid_array),"____",len(mask_xyz_array))
-            print(centroid)
+            #print(id(mask_xyz_array),"___",id(centroid_array))
+            #print(mask_xyz_array.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),"___")
             result = self.calculate_normals_function(
             mask_xyz_array.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
-            len(mask_xyz),
+            len(mask_xyz_array),
             centroid_array.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
-            len(centroid)
+            len(centroid_array)
             )
-            print(result)
+            #print(result)
             
         except Exception as e:
             print("An error occoured",str(e))

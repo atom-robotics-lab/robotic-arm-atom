@@ -18,12 +18,13 @@ extern "C" {
 std::vector<std::string> calculateNormals(const float* points1, size_t size1, const float* points2, size_t size2)
 {
 
-    // Check if sizes are valid
-//    if (size1 % 3 != 0 || size2 % 3 != 0) {
-//        std::cerr << "Invalid input sizes. Size must be a multiple of 3." << std::endl;
-//        return {};
-//    }
+    //Check if sizes are valid
+   if (size1 % 3 != 0 && size2 % 3 != 0) { 
+        std::cout << size2 << std::endl;
+        
 
+       return {};
+    }
 
     // Create a container for the normals
     NormalCloud::Ptr normals(new NormalCloud);
@@ -42,8 +43,7 @@ std::vector<std::string> calculateNormals(const float* points1, size_t size1, co
         cloud1->push_back(p);
     }
 
-    // Loop through points2
-    for (size_t i = 0; i < size2; i += 3) {
+    for (size_t i = 0; i < size1; i += 3) {
         PointType p;
         p.x = points2[i];
         p.y = points2[i + 1];
@@ -51,42 +51,43 @@ std::vector<std::string> calculateNormals(const float* points1, size_t size1, co
         cloud2->push_back(p);
     }
     
+    
 
-    // Convert PointCloud instances to PointCloud2 messages
-    sensor_msgs::PointCloud2::Ptr cloud1_msg(new sensor_msgs::PointCloud2);
-    sensor_msgs::PointCloud2::Ptr cloud2_msg(new sensor_msgs::PointCloud2);
+    // // Convert PointCloud instances to PointCloud2 messages
+    // sensor_msgs::PointCloud2::Ptr cloud1_msg(new sensor_msgs::PointCloud2);
+    // sensor_msgs::PointCloud2::Ptr cloud2_msg(new sensor_msgs::PointCloud2);
 
-    pcl::toROSMsg(*cloud1, *cloud1_msg);
-    pcl::toROSMsg(*cloud2, *cloud2_msg);
+    // pcl::toROSMsg(*cloud1, *cloud1_msg);
+    // pcl::toROSMsg(*cloud2, *cloud2_msg);
 
-    // Create a KD-Tree for cloud1
-    pcl::search::KdTree<PointType>::Ptr tree(new pcl::search::KdTree<PointType>);
-    tree->setInputCloud(cloud1);
+    // // Create a KD-Tree for cloud1
+    // pcl::search::KdTree<PointType>::Ptr tree(new pcl::search::KdTree<PointType>);
+    // tree->setInputCloud(cloud1);
 
-    // Initialize normal estimation object
-    pcl::NormalEstimation<PointType, NormalType> ne;
-    ne.setInputCloud(cloud2);
-    ne.setSearchMethod(tree);
+    // // Initialize normal estimation object
+    // pcl::NormalEstimation<PointType, NormalType> ne;
+    // ne.setInputCloud(cloud2);
+    // ne.setSearchMethod(tree);
 
-    // Output datasets
-    ne.setRadiusSearch(0.03);
-    ne.compute(*normals);
+    // // Output datasets
+    // ne.setRadiusSearch(0.03);
+    // ne.compute(*normals);
 
-    std::vector<std::string> orientations;
+    // std::vector<std::string> orientations;
 
-    // Print the orientations of the normals
-    for (size_t i = 0; i < normals->size(); ++i) {
-        Eigen::Vector3f normal_vector = normals->points[i].getNormalVector3fMap();
+    // // Print the orientations of the normals
+    // for (size_t i = 0; i < normals->size(); ++i) {
+    //     Eigen::Vector3f normal_vector = normals->points[i].getNormalVector3fMap();
 
-        // Convert components to strings and concatenate
-        std::stringstream orientation_string;
-        orientation_string << "X: " << normal_vector(0) << ", "<< "Y: " << normal_vector(1) << ", "<< "Z: " << normal_vector(2);
+    //     // Convert components to strings and concatenate
+    //     std::stringstream orientation_string;
+    //     orientation_string << "X: " << normal_vector(0) << ", "<< "Y: " << normal_vector(1) << ", "<< "Z: " << normal_vector(2);
 
-        // Store the orientation as a string in the vector
-        orientations.push_back(orientation_string.str());
-    }
+    //     // Store the orientation as a string in the vector
+    //     orientations.push_back(orientation_string.str());
+    // }
 
-    return orientations;
+    // return orientations;
 }
 
 }  // extern "C"
