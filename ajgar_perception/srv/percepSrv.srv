@@ -1,0 +1,7 @@
+int32 flag
+---
+sensor_msgs/PointCloud2 maskValue 
+float32[] tfArray
+
+ 
+

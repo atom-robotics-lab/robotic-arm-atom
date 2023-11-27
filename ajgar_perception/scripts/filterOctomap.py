@@ -51,6 +51,7 @@ class PointCloudModifier:
             print ("Clearing Octomap")
             rospy.wait_for_service('/clear_octomap')
             clear_octomap = rospy.ServiceProxy('/clear_octomap', Empty)
+            clear_octomap()
             if (self.cnt == 60000) :
                     self.cnt = 0
                     break

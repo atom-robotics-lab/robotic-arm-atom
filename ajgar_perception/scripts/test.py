@@ -10,9 +10,7 @@ class PointCloudModifier:
        
         rospy.init_node('point_cloud_modifier')
         
-        self.kinectPCTopic =  "/kinect/depth/points" 
-        self.maskPCtopic   =  "/mask"
-        self.pubTopic      =  "/uncommon_points_topic"
+        self.kinectPCTopic =  "/kinect/depth/image_raw" 
 
         self.kinectPCData = None
         self.maskPCData   = None
@@ -20,41 +18,19 @@ class PointCloudModifier:
 
         self.cnt = 0 
 
-        self.pub = rospy.Publisher(self.pubTopic, PointCloud2, queue_size=10)
-
-    def run(self):
-        
-        print(" Listening @ /kinect/depth/points ")
-        self.kinectPCData = rospy.wait_for_message(self.kinectPCTopic, PointCloud2) 
-        print(" data rcvd ")
-        
-        print(" Listening @ /mask")
-        self.maskPCData   = rospy.wait_for_message(self.maskPCtopic, PointCloud2)
-        print(" data rcvd ")
-                
-        rospy.wait_for_service('add_two_ints')
-        pointsCall = rospy.ServiceProxy('add_two_ints', AddTwoInts)
-        
-        self.pointsBool = pointsCall(self.kinectPCData, self.maskPCData)
         
         
     def main(self):
+        print(" Listening @ /kinect/depth/image_raw ")
+        self.kinectPCData = rospy.wait_for_message(self.kinectPCTopic, PointCloud2) 
+        print(" data rcvd ")
         
-        while not rospy.is_shutdown():
-            
-            self.run()
-            print(" Publishing @ /uncommon_points_topic")
-            
-            while True :
-                self.pub.publish(self.pointsBool.outputPt)
-                self.cnt += 1 
-            
-                if (self.cnt == 1000) :
-                    self.cnt = 0
-                    break 
+        # print(" Listening @ /mask")
+        # self.maskPCData   = rospy.wait_for_message(self.maskPCtopic, PointCloud2)
+        # print(" data rcvd ")
         
 
 if __name__ == "__main__":
 
     modifier = PointCloudModifier()
-    modifier.run()
+    modifier.main()

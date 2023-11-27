@@ -20,6 +20,7 @@ from pathlib import Path
 from ajgar_sim_plugins.plugin_pneumatic_gripper.scripts import attach, detach
 
 class Perception:
+    def __init__(self) :
 
     def __init__(self) -> None:
 
@@ -55,6 +56,14 @@ class Perception:
         self.rgb_image = self.bridge.imgmsg_to_cv2(rgb_message, desired_encoding = "bgr8")
         self.rgb_shape = self.rgb_image.shape
 
+        # global variables initialization 
+        self.flag = 0  
+        self.points = None
+        self.depths = None
+        self.tfValue = None
+        self.rgbImage = None 
+        self.maskValue = None
+        self.min_depth_index = None
     
     def depth_callback(self, depth_message) :
         self.depth_image = self.bridge.imgmsg_to_cv2(depth_message, desired_encoding=depth_message.encoding)
@@ -67,6 +76,8 @@ class Perception:
         # cv2.waitKey(0)
         return region
 
+        # CvBridge initialization
+        self.bridge = CvBridge()
 
     def callback(self, depth_data, rgb_data):
         self.depth_callback(depth_data)
@@ -98,6 +109,9 @@ class Perception:
             # Process the mask of the box to be picked
             self.process_box_mask(new_rgb_points)
 
+    
+    def process_rgb(self, rgb_message):
+        ''' Converts rgb image to numpy array '''
 
             cv2.circle(self.rgb_image,points[min_depth_index],8,(255,0,0),3)
             cv2.imshow("point",self.rgb_image)
@@ -142,8 +156,8 @@ class Perception:
         results = self.model.predict(source=rgb_image,conf=self.confidence,show=True)
 
         for i in results[0].boxes.xywh:
-            cv2.circle(rgb_image,(int(i[0]),int(i[1])),5,(0,0,255),2)
-            points.append((int(i[0]),int(i[1])))
+            cv2.circle(rgb_image, (int(i[0]), int(i[1])), 5, (0, 0, 255), 2)
+            points.append((int(i[0]), int(i[1])))
 
         for i in results[0].boxes.xyxy:
             boundingboxes.append((int(i[0]),int(i[1]),int(i[2]),int(i[3])))
@@ -171,12 +185,38 @@ class Perception:
         return depths
 
 
-    def find_XYZ(self,point,depth):
+
+    def process_box_mask(self, mask, depth_image):
+        ''' Processes depth image and returns mask of detected object '''
+        
+        depths = self.depth_image_processing(mask, depth_image)
+        mask_xyz = []
+        for i in range(len(mask)):
+            mask_xyz.append(self.find_XYZ(mask[i], depths[i]))
+
+        fields = [
+            PointField(name="x", offset=0, datatype=PointField.FLOAT32, count=1),
+            PointField(name="y", offset=4, datatype=PointField.FLOAT32, count=1),
+            PointField(name="z", offset=8, datatype=PointField.FLOAT32, count=1),
+        ]
+
+        header = Header()
+        header.stamp = rospy.Time.now()
+        header.frame_id = "camera_depth_optical_frame"
+        point_cloud_msg = pc2.create_cloud(header, fields, mask_xyz)
+        
+        print(" Mask Calculated ")
+        return point_cloud_msg
+
+
+    
+    def find_XYZ(self, point, depth):
+        ''' Calculates XYZ coordinates of a point in 3D space  '''
+
         fx, fy = [554.254691191187, 554.254691191187]
         cx, cy = [320.5, 240.5]
-
-        X = depth * ((point[0]-cx)/fx)
-        Y = depth * ((point[1]-cy)/fy)
+        X = depth * ((point[0] - cx) / fx)
+        Y = depth * ((point[1] - cy) / fy)
         Z = depth
         # print("XYZ:",X , Y , Z )
         return (X,Y,Z)
@@ -227,28 +267,18 @@ class Perception:
         self.pose_pub.publish(new_pose)
 
 
-    def process_box_mask(self,mask):
-        depths=self.depth_image_processing(mask)
-        mask_xyz=[]
-        for i in range(len(mask)):
-            mask_xyz.append(self.find_XYZ(mask[i],depths[i]))
-        
-        # Define point fields
-        fields = [
-            PointField(name="x", offset=0, datatype=PointField.FLOAT32, count=1),
-            PointField(name="y", offset=4, datatype=PointField.FLOAT32, count=1),
-            PointField(name="z", offset=8, datatype=PointField.FLOAT32, count=1)
-        ]
 
-        # Create PointCloud2 message
-        header = Header()
-        header.stamp = rospy.Time.now()
-        header.frame_id = "camera_depth_optical_frame"
-        point_cloud_msg = pc2.create_cloud(header, fields, mask_xyz)
-        self.maskValue = point_cloud_msg 
-        #print(self.maskValue)
-        print(" Mask Calculated ")
+    def main(self) :
+        ''' Main function of the class '''
 
+        while not rospy.is_shutdown():
+
+            if ( self.flag ) :
+                print("inside loop")
+                img = self.bridge.cv2_to_imgmsg(self.rgbImage, encoding="passthrough")
+                self.pub.publish(img)
+                self.publish_transforms( self.tfValue)
+            self.rate.sleep()
 
 
 def main():
