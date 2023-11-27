@@ -8,13 +8,13 @@
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
 #include <message_filters/sync_policies/exact_time.h>
-#include "ajgar_perception/AddTwoInts.h"
+#include "ajgar_perception/octomapSrv.h"
 #include <iostream>
 
 
 ros::Publisher uncommon_points_pub;
 
-bool add(ajgar_perception::AddTwoInts::Request &req, ajgar_perception::AddTwoInts::Response &res)
+bool add(ajgar_perception::octomapSrv::Request &req, ajgar_perception::octomapSrv::Response &res)
 {
     
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1(new pcl::PointCloud<pcl::PointXYZ>);
@@ -81,7 +81,7 @@ bool add(ajgar_perception::AddTwoInts::Request &req, ajgar_perception::AddTwoInt
     // ROS_INFO("Checkpoint 6");
     
     std::cout << "Data Processed " << std::endl;
-    std::cout << "Data Published @ /uncommon_points_sub " << std::endl;
+    std::cout << "Data Published to client " << std::endl;
     res.outputPt = uncommon_points_ros ;
 
     return true;
@@ -89,14 +89,14 @@ bool add(ajgar_perception::AddTwoInts::Request &req, ajgar_perception::AddTwoInt
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "add_two_ints_server");
+    ros::init(argc, argv, "octomapSrvNode");
 
     ros::NodeHandle nh;
 
     uncommon_points_pub = nh.advertise<sensor_msgs::PointCloud2>("/uncommon_points_topic", 1);
-    ros::ServiceServer service = nh.advertiseService("add_two_ints", add);
+    ros::ServiceServer service = nh.advertiseService("octomapSrv", add);
 
-    ROS_INFO("Ready to add two ints.");
+    ROS_INFO("Server side ready, waiting for request ");
     ros::spin();
 
     return 0;

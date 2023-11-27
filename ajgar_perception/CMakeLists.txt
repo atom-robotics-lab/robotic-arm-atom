@@ -62,8 +62,8 @@ find_package(PCL REQUIRED)
 ## Generate services in the 'srv' folder
  add_service_files(
    FILES
-   AddTwoInts.srv
-#   Service2.srv
+   octomapSrv.srv
+   percepSrv.srv
  )
 
 ## Generate actions in the 'action' folder
