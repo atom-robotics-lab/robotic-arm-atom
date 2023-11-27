@@ -25,24 +25,25 @@ class Perception:
 
         sub_rgb = message_filters.Subscriber("/kinect/color/image_raw", Image)
         sub_depth = message_filters.Subscriber("/kinect/depth/image_raw", Image)
+        sub_detect = rospy.Subscriber("/detect", String, self.detect)
 
         ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], queue_size=1, slop=0.5)
         ts.registerCallback(self.callback)
 
         self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
-        self.mask_pub=rospy.Publisher("/mask",PointCloud2,queue_size=1)
-        self.centroid_pub=rospy.Publisher("/centroid",PointCloud2, queue_size=1)
+        self.mask_pub = rospy.Publisher("/mask", PointCloud2,queue_size=1)
+        self.centroid_pub=rospy.Publisher("/centroid", PointCloud2, queue_size=1)
         self.pose_pub=rospy.Publisher("/pose",PoseStamped,queue_size=1)
-        sub_detect=rospy.Subscriber("/detect",String,self.detect)
+        
 
         self.full_path = f'{Path.cwd()}' 
 
-        self.model=YOLO('/home/bhavay/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/final_seg_model.pt')
+        self.model=YOLO('/home/aakshar/catkin_ws/src/flipkartGrid/ajgar_perception/scripts/ml_models/final_seg_model.pt')
         self.confidence=0.4
-
-        self.calculate_normals_function = ctypes.CDLL('/home/bhavay/catkin_ws/devel/lib/libnormals.so').calculateNormals
+        self.calculate_normals_function = ctypes.CDLL('/home/aakshar/catkin_ws/devel/lib/libnormals.so').calculateNormals
         # self.calculate_normals_function.argtypes = [ctypes.POINTER(PointCloud2), ctypes.POINTER(PointCloud2)]
         self.calculate_normals_function.restype = ctypes.POINTER(ctypes.c_char_p)
+
 
         self.rgb_image, self.depth_image = None, None
         self.rgb_shape, self.depth_shape = None, None
@@ -72,6 +73,7 @@ class Perception:
 
     
     def detect(self, message):
+
         # try:
         points,masks,boundingboxes = self.rgb_image_processing()
         # print(masks)
@@ -128,16 +130,20 @@ class Perception:
         centroid= self.find_XYZ(points[min_depth_index],depths[min_depth_index])
 
 
-        self.calculate_normals_function.argtypes = [
-            np.ctypeslib.ndpointer(dtype=np.float32, ndim=2, flags='C_CONTIGUOUS'),
-            ctypes.c_int,
-            np.ctypeslib.ndpointer(dtype=np.float32, ndim=1, flags='C_CONTIGUOUS'),
-            ctypes.c_int
-        ]
+        mask_xyz_array = np.array(mask_xyz, dtype=np.float32).flatten()
+        centroid_array = np.array(centroid, dtype=np.float32).flatten()
+
 
         try:
-        
-            result = self.calculate_normals_function(np.array(mask_xyz, dtype=np.float32),len(mask_xyz), np.array(centroid, dtype=np.float32),len(centroid))
+
+            #print(len(centroid_array),"____",len(mask_xyz_array))
+            print(centroid)
+            result = self.calculate_normals_function(
+            mask_xyz_array.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+            len(mask_xyz),
+            centroid_array.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+            len(centroid)
+            )
             print(result)
             
         except Exception as e:

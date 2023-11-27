@@ -15,9 +15,16 @@ typedef pcl::PointCloud<PointType> PointCloud;
 typedef pcl::PointCloud<NormalType> NormalCloud;
 
 extern "C" {
-
 std::vector<std::string> calculateNormals(const float* points1, size_t size1, const float* points2, size_t size2)
 {
+
+    // Check if sizes are valid
+//    if (size1 % 3 != 0 || size2 % 3 != 0) {
+//        std::cerr << "Invalid input sizes. Size must be a multiple of 3." << std::endl;
+//        return {};
+//    }
+
+
     // Create a container for the normals
     NormalCloud::Ptr normals(new NormalCloud);
 
@@ -25,25 +32,25 @@ std::vector<std::string> calculateNormals(const float* points1, size_t size1, co
     PointCloud::Ptr cloud1(new PointCloud);
     PointCloud::Ptr cloud2(new PointCloud);
 
+
     // Loop through points1
-    for (size_t i = 0; i < size1; ++i) {
-        size_t offset = i * 3;
+    for (size_t i = 0; i < size1; i += 3) {
         PointType p;
-        p.x = points1[offset];
-        p.y = points1[offset + 1];
-        p.z = points1[offset + 2];
+        p.x = points1[i];
+        p.y = points1[i +1];
+        p.z = points1[i + 2];
         cloud1->push_back(p);
     }
 
     // Loop through points2
-    for (size_t i = 0; i < size2; ++i) {
-        size_t offset = i * 3;
+    for (size_t i = 0; i < size2; i += 3) {
         PointType p;
-        p.x = points2[offset];
-        p.y = points2[offset + 1];
-        p.z = points2[offset + 2];
+        p.x = points2[i];
+        p.y = points2[i + 1];
+        p.z = points2[i + 2];
         cloud2->push_back(p);
     }
+    
 
     // Convert PointCloud instances to PointCloud2 messages
     sensor_msgs::PointCloud2::Ptr cloud1_msg(new sensor_msgs::PointCloud2);
