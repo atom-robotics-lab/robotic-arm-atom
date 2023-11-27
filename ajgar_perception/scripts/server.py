@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from ajgar_perception.srv import percepSrv, octomapSrv
+from ajgar_core.srv import tfValueSrv
 from sensor_msgs.msg import PointCloud2
 from std_srvs.srv    import Empty
 
@@ -9,7 +10,7 @@ import rospy
 
 def server():
     
-    pubTopic  =  "/uncommon_points_topic"
+    pubTopic = "/uncommon_points_topic"
     cnt = 0
 
     rospy.init_node('masterNode')
@@ -21,6 +22,8 @@ def server():
     percepSrvCall = rospy.ServiceProxy('percepStackSrv', percepSrv)
     percepSrvresponse = percepSrvCall(0)
     maskPCData = percepSrvresponse.maskValue
+    tfArrayValue = percepSrvresponse.tfArray
+    print(tfArrayValue)
     print(" Data Rcvd from percepStackSrv")
 
     kinectPCTopic =  "/kinect/depth/points"
@@ -56,9 +59,11 @@ def server():
 
     # TODO : ingerate moveit with server.py
 
-            
-
-    
+    rospy.wait_for_service('ikSolverSrv')
+    print (" Request send to iksolverSrv, waiting for response")
+    pointsCall = rospy.ServiceProxy('ikSolverSrv', tfValueSrv)
+    pointsBool = pointsCall(tfArrayValue)
+    print(" Data Rcvd from iksolverSrv")
 
 if __name__ == "__main__":
     server()

@@ -1,113 +1,139 @@
 #!/usr/bin/env python3
 
+# standard library imports
 import sys
 import rospy
-import moveit_commander
 import math
-from std_msgs.msg import String, Int32
-import tf
-import tf2_msgs.msg
-import tf2_ros
-import ikpy.chain
-from prettytable import PrettyTable
-from moveit_msgs.msg import MoveGroupActionResult
-from plugin_pneumatic_gripper.srv import Attach, AttachRequest, AttachResponse
 
+# ROS specific imports
+import rospkg
+import moveit_commander
+
+# custom imports
 import attach
 import detach
+import ikpy.chain
+from prettytable import PrettyTable
+from std_msgs.msg import String
+
+from ajgar_core.srv import tfValueSrv, tfValueSrvResponse
+
 
 class ikSolverClass(object):
     
     def __init__(self):
         
-        super(ikSolverClass, self).__init__()
+        # ROS node and service 
+        node = 'move_group_python_interface'
+        srvnode = 'ikSolverSrv'
+        group_name  = "arm_group"
+        self.moveit_result = "/move_group/result"
+        self.gazebo_collision = "/gazebo/collision/info"        
+        
+        # ROS node initialization 
+        rospy.init_node(node, anonymous=True)
+        
+        # MoveIt! commander initialization
         moveit_commander.roscpp_initialize(sys.argv)
-        rospy.init_node('move_group_python_interface', anonymous=True)
-        robot         = moveit_commander.RobotCommander()
-        group_name    = "arm_group"
-        self.group    = moveit_commander.MoveGroupCommander(group_name)
-        self.pi       = 22/7
-
-        self.count = 0
+        robot = moveit_commander.RobotCommander()
+        self.group = moveit_commander.MoveGroupCommander(group_name)
+       
+       # global variables initialization
         self.obj2 = None
-
-        self.X = None
-        self.Y = None
-        self.Z = None
-
-        self.bool_publish = rospy.Publisher("imgProcessBool", Int32)
-        self.bool_publish.publish(1)
-        self.tf_buffer = tf2_ros.Buffer()
-        self.tf_listener = tf2_ros.TransformListener(self.tf_buffer)
-        rospy.Subscriber("/tf", tf2_msgs.msg.TFMessage, self.tf_callback, queue_size=1)
-        rospy.Subscriber("/move_group/result", MoveGroupActionResult, self.callback)
-        rospy.Subscriber("/gazebo/collision/info", String, self.collision_callback, queue_size=1)
+        self.count = 0
         
-    def tf_callback(self, data):
+        rospy.Service(srvnode, tfValueSrv, self.tfValueSrvCallback)
+        print(" Ready with MoveIt! service ")
 
-        for transform_stamped in data.transforms:
-            transform = transform_stamped.transform
-            
-            if transform_stamped.header.frame_id == 'base_link' and transform_stamped.child_frame_id == 'box' : 
-                print(f"  Frame ID: {transform_stamped.header.frame_id}")
-                print(f"  Child Frame ID: {transform_stamped.child_frame_id}")
-                print("  Translation:")
-                print(f"    x: {transform.translation.x}")
-                print(f"    y: {transform.translation.y}")
-                print(f"    z: {transform.translation.z}")
-                # print("  Rotation:")
-                # print(f"    x: {transform.rotation.x}")
-                # print(f"    y: {transform.rotation.y}")
-                # print(f"    z: {transform.rotation.z}")
-                # print(f"    w: {transform.rotation.w}")
-                # print("----------")
 
-                self.X = transform.translation.x
-                self.Y = transform.translation.y
-                self.Z = transform.translation.z
+    def tfValueSrvCallback(self, msg):
 
-                # Convert quaternion to degrees directly within the callback
-                quaternion = [transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w]
-                magnitude = math.sqrt(sum(x ** 2 for x in quaternion))
-                quaternion_normalized = [x / magnitude for x in quaternion]
+        collisionBool = False
 
-                roll = math.atan2(2 * (quaternion_normalized[1]*quaternion_normalized[3] - quaternion_normalized[0]*quaternion_normalized[2]), 1 - 2*(quaternion_normalized[1]**2 + quaternion_normalized[2]**2))
-                pitch = math.asin(2 * (quaternion_normalized[0]*quaternion_normalized[1] + quaternion_normalized[2]*quaternion_normalized[3]))
-                yaw = math.atan2(2 * (quaternion_normalized[0]*quaternion_normalized[3] - quaternion_normalized[1]*quaternion_normalized[2]), 1 - 2*(quaternion_normalized[0]**2 + quaternion_normalized[1]**2))
+        rospack = rospkg.RosPack()
+        package_path = rospack.get_path("ajgar_description")
+        modelPath = package_path + "/urdf/ajgar.xacro"
 
-                self.roll_deg = math.degrees(roll)
-                self.pitch_deg = math.degrees(pitch)
-                self.yaw_deg = math.degrees(yaw)
-
-                print(f"  Euler Angles (degrees): Roll: {self.roll_deg}, Pitch: {self.pitch_deg}, Yaw: {self.yaw_deg}")
-                print("----------")
-                
-                rospy.sleep(5)
+        # ------ Function for Pick up box ------ #
         
-    def callback(self, data) :
+        tfValue = [msg.tfArray[0], msg.tfArray[1], msg.tfArray[2]]
+        anglesState = self.ik_solver(tfValue, modelPath)
+
+        # xxxxx---------------xxxxxxxxx #
+        # TODO : Orientation value for pick 
+        # yaw_deg = 0.10
+        # roll_deg = 0.10
+        # pitch_deg = -0.90 
+        # self.yaw_rad = math.radians(yaw_deg)
+        # self.roll_rad = math.radians(roll_deg)
+        # self.pitch_rad = math.radians(pitch_deg)
+        #self.target_orientation = [[self.roll_rad, 0, 0],[0, self.pitch_rad, 0],[0, 0, self.yaw_rad]]
+        # xxxxx---------------xxxxxxxxx #
+
+        self.moveitGoToJointState(anglesState) 
         
-        print("Trajectories : \n")
+        # xxxxx---------------xxxxxxxxx #
+        # TODO : implement when trajectory needed  
+        # print(" Listening @ /move_group/result ")
+        # trajectory = rospy.wait_for_message(self.moveit_result, String)
+        # self.trajectory(trajectory)
+        # xxxxx---------------xxxxxxxxx #
         
+        # print(" Listening @ /gazebo/collision/info ")
+        # print(" Detecting collision b/t suction and box ")
+        # while ( not collisionBool ) : 
+        #      collisionData = rospy.wait_for_message(self.gazebo_collision, String)
+        #      collisionBool, boxId = self.collision_detection(collisionData)
+        # print(" Object attached ")
+        
+        # attach.attach_links(boxId)
+
+        # # ------ Function for Place box ------ #
+
+        # xxxxx---------------xxxxxxxxx #
+        # TODO : Orientation value for place 
+        # roll_deg = 0.10
+        # pitch_deg = -0.90
+        # yaw_deg = 0.10
+        # self.roll_rad = math.radians(roll_deg)
+        # self.pitch_rad = math.radians(pitch_deg)
+        # self.yaw_rad = math.radians(yaw_deg)
+        #self.target_orientation = [[self.roll_rad, 0, 0],[0, self.pitch_rad, 0],[0, 0, self.yaw_rad]]
+        # xxxxx---------------xxxxxxxxx #
+
+        # tfValue = [-0.24 , -0.2 , 0.05]
+        # anglesState = self.ik_solver(tfValue, modelPath)
+        
+        # self.moveitGoToJointState(anglesState) 
+        
+        # print(" Listening @ /move_group/result ")
+        # trajectory = rospy.wait_for_message(self.moveit_result, String)
+        # self.trajectory(trajectory)
+        
+        # detach.detach_links(boxId)
+        # print(" Object detached ")
+
+        return tfValueSrvResponse(True)
+        
+        
+    def trajectory(self, data) :
+        print("Trajectories : \n")        
         jointtable = PrettyTable(["BJ", "SJ", "EJ", "LWJ", "UWJ"])
-
         trajectoriesLen = len(data.result.planned_trajectory.joint_trajectory.points)
-        
-        for value in range (0, trajectoriesLen) :
-  
+
+        for value in range (0, trajectoriesLen) :  
               joints = data.result.planned_trajectory.joint_trajectory.points[value].positions
-              jointtable.add_row([str(round((joints[0] * 180/self.pi),1)),
-                                  str(round((joints[1] * 180/self.pi),1)),
-                                  str(round((joints[2] * 180/self.pi),1)),
-                                  str(round((joints[3] * 180/self.pi),1)),
-                                  str(round((joints[4] * 180/self.pi),1))])
+              jointtable.add_row([str(round((joints[0] * 180/math.pi),1)),
+                                  str(round((joints[1] * 180/math.pi),1)),
+                                  str(round((joints[2] * 180/math.pi),1)),
+                                  str(round((joints[3] * 180/math.pi),1)),
+                                  str(round((joints[4] * 180/math.pi),1))])
               
         print(jointtable)
 
     
-    def go_to_joint_state(self,angleList):
-        
+    def moveitGoToJointState(self,angleList):
         print ("----------")
-        
         joint = [ '                 ',
                   'Base Joint       ', 
                   'Shoulder Joint   ', 
@@ -116,94 +142,40 @@ class ikSolverClass(object):
                   'Upper Wrist Joint', 
                   'Suction          ']
                   
-
         joint_goal = self.group.get_current_joint_values()
-           
+        
         for angle in range(1,6) :
+            print(joint[angle] ," ", str(angleList[angle]* (180/math.pi)))	
         
-            print(joint[angle] ," ", str(angleList[angle]* (180/self.pi)))	
-        
-        print ("----------") 	 
-                 
+        print ("----------") 	                 
         joint_goal[0] = angleList[1]
         joint_goal[1] = angleList[2]
         joint_goal[2] = angleList[3]
         joint_goal[3] = angleList[4]
-        joint_goal[4] = angleList[5]
+        #joint_goal[4] = angleList[5]
                 
         self.group.go(joint_goal, wait=True)
         #self.group.stop()
-        print("rosrun tf static_transform_publisher", self.target_position[0], self.target_position[1], self.target_position[2], self.roll_rad, self.pitch_rad, self.yaw_rad, " base_link rnd_tf 100")
-
-    def place(self):
         
-        my_chain = ikpy.chain.Chain.from_urdf_file("arm.urdf")
-
-        self.target_position = [-0.24 , -0.2 , 0.05]
-        roll_deg = 0.10
-        pitch_deg = -0.90
-        yaw_deg = 0.10
-        self.roll_rad = math.radians(roll_deg)
-        self.pitch_rad = math.radians(pitch_deg)
-        self.yaw_rad = math.radians(yaw_deg)
-        self.target_orientation = [[self.roll_rad, 0, 0],[0, self.pitch_rad, 0],[0, 0, self.yaw_rad]]
-        
-        self.go_to_joint_state(my_chain.inverse_kinematics(self.target_position)) #, self.target_orientation, orientation_mode="all"))
-        detach.detach_links(self.obj)
-        self.obj2 = None
-        self.obj = None
-        self.X = None
-        self.Y = None
-        self.Z = None
-        self.bool_publish.publish(1)
-        rospy.sleep(0.1)
-        self.ik_solver()
-
-    def collision_callback(self, data):
-
+    
+    def collision_detection(self, data):
         objects = str(data).split(' ')[1].split('-')
         collision_object_1, collision_object_2 = objects[0][1:], objects[1][:-1]
-
-        #print(f"{collision_object_1} and {collision_object_2} \n")
         if "ajgar::suction::suction_collision" == collision_object_1:
-            self.count += 1
-            self.obj2 = collision_object_2
-            # print(f"\nHit: {self.obj2} \nCount: {self.count}")                
+            obj2 = collision_object_2
+            return True, obj2 
+        return False, None
+            
 
-    def ik_solver(self) :
+    def ik_solver(self, msg, modelPath) :
+        my_chain = ikpy.chain.Chain.from_urdf_file(modelPath)
+        X , Y , Z = msg[0], msg[1], msg[2]
+        target_position = [X, Y, Z + 0.1]        
+        return my_chain.inverse_kinematics(target_position)
         
-        my_chain = ikpy.chain.Chain.from_urdf_file("arm.urdf")
-        self.bool_publish.publish(0)
-        while True:
-            if self.X != None:    
-                break
-
-        self.target_position = [self.X, self.Y, self.Z + 0.2]
-        # roll_deg = self.roll_deg 
-        # pitch_deg = self.pitch_deg 
-        # yaw_deg = self.yaw_deg
-
-        # self.target_position = [0.16, -0.072, 0.100] 
-        roll_deg = 0.10
-        pitch_deg = -0.90
-        yaw_deg = 0.10
-        self.roll_rad = math.radians(roll_deg)
-        self.pitch_rad = math.radians(pitch_deg)
-        self.yaw_rad = math.radians(yaw_deg)
-        self.target_orientation = [[self.roll_rad, 0, 0],[0, self.pitch_rad, 0],[0, 0, self.yaw_rad]]
-        
-        self.go_to_joint_state(my_chain.inverse_kinematics(self.target_position)) #, self.target_orientation, orientation_mode="all"))
-        while True:
-            if self.obj2 != None:
-                rospy.logwarn("inside loop")
-                self.obj = self.obj2
-                attach.attach_links(self.obj)
-                break
-        self.place()
 
 	
 if __name__ == "__main__":
     while not rospy.is_shutdown():
-
         ikSolver = ikSolverClass() 
-        ikSolver.ik_solver()
+        rospy.spin()
