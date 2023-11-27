@@ -112,7 +112,9 @@ class Perception:
         self.flag = 1 
 
         # return mask and tf values to service client
-        return percepSrvResponse(self.maskValue, self.tfValue)
+        tfValueBase = self.publish_transforms(self.tfValue, 0)
+
+        return percepSrvResponse(self.maskValue, tfValueBase)
              
 
         
@@ -201,7 +203,7 @@ class Perception:
 
 
 
-    def publish_transforms(self, xyz):
+    def publish_transforms(self, xyz, mode):
         ''' Publishes tf of box wrt to camera '''
 
         camera_trans = [0.0, 0.40, 1.0]  # tf of base_link wrt to camera
@@ -220,9 +222,11 @@ class Perception:
         tf.transform.rotation.z = 0
         tf.transform.rotation.w = 1
 
-        tffm = tf2_msgs.msg.TFMessage([tf])
-        self.pub_tf.publish(tffm)
-
+        if mode :
+            tffm = tf2_msgs.msg.TFMessage([tf])
+            self.pub_tf.publish(tffm)
+        else :
+            return [tf.transform.translation.x, tf.transform.translation.y, tf.transform.translation.z]
 
 
     def main(self) :
@@ -234,7 +238,7 @@ class Perception:
                 print("inside loop")
                 img = self.bridge.cv2_to_imgmsg(self.rgbImage, encoding="passthrough")
                 self.pub.publish(img)
-                self.publish_transforms( self.tfValue)
+                self.publish_transforms(self.tfValue, 1)
             self.rate.sleep()
 
 
