@@ -79,14 +79,14 @@ class ikSolverClass(object):
         # self.trajectory(trajectory)
         # xxxxx---------------xxxxxxxxx #
         
-        # print(" Listening @ /gazebo/collision/info ")
-        # print(" Detecting collision b/t suction and box ")
-        # while ( not collisionBool ) : 
-        #      collisionData = rospy.wait_for_message(self.gazebo_collision, String)
-        #      collisionBool, boxId = self.collision_detection(collisionData)
-        # print(" Object attached ")
+        print(" Listening @ /gazebo/collision/info ")
+        print(" Detecting collision b/t suction and box ")
+        while ( not collisionBool ) : 
+             collisionData = rospy.wait_for_message(self.gazebo_collision, String)
+             collisionBool, boxId = self.collision_detection(collisionData)
+        print(" Object attached ")
         
-        # attach.attach_links(boxId)
+        attach.attach_links(boxId)
 
         # # ------ Function for Place box ------ #
 
@@ -101,17 +101,17 @@ class ikSolverClass(object):
         #self.target_orientation = [[self.roll_rad, 0, 0],[0, self.pitch_rad, 0],[0, 0, self.yaw_rad]]
         # xxxxx---------------xxxxxxxxx #
 
-        # tfValue = [-0.24 , -0.2 , 0.05]
-        # anglesState = self.ik_solver(tfValue, modelPath)
+        tfValue = [-0.24 , -0.2 , 0.05]
+        anglesState = self.ik_solver(tfValue, modelPath)
         
-        # self.moveitGoToJointState(anglesState) 
+        self.moveitGoToJointState(anglesState) 
         
         # print(" Listening @ /move_group/result ")
         # trajectory = rospy.wait_for_message(self.moveit_result, String)
         # self.trajectory(trajectory)
         
-        # detach.detach_links(boxId)
-        # print(" Object detached ")
+        detach.detach_links(boxId)
+        print(" Object detached ")
 
         return tfValueSrvResponse(True)
         
@@ -152,7 +152,7 @@ class ikSolverClass(object):
         joint_goal[1] = angleList[2]
         joint_goal[2] = angleList[3]
         joint_goal[3] = angleList[4]
-        #joint_goal[4] = angleList[5]
+        joint_goal[4] = angleList[5]
                 
         self.group.go(joint_goal, wait=True)
         #self.group.stop()
@@ -170,7 +170,7 @@ class ikSolverClass(object):
     def ik_solver(self, msg, modelPath) :
         my_chain = ikpy.chain.Chain.from_urdf_file(modelPath)
         X , Y , Z = msg[0], msg[1], msg[2]
-        target_position = [X, Y, Z + 0.1]        
+        target_position = [X, Y, Z]        
         return my_chain.inverse_kinematics(target_position)
         
 
