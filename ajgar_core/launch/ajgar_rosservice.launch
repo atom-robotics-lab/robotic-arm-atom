@@ -5,6 +5,11 @@
         pkg="ajgar_perception" 
         type="percepStack.py" 
         output="screen"/>
+
+  <node name="normalsSrvNode" 
+        pkg="ajgar_perception" 
+        type="centroid_normal" 
+        output="screen"/>
         
   <node name="octomapSrvNode" 
         pkg="ajgar_perception" 
