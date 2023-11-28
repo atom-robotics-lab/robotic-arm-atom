@@ -64,6 +64,7 @@ find_package(PCL REQUIRED)
    FILES
    octomapSrv.srv
    percepSrv.srv
+   normalsSrv.srv
  )
 
 ## Generate actions in the 'action' folder
@@ -171,6 +172,12 @@ target_link_libraries(filter
 
 add_executable(octomapFilter src/octomapFilter.cpp)
 target_link_libraries(octomapFilter 
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
+)
+
+add_executable(centroid_normal src/centroid_normal.cpp)
+target_link_libraries(centroid_normal
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}
 )
