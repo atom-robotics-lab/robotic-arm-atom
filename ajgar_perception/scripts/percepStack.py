@@ -8,7 +8,7 @@ import geometry_msgs.msg
 import sensor_msgs.point_cloud2 as pc2
 from std_msgs.msg import Header
 from sensor_msgs.msg import Image, PointCloud2, PointField, Image
-from ajgar_perception.srv import percepSrv, percepSrvResponse, normalsSrv, normalsSrvResponse
+from ajgar_perception.srv import percepSrv, percepSrvResponse
 
 # CV specific imports
 import cv2
@@ -100,25 +100,10 @@ class Perception:
                 new_rgb_points.append((x, y))
         
         #calculate mask of box
-        self.maskValue = self.process_box_mask(new_rgb_points, depthImage)   #points1
+        self.maskValue = self.process_box_mask(new_rgb_points, depthImage)
         
         # draw centroid of box on rgb image
         cv2.circle(self.rgbImage, self.points[self.min_depth_index], 8, (255, 0, 0), 3)
-        print("processing centroid...")
-        centroid =  self.find_XYZ(self.points[self.min_depth_index],self.depths[self.min_depth_index])
-
-        rospy.wait_for_service('normalsSrv')
-        print (" Request send to normalsSrv, waiting for response ")
-
-        normalCall = rospy.ServiceProxy('normalsSrv',normalsSrv)
-        points1 = np.array(self.maskValue, dtype=np.float32)
-        size1 = len(points1)
-        points2 = np.array(centroid, dtype=np.float32)
-        size2 = len(points2)
-        normalSrvResponse = normalCall(points1,size1,points2,size2)
-        orientation = normalSrvResponse.orientations
-        #print(orientation)
-        print("Data rcvd from normalsSrv")
         
         # calculate tf of box wrt to camera
         self.tfValue = self.find_XYZ( self.points[self.min_depth_index], self.depths[self.min_depth_index])

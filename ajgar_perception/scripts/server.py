@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
-from ajgar_perception.srv import percepSrv, octomapSrv, normalsSrv
+from ajgar_perception.srv import percepSrv, octomapSrv
 from ajgar_core.srv import tfValueSrv
 from sensor_msgs.msg import PointCloud2
 from std_srvs.srv    import Empty
 
 import rospy
-import numpy as np
 
 
 def server():
@@ -37,19 +36,6 @@ def server():
     pointsCall = rospy.ServiceProxy('octomapSrv', octomapSrv)
     pointsBool = pointsCall(kinectPCData, maskPCData)
     print(" Data Rcvd from octomapSrv")
-
-    rospy.wait_for_service('normals')
-    print (" Request send to normalsSrv, waiting for response ")
-
-    normalCall = rospy.ServiceProxy('normalsSrv',normalsSrv)
-    points1 = np.array(maskPCData, dtype=np.float32).flatten()
-    size1 = len(points1)
-    points2 = np.array(tfArrayValue, dtype=np.float32).flatten()
-    size2 = len(points2)
-    normalSrvResponse = normalCall(points1,size1,points2,size2)
-    orientation = normalSrvResponse.orientations
-    #print(orientation)
-    print("Data rcvd from normalsSrv")
 
     
     print ("Clearing Octomap")
