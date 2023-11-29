@@ -213,7 +213,7 @@ class Perception:
         tf.header.stamp = rospy.Time.now()
         tf.child_frame_id = "box"
 
-        tf.transform.translation.x = - abs(xyz[1]) + abs(camera_trans[1])
+        tf.transform.translation.x = - (abs(xyz[1]) / xyz[1]) * (abs(xyz[1]) - (abs(xyz[1]) / xyz[1]) * abs(camera_trans[1]))
         tf.transform.translation.y = - (abs(xyz[0]) / xyz[0]) * (abs(xyz[0]) + (abs(xyz[0]) / xyz[0]) * abs(camera_trans[0]))
         tf.transform.translation.z = - abs(xyz[2]) + abs(camera_trans[2])
 
