@@ -16,6 +16,8 @@ import tf2_msgs.msg
 from ultralytics import YOLO
 import numpy as np
 from pathlib import Path
+import math
+
 
 
 
@@ -101,7 +103,7 @@ class Perception:
 
             #wait_for_msg function laga for quaternion
             
-
+            
             # Publish transforms of box to be picked  
             self.publish_transforms(self.find_XYZ(points[min_depth_index],depths[min_depth_index]))
             
@@ -124,7 +126,7 @@ class Perception:
             point_cloud_msg = pc2.create_cloud(header, fields, [self.find_XYZ(points[min_depth_index],depths[min_depth_index]),])
             self.centroid_pub.publish(point_cloud_msg)
             print("Published centroid")
-
+            rospy.sleep(7)
         except Exception as e:
             print("An error occoured",str(e))
     
@@ -195,44 +197,95 @@ class Perception:
     
     
 
-    def rotate_quaternion(self, original_quaternion,):
-        # Create a TransformStamped message with the original quaternion
-        axis_index=2
-        angle_degrees=180
-        transform_msg = TransformStamped()
-        transform_msg.transform.rotation = original_quaternion
+    # def rotate_quaternion(self, original_quaternion,):
+    #     # Create a TransformStamped message with the original quaternion
+    #     axis_index=2
+    #     angle_degrees=180
+    #     transform_msg = TransformStamped()
+    #     transform_msg.transform.rotation = original_quaternion
 
-        # Create a tf2_ros buffer and transform listener
-        buffer = tf2_ros.Buffer()
-        listener = tf2_ros.TransformListener(buffer)
+    #     # Create a tf2_ros buffer and transform listener
+    #     buffer = tf2_ros.Buffer()
+    #     listener = tf2_ros.TransformListener(buffer)
 
-        # Wait for the transformation from the source frame to the target frame
-        source_frame = "camera_depth_optical_frame"
-        target_frame = "base_link"
-        rospy.sleep(1.0)  # Add a delay to make sure the transform is available
+    #     # Wait for the transformation from the source frame to the target frame
+    #     source_frame = "camera_depth_optical_frame"
+    #     target_frame = "base_link"
+    #     rospy.sleep(1.0)  # Add a delay to make sure the transform is available
 
-        try:
-            # Lookup the transform
-            transform = buffer.lookup_transform(target_frame, source_frame, rospy.Time())
+    #     try:
+    #         # Lookup the transform
+    #         transform = buffer.lookup_transform(target_frame, source_frame, rospy.Time())
 
-            # Rotate the quaternion by the specified angle around the specified axis
-            rotation = transformations.quaternion_about_axis(angle_degrees, [1 if i == axis_index else 0 for i in range(3)])
+    #         # Rotate the quaternion by the specified angle around the specified axis
+    #         rotation = transformations.quaternion_about_axis(angle_degrees, [1 if i == axis_index else 0 for i in range(3)])
 
-            # Apply the rotation to the quaternion
-            rotated_quaternion = transformations.quaternion_multiply(transform_msg.transform.rotation, rotation)
+    #         # Apply the rotation to the quaternion
+    #         rotated_quaternion = transformations.quaternion_multiply(transform_msg.transform.rotation, rotation)
 
-            # Update the transform with the rotated quaternion
-            transform_msg.transform.rotation = rotated_quaternion
+    #         # Update the transform with the rotated quaternion
+    #         transform_msg.transform.rotation = rotated_quaternion
 
-            return transform_msg.transform.rotation
-        except tf2_ros.LookupException as e:
-            rospy.logwarn("Transform lookup failed: %s", e)
-            return None
+    #         return transform_msg.transform.rotation
+    #     except tf2_ros.LookupException as e:
+    #         rospy.logwarn("Transform lookup failed: %s", e)
+    #         return None
+        
+
+    def rotate_z_axis(self, x, y, z):
+        vector=[x, y, z]
+        # Convert angle to radians
+        angle_radians = np.radians(180)
+
+        # Create the rotation matrix for a rotation about the Z-axis
+        rotation_matrix = np.array([
+            [np.cos(angle_radians), -np.sin(angle_radians), 0],
+            [np.sin(angle_radians), np.cos(angle_radians), 0],
+            [0, 0, 1]
+        ])
+
+        # Apply the rotation to the vector
+        rotated_vector = np.dot(rotation_matrix, vector)
+
+        return rotated_vector
+    def vector_to_euler(self, x, y, z):
+            # Ensure the vector is a NumPy array for convenient operations
+            normal_vector = np.array([x, y, z])
+
+            # Normalize the vector
+            magnitude = np.linalg.norm(normal_vector)
+            if magnitude != 0.0:
+                normal_vector = normal_vector / magnitude
+
+            # Calculate pitch (rotation around y-axis)
+            pitch = np.arcsin(-normal_vector[1])
+
+            # Calculate roll (rotation around x-axis)
+            roll = np.arctan2(normal_vector[0], normal_vector[2])
+
+            # Calculate yaw (rotation around z-axis)
+            yaw = np.arctan2(normal_vector[1], normal_vector[0])
+
+            # Convert angles from radians to degrees
+            roll_deg = np.degrees(roll)
+            pitch_deg = np.degrees(pitch)
+            yaw_deg = np.degrees(yaw)
+
+            # Return the Euler angles
+            return roll_deg, pitch_deg, yaw_deg
+
+
+
+
+
 
     def publish_transforms(self,xyz):
-        Euler=rospy.wait_for_message('/normals', Vector3, timeout=None)
-        
-        Quaternion=self.get_quaternion_from_euler(Euler.x, Euler.y, Euler.z)
+        vector=rospy.wait_for_message('/normals', Vector3, timeout=None)
+        x, y, z = self.Vector_to_Euler((vector.x), (vector.y), (vector.z))
+
+        #x, y, z = self.rotate_z_axis(x, y, z)
+
+        Quaternion = self.get_quaternion_from_euler(np.radians(x), np.radians(y), np.radians(z))
         #New_Quaternion = self.rotate_quaternion(self.get_quaternion_from_euler(Euler.x, Euler.z, -Euler.y))
         t = TransformStamped()
         camera_trans = [-0.15, 0.612, 1.5]

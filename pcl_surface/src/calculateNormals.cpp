@@ -70,8 +70,8 @@ void pointCloudCallback(const sensor_msgs::PointCloud2ConstPtr& cloud1_msg)
         // Filter the cloud using a radius outlier removal filter 
         pcl::RadiusOutlierRemoval<PointType> radius_outlier_removal; 
         radius_outlier_removal.setInputCloud(cloud1); 
-        radius_outlier_removal.setRadiusSearch(2); // Use a suitable radius for your case 
-        radius_outlier_removal.setMinNeighborsInRadius(50); 
+        radius_outlier_removal.setRadiusSearch(0.3); // Use a suitable radius for your case 
+    //    radius_outlier_removal.setMinNeighborsInRadius(20); 
         radius_outlier_removal.filter(*cloud1);
             // Compute the normals for the remaining points
     pcl::NormalEstimation<PointType, NormalType> normal_estimation;
@@ -143,7 +143,7 @@ void pointCloudCallback(const sensor_msgs::PointCloud2ConstPtr& cloud1_msg)
 int main(int argc, char** argv) {
     ros::init(argc, argv, "normals_node"); ros::NodeHandle nh;
     normals_pub = nh.advertise<geometry_msgs::Vector3>("/normals", 1);
-
+    
     ros::Subscriber sub = nh.subscribe<sensor_msgs::PointCloud2>("/mask", 1, pointCloudCallback);
     ros::spin();
     return 0;
