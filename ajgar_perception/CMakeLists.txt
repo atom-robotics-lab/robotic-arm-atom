@@ -175,6 +175,12 @@ target_link_libraries(octomapFilter
   ${PCL_LIBRARIES}
 )
 
+add_executable(pcl_visualizer_demo src/pcl_visualizer_demo.cpp)
+target_link_libraries(pcl_visualizer_demo 
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
+)
+
 #add_executable(server src/server.cpp)
 #target_link_libraries(server 
  # ${catkin_LIBRARIES}
