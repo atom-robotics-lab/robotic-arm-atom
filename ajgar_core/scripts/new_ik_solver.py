@@ -43,10 +43,13 @@ class ikSolverClass(object):
         self.count = 0
         
         rospy.Service(srvnode, tfValueSrv, self.tfValueSrvCallback)
-        print(" Ready with MoveIt! service ")
+        print(" ikpy/Moveit! :  Ready with ROS Server ")
 
 
     def tfValueSrvCallback(self, msg):
+        
+        print("------- ")
+        print(" ikpy/Moveit! : Events log " )
 
         collisionBool = False
 
@@ -56,6 +59,7 @@ class ikSolverClass(object):
 
         # ------ Function for Pick up box ------ #
         
+        print(" - tf rcvd, solving for joints angle, calling ikpy "  )
         tfValue = [msg.tfArray[0], msg.tfArray[1], msg.tfArray[2]]
         anglesState = self.ik_solver(tfValue, modelPath)
 
@@ -69,7 +73,9 @@ class ikSolverClass(object):
         # self.pitch_rad = math.radians(pitch_deg)
         #self.target_orientation = [[self.roll_rad, 0, 0],[0, self.pitch_rad, 0],[0, 0, self.yaw_rad]]
         # xxxxx---------------xxxxxxxxx #
-
+        
+        
+        print(" - angle rcvd, solving for trajectory, calling Moveit! "  )
         self.moveitGoToJointState(anglesState) 
         
         # xxxxx---------------xxxxxxxxx #
@@ -79,14 +85,17 @@ class ikSolverClass(object):
         # self.trajectory(trajectory)
         # xxxxx---------------xxxxxxxxx #
         
-        print(" Listening @ /gazebo/collision/info ")
-        print(" Detecting collision b/t suction and box ")
+        print(" - arm reached, Detecting collision ")
+        print(" - listening @ /gazebo/collision/info ")
         while ( not collisionBool ) : 
              collisionData = rospy.wait_for_message(self.gazebo_collision, String)
              collisionBool, boxId = self.collision_detection(collisionData)
-        print(" Object attached ")
+        
+        print(" Object detected ")
         
         attach.attach_links(boxId)
+        
+        print(" Object attached ")
 
         # # ------ Function for Place box ------ #
 
@@ -100,10 +109,14 @@ class ikSolverClass(object):
         # self.yaw_rad = math.radians(yaw_deg)
         #self.target_orientation = [[self.roll_rad, 0, 0],[0, self.pitch_rad, 0],[0, 0, self.yaw_rad]]
         # xxxxx---------------xxxxxxxxx #
-
+        
         tfValue = [-0.24 , -0.2 , 0.05]
+        
+        print(" - dropping zone tf rcvd, solving for joints angle, calling ikpy ")
         anglesState = self.ik_solver(tfValue, modelPath)
         
+        
+        print(" - angle rcvd, solving for trajectory, calling Moveit! "  )
         self.moveitGoToJointState(anglesState) 
         
         # print(" Listening @ /move_group/result ")
@@ -112,7 +125,7 @@ class ikSolverClass(object):
         
         detach.detach_links(boxId)
         print(" Object detached ")
-
+        
         return tfValueSrvResponse(True)
         
         
