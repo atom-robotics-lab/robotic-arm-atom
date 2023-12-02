@@ -7,12 +7,18 @@ from sensor_msgs.msg import Image,PointCloud2, PointField
 import sensor_msgs.point_cloud2 as pc2
 from std_msgs.msg import Header
 from geometry_msgs.msg import TransformStamped, PoseStamped
+from geometry_msgs.msg import Vector3 
 from tf2_geometry_msgs import do_transform_pose
+import transformations
 import tf2_ros
+import transforms3d as tf3d
 import tf2_msgs.msg
 from ultralytics import YOLO
 import numpy as np
 from pathlib import Path
+
+
+
 
 
 class Perception:
@@ -21,8 +27,8 @@ class Perception:
 
         self.bridge = CvBridge()
 
-        sub_rgb = message_filters.Subscriber("/camera/rgb/image_rect_color", Image)
-        sub_depth = message_filters.Subscriber("/camera/depth/image_raw", Image)
+        sub_rgb = message_filters.Subscriber("/kinect/color/image_raw", Image)
+        sub_depth = message_filters.Subscriber("/kinect/depth/image_raw", Image)
         ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], queue_size=1, slop=0.5)
         ts.registerCallback(self.callback)
 
@@ -35,7 +41,7 @@ class Perception:
 
         self.model=YOLO('/home/aakshar/Downloads/best.pt')
         self.qrmodel = YOLO("/home/aakshar/catkin_ws/src/flipkartGrid/perception/scripts/ml_models/qr_detect.pt")
-        self.confidence=0.4
+        self.confidence=0.8
 
         self.rgb_image, self.depth_image = None, None
         self.rgb_shape, self.depth_shape = None, None
@@ -92,6 +98,9 @@ class Perception:
             cv2.circle(self.rgb_image,points[min_depth_index],8,(255,0,0),3)
             cv2.imshow("point",self.rgb_image)
             cv2.waitKey(1)
+
+            #wait_for_msg function laga for quaternion
+            
 
             # Publish transforms of box to be picked  
             self.publish_transforms(self.find_XYZ(points[min_depth_index],depths[min_depth_index]))
@@ -177,22 +186,90 @@ class Perception:
         # print("XYZ:",X , Y , Z )
         return (X,Y,Z)
     
+    def get_quaternion_from_euler(self,roll, pitch, yaw):
+        qx = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
+        qy = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)
+        qz = np.cos(roll/2) * np.cos(pitch/2) * np.sin(yaw/2) - np.sin(roll/2) * np.sin(pitch/2) * np.cos(yaw/2)
+        qw = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
+        return [qx, qy, qz, (qw)]
+    
+    
+
+    def rotate_quaternion(self, original_quaternion,):
+        # Create a TransformStamped message with the original quaternion
+        axis_index=2
+        angle_degrees=180
+        transform_msg = TransformStamped()
+        transform_msg.transform.rotation = original_quaternion
+
+        # Create a tf2_ros buffer and transform listener
+        buffer = tf2_ros.Buffer()
+        listener = tf2_ros.TransformListener(buffer)
+
+        # Wait for the transformation from the source frame to the target frame
+        source_frame = "camera_depth_optical_frame"
+        target_frame = "base_link"
+        rospy.sleep(1.0)  # Add a delay to make sure the transform is available
+
+        try:
+            # Lookup the transform
+            transform = buffer.lookup_transform(target_frame, source_frame, rospy.Time())
+
+            # Rotate the quaternion by the specified angle around the specified axis
+            rotation = transformations.quaternion_about_axis(angle_degrees, [1 if i == axis_index else 0 for i in range(3)])
+
+            # Apply the rotation to the quaternion
+            rotated_quaternion = transformations.quaternion_multiply(transform_msg.transform.rotation, rotation)
+
+            # Update the transform with the rotated quaternion
+            transform_msg.transform.rotation = rotated_quaternion
+
+            return transform_msg.transform.rotation
+        except tf2_ros.LookupException as e:
+            rospy.logwarn("Transform lookup failed: %s", e)
+            return None
 
     def publish_transforms(self,xyz):
+        Euler=rospy.wait_for_message('/normals', Vector3, timeout=None)
+        
+        Quaternion=self.get_quaternion_from_euler(Euler.x, Euler.y, Euler.z)
+        #New_Quaternion = self.rotate_quaternion(self.get_quaternion_from_euler(Euler.x, Euler.z, -Euler.y))
         t = TransformStamped()
-        t.header.frame_id = "camera_depth_optical_frame"
+        camera_trans = [-0.15, 0.612, 1.5]
+        t.header.frame_id = "base_link"
         t.header.stamp = rospy.Time.now()
-        t.child_frame_id = "Box"
-        t.transform.translation.x = xyz[0]
-        t.transform.translation.y = xyz[1]
-        t.transform.translation.z = xyz[2]
-        t.transform.rotation.x = 0
-        t.transform.rotation.y = 0
-        t.transform.rotation.z = 0
-        t.transform.rotation.w = 1            
+        t.child_frame_id = "box"
+        t.transform.translation.x = - (abs(xyz[1]) / xyz[1]) * (abs(xyz[1]) - (abs(xyz[1]) / xyz[1]) * abs(camera_trans[1]))
+        t.transform.translation.y = - (abs(xyz[0]) / xyz[0]) * (abs(xyz[0]) + (abs(xyz[0]) / xyz[0]) * abs(camera_trans[0]))
+        t.transform.translation.z = - abs(xyz[2]) + abs(camera_trans[2])
+        t.transform.rotation.x = Quaternion[0]
+        t.transform.rotation.y = Quaternion[1]
+        t.transform.rotation.z = Quaternion[2]
+        t.transform.rotation.w = Quaternion[3]
         tfm = tf2_msgs.msg.TFMessage([t])
         self.pub_tf.publish(tfm)
+    
+    # def publish_transforms(self,xyz):
 
+    #     t = TransformStamped()
+    #     camera_trans = [-0.15, 0.612, 1.5]
+    #     t.header.frame_id = "base_link"
+    #     t.header.stamp = rospy.Time.now()
+    #     t.child_frame_id = "Box"
+    #     t.transform.translation.x = xyz[0]
+    #     t.transform.translation.y = xyz[1]
+    #     t.transform.translation.z = xyz[2]
+
+    #     t.transform.translation.x = - (abs(xyz[1]) / xyz[1]) * (abs(xyz[1]) - (abs(xyz[1]) / xyz[1]) * abs(camera_trans[1]))
+    #     t.transform.translation.y = - (abs(xyz[0]) / xyz[0]) * (abs(xyz[0]) + (abs(xyz[0]) / xyz[0]) * abs(camera_trans[0]))
+    #     t.transform.translation.z = - abs(xyz[2]) + abs(camera_trans[2])
+
+    #     t.transform.rotation.x =  0.001
+    #     t.transform.rotation.y =  0.001
+    #     t.transform.rotation.z = -0.479
+    #     t.transform.rotation.w =  0.878        
+    #     tfm = tf2_msgs.msg.TFMessage([t])
+    #     self.pub_tf.publish(tfm)
 
     def publish_pose(self,xyz):
 
@@ -205,10 +282,10 @@ class Perception:
         pose.pose.position.x = xyz[0]
         pose.pose.position.y = xyz[1]
         pose.pose.position.z = xyz[2]
-        pose.pose.orientation.x = 0.0
-        pose.pose.orientation.y = 0.0
-        pose.pose.orientation.z = 0.0
-        pose.pose.orientation.w = 1.0  # Default orientation
+        pose.pose.orientation.x = 0.001
+        pose.pose.orientation.y = 0.001
+        pose.pose.orientation.z = -0.479
+        pose.pose.orientation.w = 0.878  # Default orientation
 
         try:
             # Lookup the transform from Frame A to Frame B
@@ -223,50 +300,50 @@ class Perception:
         self.pose_pub.publish(new_pose)
 
 
-    def cost_analysis(self, depths, points ,masks):
-        """
-        Mark the center of the bounding box with the lowest depth in blue.
+    # def cost_analysis(self, depths, points ,masks):
+    #     """
+    #     Mark the center of the bounding box with the lowest depth in blue.
 
-        Parameters:
-        - depths: List of depths corresponding to the detected objects.
-        - points: List of (x, y) coordinates representing the centers of detected bounding boxes.
+    #     Parameters:
+    #     - depths: List of depths corresponding to the detected objects.
+    #     - points: List of (x, y) coordinates representing the centers of detected bounding boxes.
 
-        Returns:
-        - index_of_min_depth: Index of the center with the lowest depth.
-        """
-        cost=[]
-        QR=[1]
-        MF_depth=1
-        for i in range(len(masks)):
-            mask = masks[i]
+    #     Returns:
+    #     - index_of_min_depth: Index of the center with the lowest depth.
+    #     """
+    #     cost=[]
+    #     QR=[1]
+    #     MF_depth=1
+    #     for i in range(len(masks)):
+    #         mask = masks[i]
 
-            # Create a masked image using the bounding box
-            masked_image = cv2.fillPoly(np.zeros_like(self.rgb_image), [np.array(mask)], (255, 255, 255))
-            gray_masked = cv2.cvtColor(masked_image, cv2.COLOR_BGR2GRAY)
+    #         # Create a masked image using the bounding box
+    #         masked_image = cv2.fillPoly(np.zeros_like(self.rgb_image), [np.array(mask)], (255, 255, 255))
+    #         gray_masked = cv2.cvtColor(masked_image, cv2.COLOR_BGR2GRAY)
 
-            # Perform QR code detection (replace with your actual QR code scanning logic)
-            qr_code_found = detect_qr_code(gray_masked)
+    #         # Perform QR code detection (replace with your actual QR code scanning logic)
+    #         qr_code_found = detect_qr_code(gray_masked)
 
-            if qr_code_found:
-                result = 2  # QR code found, update result and break out of the loop
-                break
+    #         if qr_code_found:
+    #             result = 2  # QR code found, update result and break out of the loop
+    #             break
             
-            cost.append(len(masks[i])*(QR))/(depths[i]*MF_depth)
+    #         cost.append(len(masks[i])*(QR))/(depths[i]*MF_depth)
 
 
 
 
-        # Find the index of the center with the max cost
-        index_of_max_cost = cost.index(max(cost))
+        # # Find the index of the center with the max cost
+        # index_of_max_cost = cost.index(max(cost))
 
-        # Mark the center with the lowest depth in blue
-        cv2.circle(self.rgb_image, points[index_of_max_cost], 8, (0, 0, 255), 3)
+        # # Mark the center with the lowest depth in blue
+        # cv2.circle(self.rgb_image, points[index_of_max_cost], 8, (0, 0, 255), 3)
 
-        # Display the annotated image (optional)
-        cv2.imshow("Annotated Image", self.rgb_image)
-        cv2.waitKey(1)
+        # # Display the annotated image (optional)
+        # cv2.imshow("Annotated Image", self.rgb_image)
+        # cv2.waitKey(1)
 
-        return index_of_max_cost
+        # return index_of_max_cost
 
     def process_box_mask(self,mask):
         depths=self.depth_image_processing(mask)

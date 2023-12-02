@@ -152,14 +152,10 @@ target_link_libraries(ply_extractor
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}
 )
-add_executable(boundary_detector src/boundary.cpp)
-target_link_libraries(boundary_detector 
-  ${catkin_LIBRARIES}
-  ${PCL_LIBRARIES}
-)
 
-add_executable(centroid_normal src/centroid_normal.cpp)
-target_link_libraries(centroid_normal
+
+add_executable(calculateNormals src/calculateNormals.cpp)
+target_link_libraries(calculateNormals
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}
 )
