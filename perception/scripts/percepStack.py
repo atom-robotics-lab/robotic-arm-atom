@@ -17,7 +17,8 @@ from ultralytics import YOLO
 import numpy as np
 from pathlib import Path
 import math
-
+from scipy.spatial.transform import Rotation
+from numpy.linalg import norm
 
 
 
@@ -50,22 +51,25 @@ class Perception:
 
         self.found=False
         
+
         
     def rgb_callback(self, rgb_message) :
         self.rgb_image = self.bridge.imgmsg_to_cv2(rgb_message, desired_encoding = "bgr8")
         self.rgb_shape = self.rgb_image.shape
 
     
+
     def depth_callback(self, depth_message) :
         self.depth_image = self.bridge.imgmsg_to_cv2(depth_message, desired_encoding=depth_message.encoding)
         self.depth_shape = self.depth_image.shape 
 
     
+
     def extract_image(self,image,boundingbox):
         region=image[boundingbox[1]:boundingbox[3],boundingbox[0]:boundingbox[2]]
-        # cv2.imshow("reigon",region)
-        # cv2.waitKey(0)
+
         return region
+
 
 
     def callback(self,depth_data, rgb_data):
@@ -79,14 +83,6 @@ class Perception:
             # print(points,depths)
             
             min_depth_index = depths.index(min(depths))
-            # print(points[min_depth_index])
-
-            # Process the mask of the box to be picked
-            # self.process_box_mask(masks[min_depth_index])
-
-            # Extract the bounding box images of the box to be picked
-            # new_rgb=self.extract_image(self.rgb_image,boundingboxes[min_depth_index])
-            # new_depth=self.extract_image(np.array(self.depth_image, dtype=np.float32),boundingboxes[min_depth_index])
 
             new_rgb_points=[]
             for x in range(boundingboxes[min_depth_index][0],boundingboxes[min_depth_index][2]):
@@ -96,23 +92,13 @@ class Perception:
             # Process the mask of the box to be picked
             self.process_box_mask(new_rgb_points)
 
-
             cv2.circle(self.rgb_image,points[min_depth_index],8,(255,0,0),3)
             cv2.imshow("point",self.rgb_image)
             cv2.waitKey(1)
-
-            #wait_for_msg function laga for quaternion
-            
             
             # Publish transforms of box to be picked  
             self.publish_transforms(self.find_XYZ(points[min_depth_index],depths[min_depth_index]))
             
-            # Publish pose of box to be picked  
-            self.publish_pose(self.find_XYZ(points[min_depth_index],depths[min_depth_index]))
-
-
-            # Publish centroid of the box to picked
-
             # Define point fields
             fields = [
                 PointField(name="x", offset=0, datatype=PointField.FLOAT32, count=1),
@@ -129,19 +115,16 @@ class Perception:
             rospy.sleep(7)
         except Exception as e:
             print("An error occoured",str(e))
-    
+
+
 
     def rgb_image_processing(self):
         rgb_image = self.rgb_image 
-        # cv2.imshow("RGB Image",rgb_image)
-        # cv2.waitKey(1) 
-        # print("RGB Image shape:",rgb_image.shape)
         points=[]
         masks=[]
         boundingboxes=[]
 
         results = self.model.predict(source=rgb_image,conf=self.confidence,show=True)
-
 
         for i in results[0].boxes.xywh:
             cv2.circle(rgb_image,(int(i[0]),int(i[1])),5,(0,0,255),2)
@@ -156,38 +139,31 @@ class Perception:
         # cv2.imshow("points",rgb_image)
         # cv2.waitKey(1) 
         return points,masks,boundingboxes
-    
+
+
 
     def depth_image_processing(self,points):
-        # print("Depth Image Shape:",self.depth_image.shape)
         depth_array = np.array(self.depth_image, dtype=np.float32)
         depths=[]
         for i in range(len(points)):
             x_center, y_center = int(points[i][1]), int(points[i][0])
             depths.append(depth_array[x_center, y_center])
-            # cv2.circle(depth_image,(points[i][0], points[i][1]),5,(0,0,255),2)
-
-        # Show the depth image
-        # cv2.imshow("Depth Image",depth_image)
-        # cv2.waitKey(1) 
         return depths
+
 
 
     def find_XYZ(self,point,depth):
         fx, fy = [554.254691191187, 554.254691191187]
         cx, cy = [320.5, 240.5]
 
-        # tf = TransformFrames()
-        # tf_buffer = tf2_ros.Buffer()
-        # tf_listener=tf2_ros.TransformListener(tf_buffer)
-        # pose_array = PoseArray(header=Header(frame_id = "camera_depth_frame2", stamp = rospy.Time(0)))
-
         X = depth * ((point[0]-cx)/fx)
         Y = depth * ((point[1]-cy)/fy)
         Z = depth
         # print("XYZ:",X , Y , Z )
         return (X,Y,Z)
-    
+
+
+
     def get_quaternion_from_euler(self,roll, pitch, yaw):
         qx = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
         qy = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)
@@ -195,57 +171,24 @@ class Perception:
         qw = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
         return [qx, qy, qz, (qw)]
 
-    # def rotate_quaternion(self, original_quaternion,):
-    #     # Create a TransformStamped message with the original quaternion
-    #     axis_index=2
-    #     angle_degrees=180
-    #     transform_msg = TransformStamped()
-    #     transform_msg.transform.rotation = original_quaternion
 
-    #     # Create a tf2_ros buffer and transform listener
-    #     buffer = tf2_ros.Buffer()
-    #     listener = tf2_ros.TransformListener(buffer)
-
-    #     # Wait for the transformation from the source frame to the target frame
-    #     source_frame = "camera_depth_optical_frame"
-    #     target_frame = "base_link"
-    #     rospy.sleep(1.0)  # Add a delay to make sure the transform is available
-
-    #     try:
-    #         # Lookup the transform
-    #         transform = buffer.lookup_transform(target_frame, source_frame, rospy.Time())
-
-    #         # Rotate the quaternion by the specified angle around the specified axis
-    #         rotation = transformations.quaternion_about_axis(angle_degrees, [1 if i == axis_index else 0 for i in range(3)])
-
-    #         # Apply the rotation to the quaternion
-    #         rotated_quaternion = transformations.quaternion_multiply(transform_msg.transform.rotation, rotation)
-
-    #         # Update the transform with the rotated quaternion
-    #         transform_msg.transform.rotation = rotated_quaternion
-
-    #         return transform_msg.transform.rotation
-    #     except tf2_ros.LookupException as e:
-    #         rospy.logwarn("Transform lookup failed: %s", e)
-    #         return None
-
-    def rotate_z_axis(self, x, y, z):
-        vector=[x, y, z]
-        # Convert angle to radians
-        angle_radians = np.radians(180)
-
-        # Create the rotation matrix for a rotation about the Z-axis
-        rotation_matrix = np.array([
-            [np.cos(angle_radians), -np.sin(angle_radians), 0],
-            [np.sin(angle_radians), np.cos(angle_radians), 0],
-            [0, 0, 1]
-        ])
-
-        # Apply the rotation to the vector
-        rotated_vector = np.dot(rotation_matrix, vector)
-
-        return rotated_vector
     
+    def calculate_rotation_matrix(self, alpha, beta, gamma):
+        # Convert angles to radians
+        alpha = np.radians(alpha)
+        beta = np.radians(beta)
+        gamma = np.radians(gamma)
+
+        # Create rotation object
+        r = Rotation.from_euler('zyx', [gamma, beta, alpha], degrees=True)
+
+        # Get the rotation matrix
+        rotation_matrix = r.as_matrix()
+
+        return rotation_matrix
+        
+
+
     def Vector_to_Euler(self, x, y, z):
             # Ensure the vector is a NumPy array for convenient operations
             normal_vector = np.array([x, y, z])
@@ -256,7 +199,6 @@ class Perception:
                 normal_vector = normal_vector / magnitude
 
             # Calculate pitch (rotation around y-axis)
-            # pitch = np.arcsin(-normal_vector[1])
             yaw = np.arctan2(normal_vector[1],normal_vector[0])
 
             # Calculate roll (rotation around x-axis)
@@ -273,15 +215,46 @@ class Perception:
             # Return the Euler angles
             return roll_deg, pitch_deg, yaw_deg
 
+
+
+    def calculate_angles(self, angle_x, angle_y, angle_z):
+        unit_vector=[angle_x, angle_y, angle_z]
+        # Ensure the input vector is a unit vector
+        assert np.isclose(norm(unit_vector), 1.0)
+
+        # Calculate angles in radians
+        angle_x = np.arccos(np.dot(unit_vector, [1, 0, 0]))
+        angle_y = np.arccos(np.dot(unit_vector, [0, 1, 0]))
+        angle_z = np.arccos(np.dot(unit_vector, [0, 0, 1]))
+
+        # Convert angles to degrees if needed
+        angle_x_deg = np.degrees(angle_x)
+        angle_y_deg = np.degrees(angle_y)
+        angle_z_deg = np.degrees(angle_z)
+
+        return (angle_x_deg, angle_y_deg, angle_z_deg)
+        
+
+
+    def alternative_rotation_matrix_to_quaternion(self, rotation_matrix):
+        # Ensure the rotation matrix is a valid rotation matrix
+        assert np.allclose(np.dot(rotation_matrix, rotation_matrix.T), np.identity(3))
+
+        # Calculate the quaternion directly
+        qw = 0.5 * np.sqrt(1.0 + rotation_matrix[0, 0] + rotation_matrix[1, 1] + rotation_matrix[2, 2])
+        qx = (rotation_matrix[2, 1] - rotation_matrix[1, 2]) / (4.0 * qw)
+        qy = (rotation_matrix[0, 2] - rotation_matrix[2, 0]) / (4.0 * qw)
+        qz = (rotation_matrix[1, 0] - rotation_matrix[0, 1]) / (4.0 * qw)
+
+        return np.array([qx, qy, qz, qw])
+
+
+
     def publish_transforms(self,xyz):
         vector=rospy.wait_for_message('/normals', Vector3, timeout=None)
-        x, y, z = self.Vector_to_Euler((vector.x), (vector.y), (vector.z))
-
-        #x, y, z = self.rotate_z_axis(x, y, z)
-
-        # Quaternion = self.get_quaternion_from_euler(np.radians(x), np.radians(y), np.radians(z))
-        Quaternion = self.get_quaternion_from_euler(np.radians(x), np.radians(y), np.radians(z))
-        #New_Quaternion = self.rotate_quaternion(self.get_quaternion_from_euler(Euler.x, Euler.z, -Euler.y))
+        x, y, z = self.calculate_angles((vector.x), (vector.y), (vector.z))
+        Rotation_matrix=self.calculate_rotation_matrix(x, y, z)
+        Quaternion=self.alternative_rotation_matrix_to_quaternion(Rotation_matrix)
         t = TransformStamped()
         camera_trans = [-0.15, 0.612, 1.5]
         t.header.frame_id = "base_link"
@@ -296,102 +269,8 @@ class Perception:
         t.transform.rotation.w = Quaternion[3]
         tfm = tf2_msgs.msg.TFMessage([t])
         self.pub_tf.publish(tfm)
-    
-    # def publish_transforms(self,xyz):
-
-    #     t = TransformStamped()
-    #     camera_trans = [-0.15, 0.612, 1.5]
-    #     t.header.frame_id = "base_link"
-    #     t.header.stamp = rospy.Time.now()
-    #     t.child_frame_id = "Box"
-    #     t.transform.translation.x = xyz[0]
-    #     t.transform.translation.y = xyz[1]
-    #     t.transform.translation.z = xyz[2]
-
-    #     t.transform.translation.x = - (abs(xyz[1]) / xyz[1]) * (abs(xyz[1]) - (abs(xyz[1]) / xyz[1]) * abs(camera_trans[1]))
-    #     t.transform.translation.y = - (abs(xyz[0]) / xyz[0]) * (abs(xyz[0]) + (abs(xyz[0]) / xyz[0]) * abs(camera_trans[0]))
-    #     t.transform.translation.z = - abs(xyz[2]) + abs(camera_trans[2])
-
-    #     t.transform.rotation.x =  0.001
-    #     t.transform.rotation.y =  0.001
-    #     t.transform.rotation.z = -0.479
-    #     t.transform.rotation.w =  0.878        
-    #     tfm = tf2_msgs.msg.TFMessage([t])
-    #     self.pub_tf.publish(tfm)
-
-    def publish_pose(self,xyz):
-
-        # Create a tf2 buffer
-        tf_buffer = tf2_ros.Buffer()
-        tf_listener = tf2_ros.TransformListener(tf_buffer)
-
-        pose = PoseStamped()
-        pose.header.frame_id = "camera_depth_optical_frame"
-        pose.pose.position.x = xyz[0]
-        pose.pose.position.y = xyz[1]
-        pose.pose.position.z = xyz[2]
-        pose.pose.orientation.x = 0.001
-        pose.pose.orientation.y = 0.001
-        pose.pose.orientation.z = -0.479
-        pose.pose.orientation.w = 0.878  # Default orientation
-
-        try:
-            # Lookup the transform from Frame A to Frame B
-            transform = tf_buffer.lookup_transform("base_link", "camera_depth_optical_frame", rospy.Time(0), rospy.Duration(1.0))
-
-            # Transform the position to Frame B
-            new_pose = do_transform_pose(pose, transform)
-
-        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as e:
-            rospy.logerr("Error during transformation: %s", e)
-
-        self.pose_pub.publish(new_pose)
 
 
-    # def cost_analysis(self, depths, points ,masks):
-    #     """
-    #     Mark the center of the bounding box with the lowest depth in blue.
-
-    #     Parameters:
-    #     - depths: List of depths corresponding to the detected objects.
-    #     - points: List of (x, y) coordinates representing the centers of detected bounding boxes.
-
-    #     Returns:
-    #     - index_of_min_depth: Index of the center with the lowest depth.
-    #     """
-    #     cost=[]
-    #     QR=[1]
-    #     MF_depth=1
-    #     for i in range(len(masks)):
-    #         mask = masks[i]
-
-    #         # Create a masked image using the bounding box
-    #         masked_image = cv2.fillPoly(np.zeros_like(self.rgb_image), [np.array(mask)], (255, 255, 255))
-    #         gray_masked = cv2.cvtColor(masked_image, cv2.COLOR_BGR2GRAY)
-
-    #         # Perform QR code detection (replace with your actual QR code scanning logic)
-    #         qr_code_found = detect_qr_code(gray_masked)
-
-    #         if qr_code_found:
-    #             result = 2  # QR code found, update result and break out of the loop
-    #             break
-            
-    #         cost.append(len(masks[i])*(QR))/(depths[i]*MF_depth)
-
-
-
-
-        # # Find the index of the center with the max cost
-        # index_of_max_cost = cost.index(max(cost))
-
-        # # Mark the center with the lowest depth in blue
-        # cv2.circle(self.rgb_image, points[index_of_max_cost], 8, (0, 0, 255), 3)
-
-        # # Display the annotated image (optional)
-        # cv2.imshow("Annotated Image", self.rgb_image)
-        # cv2.waitKey(1)
-
-        # return index_of_max_cost
 
     def process_box_mask(self,mask):
         depths=self.depth_image_processing(mask)
@@ -425,8 +304,6 @@ def main():
         
     # except Exception as e:
         # print("Error:", str(e))    
-
-
 
 
 if __name__=="__main__" :

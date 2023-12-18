@@ -15,6 +15,8 @@
         "valarray": "cpp",
         "functional": "cpp",
         "chrono": "cpp",
-        "complex": "cpp"
+        "complex": "cpp",
+        "bitset": "cpp",
+        "utility": "cpp"
     }
 }

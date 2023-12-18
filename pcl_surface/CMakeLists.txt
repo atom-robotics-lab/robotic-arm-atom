@@ -147,11 +147,6 @@ add_definitions(${PCL_DEFINITIONS})
 #add_executable (voxel_grid src/boundary.cpp)
 #target_link_libraries (voxel_grid ${PCL_LIBRARIES})
 
-add_executable(ply_extractor src/ply_extractor.cpp)
-target_link_libraries(ply_extractor 
-  ${catkin_LIBRARIES}
-  ${PCL_LIBRARIES}
-)
 
 
 add_executable(calculateNormals src/calculateNormals.cpp)
@@ -167,11 +162,7 @@ target_link_libraries(filter
   ${PCL_LIBRARIES}
 )
 
-add_executable(boundary src/boundary.cpp)
-target_link_libraries(boundary
-  ${catkin_LIBRARIES}
-  ${PCL_LIBRARIES}
-)
+
 
 add_executable(centroid src/centroid.cpp)
 target_link_libraries(centroid
