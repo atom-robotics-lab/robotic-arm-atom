@@ -194,8 +194,6 @@ class Perception:
         qz = np.cos(roll/2) * np.cos(pitch/2) * np.sin(yaw/2) - np.sin(roll/2) * np.sin(pitch/2) * np.cos(yaw/2)
         qw = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
         return [qx, qy, qz, (qw)]
-    
-    
 
     # def rotate_quaternion(self, original_quaternion,):
     #     # Create a TransformStamped message with the original quaternion
@@ -230,7 +228,6 @@ class Perception:
     #     except tf2_ros.LookupException as e:
     #         rospy.logwarn("Transform lookup failed: %s", e)
     #         return None
-        
 
     def rotate_z_axis(self, x, y, z):
         vector=[x, y, z]
@@ -248,7 +245,8 @@ class Perception:
         rotated_vector = np.dot(rotation_matrix, vector)
 
         return rotated_vector
-    def vector_to_euler(self, x, y, z):
+    
+    def Vector_to_Euler(self, x, y, z):
             # Ensure the vector is a NumPy array for convenient operations
             normal_vector = np.array([x, y, z])
 
@@ -258,13 +256,14 @@ class Perception:
                 normal_vector = normal_vector / magnitude
 
             # Calculate pitch (rotation around y-axis)
-            pitch = np.arcsin(-normal_vector[1])
+            # pitch = np.arcsin(-normal_vector[1])
+            yaw = np.arctan2(normal_vector[1],normal_vector[0])
 
             # Calculate roll (rotation around x-axis)
-            roll = np.arctan2(normal_vector[0], normal_vector[2])
+            pitch = np.arctan2(-normal_vector[2], ((((normal_vector[0])**2)+((normal_vector[1])**2))**(0.5)))
 
             # Calculate yaw (rotation around z-axis)
-            yaw = np.arctan2(normal_vector[1], normal_vector[0])
+            roll = np.arctan2( np.sin(yaw)*normal_vector[2], np.cos(yaw)*normal_vector[2])
 
             # Convert angles from radians to degrees
             roll_deg = np.degrees(roll)
@@ -274,17 +273,13 @@ class Perception:
             # Return the Euler angles
             return roll_deg, pitch_deg, yaw_deg
 
-
-
-
-
-
     def publish_transforms(self,xyz):
         vector=rospy.wait_for_message('/normals', Vector3, timeout=None)
         x, y, z = self.Vector_to_Euler((vector.x), (vector.y), (vector.z))
 
         #x, y, z = self.rotate_z_axis(x, y, z)
 
+        # Quaternion = self.get_quaternion_from_euler(np.radians(x), np.radians(y), np.radians(z))
         Quaternion = self.get_quaternion_from_euler(np.radians(x), np.radians(y), np.radians(z))
         #New_Quaternion = self.rotate_quaternion(self.get_quaternion_from_euler(Euler.x, Euler.z, -Euler.y))
         t = TransformStamped()
