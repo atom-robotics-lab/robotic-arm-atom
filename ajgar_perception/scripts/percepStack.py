@@ -16,8 +16,6 @@ import numpy as np
 from ultralytics import YOLO
 from cv_bridge import CvBridge
 
-from ajgar_sim_plugins.plugin_pneumatic_gripper.scripts import attach, detach
-
 class Perception:
     def __init__(self) :
 
