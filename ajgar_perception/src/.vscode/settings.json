@@ -1,5 +1,4 @@
 {
-    "cmake.configureOnOpen": true,
     "python.autoComplete.extraPaths": [
         "/home/jc/flipkartGrid_ws/devel/lib/python3/dist-packages",
         "/home/jc/catkin_ws/devel/lib/python3/dist-packages",
