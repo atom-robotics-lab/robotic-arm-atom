@@ -164,11 +164,7 @@ target_link_libraries(filter
 
 
 
-add_executable(centroid src/centroid.cpp)
-target_link_libraries(centroid
-  ${catkin_LIBRARIES}
-  ${PCL_LIBRARIES}
-)
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
