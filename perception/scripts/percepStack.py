@@ -1,13 +1,13 @@
-#! /usr/bin/env python3
-import cv2 
+#!/usr/bin/env python3
+import cv2
 import rospy
 import message_filters
 from cv_bridge import CvBridge
-from sensor_msgs.msg import Image,PointCloud2, PointField
+from sensor_msgs.msg import Image, PointCloud2, PointField
 import sensor_msgs.point_cloud2 as pc2
 from std_msgs.msg import Header
 from geometry_msgs.msg import TransformStamped, PoseStamped
-from geometry_msgs.msg import Vector3 
+from geometry_msgs.msg import Vector3
 from tf2_geometry_msgs import do_transform_pose
 import transformations
 import tf2_ros
@@ -20,160 +20,226 @@ import math
 from scipy.spatial.transform import Rotation
 from numpy.linalg import norm
 
-
-
-
-
 class Perception:
+    
     def __init__(self) -> None:
-        # Initialisation of CV model
-
+        # Initialization of CV model
         self.bridge = CvBridge()
 
+        # Subscribe to RGB and depth image topics using message_filters for time synchronization
         sub_rgb = message_filters.Subscriber("/kinect/color/image_raw", Image)
         sub_depth = message_filters.Subscriber("/kinect/depth/image_raw", Image)
         ts = message_filters.ApproximateTimeSynchronizer([sub_depth, sub_rgb], queue_size=1, slop=0.5)
         ts.registerCallback(self.callback)
 
+        # ROS Publishers for publishing transforms and point cloud messages
         self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
-        self.mask_pub=rospy.Publisher("/mask",PointCloud2,queue_size=1)
-        self.centroid_pub=rospy.Publisher("/centroid",PointCloud2, queue_size=1)
-        self.pose_pub=rospy.Publisher("/pose",PoseStamped,queue_size=1)
+        self.mask_pub = rospy.Publisher("/mask", PointCloud2, queue_size=1)
+        self.centroid_pub = rospy.Publisher("/centroid", PointCloud2, queue_size=1)
 
-        self.full_path = f'{Path.cwd()}' 
-
-        self.model=YOLO('/home/aakshar/Downloads/best.pt')
+        # Paths and models
+        self.model = YOLO('/home/aakshar/catkin_ws/src/flipkartGrid/perception/scripts/ml_models/best.pt')
         self.qrmodel = YOLO("/home/aakshar/catkin_ws/src/flipkartGrid/perception/scripts/ml_models/qr_detect.pt")
-        self.confidence=0.8
+        self.confidence = 0.8
 
+        # Image and shape variables
         self.rgb_image, self.depth_image = None, None
         self.rgb_shape, self.depth_shape = None, None
 
-        self.found=False
-        
+        # Flag indicating if the object is found
+        self.found = False
 
-        
-    def rgb_callback(self, rgb_message) :
-        self.rgb_image = self.bridge.imgmsg_to_cv2(rgb_message, desired_encoding = "bgr8")
+    def rgb_callback(self, rgb_message):
+        """
+        Callback function for RGB image subscriber.
+
+        Parameters:
+        - rgb_message: ROS Image message containing RGB image data.
+        """
+        self.rgb_image = self.bridge.imgmsg_to_cv2(rgb_message, desired_encoding="bgr8")
         self.rgb_shape = self.rgb_image.shape
 
-    
+    def depth_callback(self, depth_message):
+        """
+        Callback function for depth image subscriber.
 
-    def depth_callback(self, depth_message) :
+        Parameters:
+        - depth_message: ROS Image message containing depth image data.
+        """
         self.depth_image = self.bridge.imgmsg_to_cv2(depth_message, desired_encoding=depth_message.encoding)
-        self.depth_shape = self.depth_image.shape 
+        self.depth_shape = self.depth_image.shape
 
-    
+    def callback(self, depth_data, rgb_data):
+        """
+        Callback function for synchronized RGB and depth images.
 
-    def extract_image(self,image,boundingbox):
-        region=image[boundingbox[1]:boundingbox[3],boundingbox[0]:boundingbox[2]]
-
-        return region
-
-
-
-    def callback(self,depth_data, rgb_data):
+        Parameters:
+        - depth_data: ROS Image message containing depth image data.
+        - rgb_data: ROS Image message containing RGB image data.
+        """
         self.depth_callback(depth_data)
         self.rgb_callback(rgb_data)
         try:
+            # Process RGB image to detect objects
+            points, masks, boundingboxes = self.rgb_image_processing()
 
-            points,masks,boundingboxes = self.rgb_image_processing()
-            # print(masks)
+            # Process depth image to get depths of detected objects
             depths = self.depth_image_processing(points)
-            # print(points,depths)
-            
+
+            # Find the index of the object with the minimum depth
             min_depth_index = depths.index(min(depths))
 
-            new_rgb_points=[]
-            for x in range(boundingboxes[min_depth_index][0],boundingboxes[min_depth_index][2]):
-                for y in range(boundingboxes[min_depth_index][1],boundingboxes[min_depth_index][3]):
-                    new_rgb_points.append((x,y))
-            
+            # Extract RGB points within the bounding box of the object with minimum depth
+            new_rgb_points = []
+            for x in range(boundingboxes[min_depth_index][0], boundingboxes[min_depth_index][2]):
+                for y in range(boundingboxes[min_depth_index][1], boundingboxes[min_depth_index][3]):
+                    new_rgb_points.append((x, y))
+
             # Process the mask of the box to be picked
             self.process_box_mask(new_rgb_points)
 
-            cv2.circle(self.rgb_image,points[min_depth_index],8,(255,0,0),3)
-            cv2.imshow("point",self.rgb_image)
+            # Visualize the centroid of the detected object in the RGB image
+            cv2.circle(self.rgb_image, points[min_depth_index], 8, (255, 0, 0), 3)
+            cv2.imshow("point", self.rgb_image)
             cv2.waitKey(1)
-            
-            # Publish transforms of box to be picked  
-            self.publish_transforms(self.find_XYZ(points[min_depth_index],depths[min_depth_index]))
-            
-            # Define point fields
-            fields = [
-                PointField(name="x", offset=0, datatype=PointField.FLOAT32, count=1),
-                PointField(name="y", offset=4, datatype=PointField.FLOAT32, count=1),
-                PointField(name="z", offset=8, datatype=PointField.FLOAT32, count=1)
-            ]
-            # Create PointCloud2 message
-            header = Header()
-            header.stamp = rospy.Time.now()
-            header.frame_id = "camera_depth_optical_frame"
-            point_cloud_msg = pc2.create_cloud(header, fields, [self.find_XYZ(points[min_depth_index],depths[min_depth_index]),])
-            self.centroid_pub.publish(point_cloud_msg)
-            print("Published centroid")
+
+            # Publish transforms of the box to be picked
+            self.publish_transforms(self.find_XYZ(points[min_depth_index], depths[min_depth_index]))
+
+            # Create PointCloud2 message for the centroid and publish
+            self.publish_centroid_point_cloud(points[min_depth_index], depths[min_depth_index])
+
             rospy.sleep(7)
         except Exception as e:
-            print("An error occoured",str(e))
-
-
+            print("An error occurred", str(e))
 
     def rgb_image_processing(self):
-        rgb_image = self.rgb_image 
-        points=[]
-        masks=[]
-        boundingboxes=[]
+        """
+        Process RGB image using YOLO for object detection.
 
-        results = self.model.predict(source=rgb_image,conf=self.confidence,show=True)
+        Returns:
+        - points: List of points (x, y) representing the detected objects in the RGB image.
+        - masks: List of masks corresponding to the detected objects.
+        - boundingboxes: List of bounding boxes (x1, y1, x2, y2) for the detected objects.
+        """
+        rgb_image = self.rgb_image
+        points = []
+        masks = []
+        boundingboxes = []
 
+        # Use YOLO model to predict objects in the RGB image
+        results = self.model.predict(source=rgb_image, conf=self.confidence, show=True)
+
+        # Process YOLO results
         for i in results[0].boxes.xywh:
-            cv2.circle(rgb_image,(int(i[0]),int(i[1])),5,(0,0,255),2)
-            points.append((int(i[0]),int(i[1])))
+            cv2.circle(rgb_image, (int(i[0]), int(i[1])), 5, (0, 0, 255), 2)
+            points.append((int(i[0]), int(i[1])))
 
         for i in results[0].boxes.xyxy:
-            boundingboxes.append((int(i[0]),int(i[1]),int(i[2]),int(i[3])))
-        
+            boundingboxes.append((int(i[0]), int(i[1]), int(i[2]), int(i[3])))
+
         for mask in results[0].masks:
             masks.append(mask.xy[0])
-        
-        # cv2.imshow("points",rgb_image)
-        # cv2.waitKey(1) 
-        return points,masks,boundingboxes
 
+        return points, masks, boundingboxes
 
+    def depth_image_processing(self, points):
+        """
+        Process depth image to obtain depths of detected objects.
 
-    def depth_image_processing(self,points):
+                # Process depth image to obtain depths of detected objects
+        Parameters:
+        - points: List of points (x, y) representing the detected objects in the RGB image.
+
+        Returns:
+        - depths: List of depths corresponding to the detected objects.
+        """
         depth_array = np.array(self.depth_image, dtype=np.float32)
-        depths=[]
+        depths = []
+
         for i in range(len(points)):
             x_center, y_center = int(points[i][1]), int(points[i][0])
             depths.append(depth_array[x_center, y_center])
+
         return depths
 
+    def find_XYZ(self, point, depth):
+        """
+        Convert 2D point and depth to 3D coordinates (X, Y, Z).
 
+        Parameters:
+        - point: Tuple representing the 2D coordinates (x, y) of the point.
+        - depth: Depth value at the given point.
 
-    def find_XYZ(self,point,depth):
+        Returns:
+        - xyz: Tuple representing the 3D coordinates (X, Y, Z) of the point.
+        """
         fx, fy = [554.254691191187, 554.254691191187]
         cx, cy = [320.5, 240.5]
 
-        X = depth * ((point[0]-cx)/fx)
-        Y = depth * ((point[1]-cy)/fy)
+        X = depth * ((point[0] - cx) / fx)
+        Y = depth * ((point[1] - cy) / fy)
         Z = depth
-        # print("XYZ:",X , Y , Z )
-        return (X,Y,Z)
 
+        return (X, Y, Z)
 
+    def publish_centroid_point_cloud(self, point, depth):
+        """
+        Publish PointCloud2 message for the centroid of the detected object.
 
-    def get_quaternion_from_euler(self,roll, pitch, yaw):
-        qx = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
-        qy = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)
-        qz = np.cos(roll/2) * np.cos(pitch/2) * np.sin(yaw/2) - np.sin(roll/2) * np.sin(pitch/2) * np.cos(yaw/2)
-        qw = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
-        return [qx, qy, qz, (qw)]
+        Parameters:
+        - point: Tuple representing the 2D coordinates (x, y) of the centroid.
+        - depth: Depth value at the centroid.
+        """
+        # Define point fields
+        fields = [
+            PointField(name="x", offset=0, datatype=PointField.FLOAT32, count=1),
+            PointField(name="y", offset=4, datatype=PointField.FLOAT32, count=1),
+            PointField(name="z", offset=8, datatype=PointField.FLOAT32, count=1)
+        ]
 
+        # Create PointCloud2 message
+        header = Header()
+        header.stamp = rospy.Time.now()
+        header.frame_id = "camera_depth_optical_frame"
+        point_cloud_msg = pc2.create_cloud(header, fields, [self.find_XYZ(point, depth)])
+        self.centroid_pub.publish(point_cloud_msg)
+        print("Published centroid")
 
-    
+    def get_quaternion_from_euler(self, roll, pitch, yaw):
+        """
+        Convert Euler angles to quaternion.
+
+        Parameters:
+        - roll: Roll angle in radians.
+        - pitch: Pitch angle in radians.
+        - yaw: Yaw angle in radians.
+
+        Returns:
+        - quaternion: List representing the quaternion (qx, qy, qz, qw).
+        """
+        qx = np.sin(roll / 2) * np.cos(pitch / 2) * np.cos(yaw / 2) - np.cos(roll / 2) * np.sin(pitch / 2) * np.sin(
+            yaw / 2)
+        qy = np.cos(roll / 2) * np.sin(pitch / 2) * np.cos(yaw / 2) + np.sin(roll / 2) * np.cos(pitch / 2) * np.sin(
+            yaw / 2)
+        qz = np.cos(roll / 2) * np.cos(pitch / 2) * np.sin(yaw / 2) - np.sin(roll / 2) * np.sin(pitch / 2) * np.cos(
+            yaw / 2)
+        qw = np.cos(roll / 2) * np.cos(pitch / 2) * np.cos(yaw / 2) + np.sin(roll / 2) * np.sin(pitch / 2) * np.sin(
+            yaw / 2)
+        return [qx, qy, qz, qw]
+
     def calculate_rotation_matrix(self, alpha, beta, gamma):
+        """
+        Calculate the rotation matrix from Euler angles.
+
+        Parameters:
+        - alpha: Roll angle in degrees.
+        - beta: Pitch angle in degrees.
+        - gamma: Yaw angle in degrees.
+
+        Returns:
+        - rotation_matrix: 3x3 rotation matrix.
+        """
         # Convert angles to radians
         alpha = np.radians(alpha)
         beta = np.radians(beta)
@@ -186,39 +252,58 @@ class Perception:
         rotation_matrix = r.as_matrix()
 
         return rotation_matrix
-        
-
 
     def Vector_to_Euler(self, x, y, z):
-            # Ensure the vector is a NumPy array for convenient operations
-            normal_vector = np.array([x, y, z])
+        """
+        Convert 3D vector to Euler angles.
 
-            # Normalize the vector
-            magnitude = np.linalg.norm(normal_vector)
-            if magnitude != 0.0:
-                normal_vector = normal_vector / magnitude
+        Parameters:
+        - x: x-component of the vector.
+        - y: y-component of the vector.
+        - z: z-component of the vector.
 
-            # Calculate pitch (rotation around y-axis)
-            yaw = np.arctan2(normal_vector[1],normal_vector[0])
+        Returns:
+        - roll_deg, pitch_deg, yaw_deg: Euler angles in degrees.
+        """
+        # Ensure the vector is a NumPy array for convenient operations
+        normal_vector = np.array([x, y, z])
 
-            # Calculate roll (rotation around x-axis)
-            pitch = np.arctan2(-normal_vector[2], ((((normal_vector[0])**2)+((normal_vector[1])**2))**(0.5)))
+        # Normalize the vector
+        magnitude = np.linalg.norm(normal_vector)
+        if magnitude != 0.0:
+            normal_vector = normal_vector / magnitude
 
-            # Calculate yaw (rotation around z-axis)
-            roll = np.arctan2( np.sin(yaw)*normal_vector[2], np.cos(yaw)*normal_vector[2])
+        # Calculate pitch (rotation around y-axis)
+        yaw = np.arctan2(normal_vector[1], normal_vector[0])
 
-            # Convert angles from radians to degrees
-            roll_deg = np.degrees(roll)
-            pitch_deg = np.degrees(pitch)
-            yaw_deg = np.degrees(yaw)
+        # Calculate roll (rotation around x-axis)
+        pitch = np.arctan2(-normal_vector[2], ((((normal_vector[0]) ** 2) + ((normal_vector[1]) ** 2)) ** (0.5)))
 
-            # Return the Euler angles
-            return roll_deg, pitch_deg, yaw_deg
+        # Calculate yaw (rotation around z-axis)
+        roll = np.arctan2(np.sin(yaw) * normal_vector[2], np.cos(yaw) * normal_vector[2])
 
+        # Convert angles from radians to degrees
+        roll_deg = np.degrees(roll)
+        pitch_deg = np.degrees(pitch)
+        yaw_deg = np.degrees(yaw)
 
+        # Return the Euler angles
+        return roll_deg, pitch_deg, yaw_deg
 
     def calculate_angles(self, angle_x, angle_y, angle_z):
-        unit_vector=[angle_x, angle_y, angle_z]
+        """
+        Calculate angles from a unit vector.
+
+        Parameters:
+        - angle_x: Angle around x-axis in degrees.
+        - angle_y: Angle around y-axis in degrees.
+        - angle_z: Angle around z-axis in degrees.
+
+        Returns:
+        - angle_x_deg, angle_y_deg, angle_z_deg: Angles in degrees.
+        """
+        unit_vector = [angle_x, angle_y, angle_z]
+
         # Ensure the input vector is a unit vector
         assert np.isclose(norm(unit_vector), 1.0)
 
@@ -232,11 +317,18 @@ class Perception:
         angle_y_deg = np.degrees(angle_y)
         angle_z_deg = np.degrees(angle_z)
 
-        return (angle_x_deg, angle_y_deg, angle_z_deg)
-        
-
+        return angle_x_deg, angle_y_deg, angle_z_deg
 
     def alternative_rotation_matrix_to_quaternion(self, rotation_matrix):
+        """
+        Convert a rotation matrix to quaternion using an alternative method.
+
+        Parameters:
+        - rotation_matrix: 3x3 rotation matrix.
+
+        Returns:
+        - quaternion: List representing the quaternion (qx, qy, qz, qw).
+        """
         # Ensure the rotation matrix is a valid rotation matrix
         assert np.allclose(np.dot(rotation_matrix, rotation_matrix.T), np.identity(3))
 
@@ -248,13 +340,26 @@ class Perception:
 
         return np.array([qx, qy, qz, qw])
 
+    def publish_transforms(self, xyz):
+        """
+        Publish transforms of the detected object.
 
+        Parameters:
+        - xyz: Tuple representing the 3D coordinates (X, Y, Z) of the detected object.
+        """
+        # Wait for the normal vector message
+        vector = rospy.wait_for_message('/normals', Vector3, timeout=None)
 
-    def publish_transforms(self,xyz):
-        vector=rospy.wait_for_message('/normals', Vector3, timeout=None)
-        x, y, z = self.calculate_angles((vector.x), (vector.y), (vector.z))
-        Rotation_matrix=self.calculate_rotation_matrix(x, y, z)
-        Quaternion=self.alternative_rotation_matrix_to_quaternion(Rotation_matrix)
+        # Calculate Euler angles from the normal vector
+        x, y, z = self.calculate_angles(vector.x, vector.y, vector.z)
+
+        # Calculate rotation matrix from Euler angles
+        rotation_matrix = self.calculate_rotation_matrix(x, y, z)
+
+        # Convert rotation matrix to quaternion using an alternative method
+        quaternion = self.alternative_rotation_matrix_to_quaternion(rotation_matrix)
+
+        # Create a TransformStamped message
         t = TransformStamped()
         camera_trans = [-0.15, 0.612, 1.5]
         t.header.frame_id = "base_link"
@@ -263,21 +368,28 @@ class Perception:
         t.transform.translation.x = - (abs(xyz[1]) / xyz[1]) * (abs(xyz[1]) - (abs(xyz[1]) / xyz[1]) * abs(camera_trans[1]))
         t.transform.translation.y = - (abs(xyz[0]) / xyz[0]) * (abs(xyz[0]) + (abs(xyz[0]) / xyz[0]) * abs(camera_trans[0]))
         t.transform.translation.z = - abs(xyz[2]) + abs(camera_trans[2])
-        t.transform.rotation.x = Quaternion[0]
-        t.transform.rotation.y = Quaternion[1]
-        t.transform.rotation.z = Quaternion[2]
-        t.transform.rotation.w = Quaternion[3]
+        t.transform.rotation.x = quaternion[0]
+        t.transform.rotation.y = quaternion[1]
+        t.transform.rotation.z = quaternion[2]
+        t.transform.rotation.w = quaternion[3]
+
+        # Create TFMessage and publish
         tfm = tf2_msgs.msg.TFMessage([t])
         self.pub_tf.publish(tfm)
 
+    def process_box_mask(self, mask):
+        """
+        Process the mask of the detected object and publish it as a point cloud.
 
+        Parameters:
+        - mask: List of points representing the mask of the detected object.
+        """
+        # Get depths of the points in the mask
+        depths = self.depth_image_processing(mask)
 
-    def process_box_mask(self,mask):
-        depths=self.depth_image_processing(mask)
-        mask_xyz=[]
-        for i in range(len(mask)):
-            mask_xyz.append(self.find_XYZ(mask[i],depths[i]))
-        
+        # Convert mask points to 3D coordinates
+        mask_xyz = [self.find_XYZ(mask[i], depths[i]) for i in range(len(mask))]
+
         # Define point fields
         fields = [
             PointField(name="x", offset=0, datatype=PointField.FLOAT32, count=1),
@@ -294,18 +406,15 @@ class Perception:
         print("Published mask")
 
 
-
 def main():
+    """
+    Main function to initialize the ROS node and Perception class.
+    """
     rospy.init_node("percepStack", anonymous=True)
-    # try:
     ps = Perception()
     rospy.sleep(1)
-        # ps.detect()
-        
-    # except Exception as e:
-        # print("Error:", str(e))    
 
 
-if __name__=="__main__" :
+if __name__ == "__main__":
     main()
     rospy.spin()

@@ -19,7 +19,6 @@
 #include <Eigen/Geometry>
 
 ros::Publisher normals_pub;
-ros::Publisher marker_pub;
 ros::Publisher centroid_pub;
 
 // Define point and normal types
@@ -64,6 +63,10 @@ void pointCloudCallback(const sensor_msgs::PointCloud2ConstPtr& cloud1_msg)
 
 
 
+    // NormalEstimation analyzes local geometry around each point to infer the orientation of surfaces.
+    // The function considers neighboring points within a certain range to ensure 
+    // that the computed normals capture the local shape of the point cloud.
+
     pcl::NormalEstimation<PointType, NormalType> normal_estimation;
     normal_estimation.setInputCloud(cloud1);
     pcl::search::KdTree<PointType>::Ptr tree(new pcl::search::KdTree<PointType>);
@@ -81,7 +84,7 @@ void pointCloudCallback(const sensor_msgs::PointCloud2ConstPtr& cloud1_msg)
         normals->points[centroid_index].normal_y,
         normals->points[centroid_index].normal_z
     );
-    center_normal.normalize();    // Normalize the normal vector
+    center_normal.normalize();    // Normalize the normal vector converts a vector into unit vector
 
     std::cout << "Normal of the point at the center: " << center_normal.transpose() << std::endl;
 
