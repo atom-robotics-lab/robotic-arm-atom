@@ -42,7 +42,7 @@ done
 if $force_option; then
   echo "Buidling Existing Docker Image: $image_name"
   docker build -f Dockerfile -t "$image_name":1.0 .
-  ./build_image.sh
+#   ./build_image.sh
 
 else
   run_command='source /opt/ros/noetic/setup.bash && catkin_make && source devel/setup.bash && exit'
@@ -79,12 +79,12 @@ else
 
       docker rm "$container_name"
 
-      ./run_image.sh
+    #   ./run_image.sh
 
   else
       echo "Building a new Docker image: $image_name"
       docker build -f Dockerfile -t "$image_name":1.0 .
-      ./build_image.sh
+    #   ./build_image.sh
   fi
 
 fi
