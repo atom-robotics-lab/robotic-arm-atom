@@ -11,7 +11,7 @@ DOCKER_ARGS+=("-e NVIDIA_DRIVER_CAPABILITIES=all")
 xhost +local:root
 
 image_name="moveit-classic-noetic"
-container_name="ajgar-docker"
+container_name="ajgar-docker-build"
 
 # Initialize variables
 force_option=false 
@@ -42,7 +42,7 @@ done
 if $force_option; then
   echo "Buidling Existing Docker Image: $image_name"
   docker build -f Dockerfile -t "$image_name":1.0 .
-#   ./build_image.sh
+  ./build_image.sh
 
 else
   run_command='source /opt/ros/noetic/setup.bash && catkin_make && source devel/setup.bash && exit'
@@ -67,7 +67,7 @@ else
           --network host \
           ${DOCKER_ARGS[@]} \
           -e DISPLAY=$DISPLAY \
-          -v $PWD/build_files:/workspaces/sim_ws/ \
+          -v $PWD/../../:/workspaces/sim_ws/ \
           -v $PWD:/workspaces/sim_ws/src \
           -v /etc/localtime:/etc/localtime:ro \
           --name "$container_name" \
@@ -84,7 +84,7 @@ else
   else
       echo "Building a new Docker image: $image_name"
       docker build -f Dockerfile -t "$image_name":1.0 .
-    #   ./build_image.sh
+      ./build_image.sh
   fi
 
 fi
