@@ -8,10 +8,8 @@ RUN apt install tmux libfreenect-dev -y
 
 RUN apt install ros-noetic-ros-control \
     ros-noetic-ros-controllers \
-    ros-noetic-rgbd-launch -y
-
-RUN source /opt/ros/humble/setup.bash && cd /workspaces/sim_ws/ && colcon build --symlink-install
-RUN echo "source /workspaces/sim_ws/install/setup.bash" >> ~/.bashrc
+    ros-noetic-rgbd-launch -y \
+    sudo apt install ros-noetic-moveit
 
 RUN mkdir -p /workspaces/robo_arm_ws/src
 
