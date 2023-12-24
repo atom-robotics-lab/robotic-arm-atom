@@ -35,7 +35,7 @@ class Perception:
         # ROS Publishers for publishing transforms and point cloud messages
         self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
         self.mask_pub = rospy.Publisher("/mask", PointCloud2, queue_size=1)
-        self.centroid_pub = rospy.Publisher("/centroid", PointCloud2, queue_size=1)
+        self.centroid_pub = rospy.Publisher("/centroid", PointCloud2, queue_size=1) #apply pointdata not point cloud
 
         # Paths and models
         self.model = YOLO('/home/aakshar/catkin_ws/src/flipkartGrid/perception/scripts/ml_models/best.pt')
@@ -81,7 +81,7 @@ class Perception:
         self.rgb_callback(rgb_data)
         try:
             # Process RGB image to detect objects
-            points, masks, boundingboxes = self.rgb_image_processing()
+            points, masks, boundingboxes = self.rgb_image_processing() #mask is basically bounding box (correct this)
 
             # Process depth image to get depths of detected objects
             depths = self.depth_image_processing(points)
@@ -104,10 +104,10 @@ class Perception:
             cv2.waitKey(1)
 
             # Publish transforms of the box to be picked
-            self.publish_transforms(self.find_XYZ(points[min_depth_index], depths[min_depth_index]))
+            # self.publish_transforms(self.find_XYZ(points[min_depth_index], depths[min_depth_index]))
 
             # Create PointCloud2 message for the centroid and publish
-            self.publish_centroid_point_cloud(points[min_depth_index], depths[min_depth_index])
+            #self.publish_centroid_point_cloud(points[min_depth_index], depths[min_depth_index])
 
             rospy.sleep(7)
         except Exception as e:
@@ -250,6 +250,8 @@ class Perception:
 
         # Get the rotation matrix
         rotation_matrix = r.as_matrix()
+
+        print("XXXXXXXXXXX\n",rotation_matrix,"\nXXXXXXXXXXXXX")
 
         return rotation_matrix
 

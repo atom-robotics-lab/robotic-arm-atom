@@ -35,7 +35,7 @@ void pointCloudCallback(const sensor_msgs::PointCloud2ConstPtr& cloud1_msg)
 
 
 
-     // Calculate the average x and y coordinates
+    // Calculate the average x and y coordinates
     float avg_x = 0.0;
     float avg_y = 0.0;
 
@@ -43,23 +43,73 @@ void pointCloudCallback(const sensor_msgs::PointCloud2ConstPtr& cloud1_msg)
     if (cloud1->size() >= 2) {
         avg_x = (cloud1->front().x + cloud1->back().x) / 2.0;
         avg_y = (cloud1->front().y + cloud1->back().y) / 2.0;
-    }
+        }
         PointType centroid_point;        // PointXYZ typedef for mean of all points
-        int centroid_index=0;       //for index of point with similar coordinates
+        PointType centroid_up_point;
+        PointType centroid_down_point;
+        PointType centroid_right_point;
+        PointType centroid_left_point;
+
+        int centroid_index = 0;       // for index of point with similar coordinates
+        bool found_centroid_up_point = false;
+        bool found_centroid_down_point = false;
+        bool found_centroid_right_point = false;
+        bool found_centroid_left_point = false;
 
         // Search for a point with x and y values close to the averages
         for (const pcl::PointXYZ& point : cloud1->points) {
-            if (std::abs(point.x - avg_x) < 0.001 && std::abs(point.y - avg_y) < 0.001) {
+
+
+            // condition for centroid point
+            if ( std::abs(point.x - avg_x) < 0.001 && std::abs(point.y - avg_y) < 0.001 ) {
                 centroid_point = point;
                 centroid_index+=1;
+
+                for (const pcl::PointXYZ& point : cloud1->points) {
+
+                    if ( found_centroid_up_point == false && 
+                            abs(point.x - centroid_point.x) <= 0.0002 && 
+                            (point.y - centroid_point.y) > 0.00001 ) {
+                        centroid_up_point = point;
+                        found_centroid_up_point = true;
+                        }
+
+
+                    else if ( found_centroid_down_point == false && 
+                            abs(point.x - centroid_point.x) <= 0.0002 && 
+                            (point.y - centroid_point.y) < 0.00001 ) {
+                        centroid_down_point = point;
+                        found_centroid_down_point = true;
+                        }
+
+
+                    else if ( found_centroid_right_point == false && 
+                            abs(point.y - centroid_point.y) <= 0.0002 && 
+                            (point.x - centroid_point.x) < 0.00001 ) {
+                        centroid_right_point = point;
+                        found_centroid_right_point = true;
+                        }
+
+
+                    else if ( found_centroid_left_point == false && 
+                            abs(point.y - centroid_point.y) <= 0.0002 && 
+                            (point.x - centroid_point.x) > 0.00001 ) {
+                        centroid_left_point = point;
+                        found_centroid_left_point = true;
+                        }
+                    }    
                 break;
             }
         }
-        printf("x,y,z of centroid:  %f , %f , %f\n",centroid_point.x,centroid_point.y,centroid_point.z );
+
+        
 
         pcl::PointCloud<pcl::PointXYZ> centroid_cloud;        // Create a new point cloud and push the centroid point into it
-        centroid_cloud.push_back(centroid_point);        //Pushing back the Centroid Point into centroid_cloud
-
+        centroid_cloud.push_back(centroid_point);        // Pushing back the Centroid Point into centroid_cloud
+        centroid_cloud.push_back(centroid_up_point);
+        centroid_cloud.push_back(centroid_down_point);
+        centroid_cloud.push_back(centroid_right_point);
+        centroid_cloud.push_back(centroid_left_point);
 
 
 
@@ -86,7 +136,7 @@ void pointCloudCallback(const sensor_msgs::PointCloud2ConstPtr& cloud1_msg)
     );
     center_normal.normalize();    // Normalize the normal vector converts a vector into unit vector
 
-    std::cout << "Normal of the point at the center: " << center_normal.transpose() << std::endl;
+    // std::cout << "Normal of the point at the center: " << center_normal.transpose() << std::endl;
 
 
 
