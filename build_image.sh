@@ -48,7 +48,7 @@ else
   run_command='source /opt/ros/noetic/setup.bash && catkin_make && source devel/setup.bash && exit'
 
   if $clean_option; then
-    run_command='source /opt/ros/noetic/setup.bash && rm -rf build log devel && catkin_make && source devel/setup.bash && exit'
+    run_command='source /opt/ros/noetic/setup.bash && rm -rf build devel && catkin_make && source devel/setup.bash && exit'
     echo "Force Command Enabled"
 
   else
@@ -64,10 +64,9 @@ else
 
       docker run -it --rm=false \
           --privileged \
-          --network host \
           ${DOCKER_ARGS[@]} \
           -e DISPLAY=$DISPLAY \
-          -v $PWD/../../:/workspaces/sim_ws/ \
+          -v $PWD/build_files:/workspaces/sim_ws/ \
           -v $PWD:/workspaces/sim_ws/src \
           -v /etc/localtime:/etc/localtime:ro \
           --name "$container_name" \

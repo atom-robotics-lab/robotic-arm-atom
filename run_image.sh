@@ -19,7 +19,8 @@ else
     docker run -it --rm \
         ${DOCKER_ARGS[@]} \
         -e DISPLAY=$DISPLAY \
-        -v $PWD/../../:/workspaces/robo_arm_ws/ \
+        -v $PWD/build_files:/workspaces/robo_arm_ws/ \
+        -v $PWD:/workspaces/sim_ws/src \
         -v /etc/localtime:/etc/localtime:ro \
         --name "$container_name" \
         --runtime nvidia \
