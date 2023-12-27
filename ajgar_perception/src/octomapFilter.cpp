@@ -11,120 +11,78 @@
 #include "ajgar_perception/octomapSrv.h"
 #include <iostream>
 
-#include <pcl/common/angles.h> // for pcl::deg2rad
-#include <pcl/features/normal_3d.h>
-#include <pcl/io/pcd_io.h>
-#include <pcl/visualization/pcl_visualizer.h>
-#include <pcl/console/parse.h>
-#include <thread>
 
 ros::Publisher uncommon_points_pub;
-using namespace std::chrono_literals;
 
 bool add(ajgar_perception::octomapSrv::Request &req, ajgar_perception::octomapSrv::Response &res)
 {
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
-  pcl::fromROSMsg(req.maskInputPt, *cloud);
+    
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud2(new pcl::PointCloud<pcl::PointXYZ>);
 
-  // ----------------------------------------------------------------
-  // -----Calculate surface normals with a search radius of 0.05-----
-  // ----------------------------------------------------------------
-  pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
-  ne.setInputCloud (cloud);
-  pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ> ());
-  ne.setSearchMethod (tree);
-  pcl::PointCloud<pcl::Normal>::Ptr normals(new pcl::PointCloud<pcl::Normal>);
-  ne.setRadiusSearch (0.05);
-  ne.compute (*normals);
-   // ----------------------------------------------------------------
-   // ----------------------------------------------------------------
-   // ----------------------------------------------------------------
-
-  pcl::visualization::PCLVisualizer::Ptr viewer (new pcl::visualization::PCLVisualizer ("3D Viewer"));
-  viewer->setBackgroundColor (0, 0, 0);
-  viewer->addPointCloud<pcl::PointXYZ> (cloud, "sample cloud");
-  viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "sample cloud");
-  viewer->addPointCloudNormals<pcl::PointXYZ, pcl::Normal> (cloud, normals , 1, 0.05, "normals");
-  viewer->addCoordinateSystem (1.0);
-  viewer->initCameraParameters ();
-
-   while (!viewer->wasStopped ())
-  {
-    viewer->spinOnce (100);
-    std::this_thread::sleep_for(100ms);
-  }
-
-    //  std::cout << "Normal vector for point " << 3 << " is ("
-    //           << normals->points[3].normal_x << ", "
-    //           << normals->points[3].normal_y << ", "
-    //           << normals->points[3].normal_z << ")" << std::endl;
-
-//     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1(new pcl::PointCloud<pcl::PointXYZ>);
-//     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud2(new pcl::PointCloud<pcl::PointXYZ>);
-
-//     pcl::fromROSMsg(req.kinectInputPt, *cloud2);
-//     pcl::fromROSMsg(req.maskInputPt, *cloud1);
+    pcl::fromROSMsg(req.kinectInputPt, *cloud2);
+    pcl::fromROSMsg(req.maskInputPt, *cloud1);
      
-//     // VoxelGrid Downsampling pointcloud
-//     pcl::VoxelGrid<pcl::PointXYZ> down_sample1;
-//     down_sample1.setInputCloud(cloud2);
-//     down_sample1.setLeafSize(0.01f, 0.01f, 0.01f);
-//     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud2_down(new pcl::PointCloud<pcl::PointXYZ>);
-//     down_sample1.filter(*cloud2_down);
+    // VoxelGrid Downsampling pointcloud
+    pcl::VoxelGrid<pcl::PointXYZ> down_sample1;
+    down_sample1.setInputCloud(cloud2);
+    down_sample1.setLeafSize(0.01f, 0.01f, 0.01f);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud2_down(new pcl::PointCloud<pcl::PointXYZ>);
+    down_sample1.filter(*cloud2_down);
     
 
-//     // VoxelGrid Downsampling mask
-//     pcl::VoxelGrid<pcl::PointXYZ> down_sample2;
-//     down_sample2.setInputCloud(cloud1);
-//     down_sample2.setLeafSize(0.01f, 0.01f, 0.01f);
-//     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1_down(new pcl::PointCloud<pcl::PointXYZ>);
-//     down_sample2.filter(*cloud1_down);
+    // VoxelGrid Downsampling mask
+    pcl::VoxelGrid<pcl::PointXYZ> down_sample2;
+    down_sample2.setInputCloud(cloud1);
+    down_sample2.setLeafSize(0.01f, 0.01f, 0.01f);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1_down(new pcl::PointCloud<pcl::PointXYZ>);
+    down_sample2.filter(*cloud1_down);
 
-//     ROS_INFO("Checkpoint 1");
+    ROS_INFO("Checkpoint 1");
     
-//     pcl::PointCloud<pcl::PointXYZ> uncommon_points;
-//     for (const pcl::PointXYZ &cloudpoint : cloud2_down->points)
-//     {
-//         bool is_common = false;
-//         for (const pcl::PointXYZ &mask_point : cloud1_down->points)
-//         {
-//             if (abs(cloudpoint.x - mask_point.x) <= 0.01 && abs(cloudpoint.y - mask_point.y) <= 0.01)
-//             {
-//                 is_common = true;
-//                 break;
-//             }
-//         }
-//         if (!is_common)
-//         {
-//             uncommon_points.push_back(cloudpoint);
-//             // std::cout << cloudpoint << '\n' ; 
-//         }
-//     }
+    pcl::PointCloud<pcl::PointXYZ> uncommon_points;
+    for (const pcl::PointXYZ &cloudpoint : cloud2_down->points)
+    {
+        bool is_common = false;
+        for (const pcl::PointXYZ &mask_point : cloud1_down->points)
+        {
+            if (abs(cloudpoint.x - mask_point.x) <= 0.01 && abs(cloudpoint.y - mask_point.y) <= 0.01)
+            {
+                is_common = true;
+                break;
+            }
+        }
+        if (!is_common)
+        {
+            uncommon_points.push_back(cloudpoint);
+            // std::cout << cloudpoint << '\n' ; 
+        }
+    }
 
-//     ROS_INFO("Checkpoint 2");
+    ROS_INFO("Checkpoint 2");
     
-//     sensor_msgs::PointCloud2 uncommon_points_ros;
+    sensor_msgs::PointCloud2 uncommon_points_ros;
 
-//     ROS_INFO("Checkpoint 3");
+    ROS_INFO("Checkpoint 3");
     
-//     pcl::toROSMsg(uncommon_points, uncommon_points_ros);
-//     // std::cout << uncommon_points <<'\n' ;
-//     // std::cout << uncommon_points_ros << '\n' ;
+    pcl::toROSMsg(uncommon_points, uncommon_points_ros);
+    // std::cout << uncommon_points <<'\n' ;
+    // std::cout << uncommon_points_ros << '\n' ;
 
-//     ROS_INFO("Checkpoint 4");
+    ROS_INFO("Checkpoint 4");
     
-//     // Set the frame ID to "camera_depth_optical_frame"
-//     uncommon_points_ros.header.frame_id = "camera_depth_optical_frame";
+    // Set the frame ID to "camera_depth_optical_frame"
+    uncommon_points_ros.header.frame_id = "camera_depth_optical_frame";
     
-//     ROS_INFO("Checkpoint 5");
+    ROS_INFO("Checkpoint 5");
     
-//    //  uncommon_points_pub.publish(uncommon_points_ros);
+   //  uncommon_points_pub.publish(uncommon_points_ros);
 
-//     // ROS_INFO("Checkpoint 6");
+    // ROS_INFO("Checkpoint 6");
     
-//     std::cout << "Data Processed " << std::endl;
-//     std::cout << "Data Published to client " << std::endl;
-//     res.outputPt = uncommon_points_ros ;
+    std::cout << "Data Processed " << std::endl;
+    std::cout << "Data Published to client " << std::endl;
+    res.outputPt = uncommon_points_ros ;
 
     return true;
 }
