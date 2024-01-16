@@ -6,21 +6,26 @@ DOCKER_ARGS+=("-v $HOME/.Xauthority:/home/admin/.Xauthority:rw")
 # DOCKER_ARGS+=("-e DISPLAY")
 DOCKER_ARGS+=("-e NVIDIA_VISIBLE_DEVICES=all")
 DOCKER_ARGS+=("-e NVIDIA_DRIVER_CAPABILITIES=all")
-DOCKER_ARGS+=("-e FASTRTPS_DEFAULT_PROFILES_FILE=/usr/local/share/middleware_profiles/rtps_udp_profile.xml")
 
 xhost +local:root
 
-docker run -it --rm \
-    --privileged \
-    --network host \
-    ${DOCKER_ARGS[@]} \
-    -e DISPLAY=$DISPLAY \
-    -v $PWD:/workspaces/robo_arm_ws/src \
-    -v /etc/localtime:/etc/localtime:ro \
-    --name "nvidia-sim-docker" \
-    --runtime nvidia \
-    --workdir /workspaces/robo_arm_ws \
-    $@ \
-    ajgar-docker:latest \
-    /bin/bash
+container_name="ajgar-docker-test"
+image_name="moveit-classic-noetic"
 
+if docker ps --format '{{.Names}}' | grep -q "$container_name"; then
+    docker exec -it nvidia-sim-docker /bin/bash
+
+else
+    docker run -it --rm \
+        ${DOCKER_ARGS[@]} \
+        -e DISPLAY=$DISPLAY \
+        -v $PWD/build_files:/workspaces/robo_arm_ws/ \
+        -v $PWD:/workspaces/sim_ws/src \
+        -v /etc/localtime:/etc/localtime:ro \
+        --name "$container_name" \
+        --runtime nvidia \
+        --workdir /workspaces/robo_arm_ws \
+        $@ \
+        "$image_name":1.0 \
+        /bin/bash
+fi
