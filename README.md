@@ -38,36 +38,53 @@ sudo apt install libfreenect-dev
 sudo apt-get install ros-noetic-rgbd-launch
 ```
 
+## Run using Docker
+
+1. Install Docker from [here](https://docs.docker.com/engine/install/ubuntu/)
+
+2. Execute the following command to run Docker without using `sudo`
+
+    ```sh
+     sudo usermod -aG docker $USER
+    ```
+
+3. The command below will build the Docker image 
+
+    ```sh
+    ./build_image.sh
+    ```
+
+4. Run the image using this command
+
+    ```sh
+    ./run_image.sh
+    ```
 
 ## Simulation  
 
 ### Launch Robotic ARM in Gazebo, RViz and MoveGroup 
 
-To launch AJGAR model in RViz , Gazebo and MoveGroup
+1. To launch AJGAR model in RViz , Gazebo and MoveGroup :
 
-```sh 
-roslaunch ajgar_core  ajgar_moveit.launch 
-```
+    ```sh 
+    roslaunch ajgar_core  ajgar_moveit.launch 
+    ```
 
-To launch UR5 model in RViz , Gazebo and MoveGroup
+### Start all the services
 
-```sh 
-roslaunch ajgar_core  ur5_moveit.launch 
-```
+2. To initialize and start all the services : 
 
-### Launch Robotic ARM in Gazebo 
+    ```sh 
+    roslaunch ajgar_core ajgar_rosservice.launch
+    ```
 
+### Start the pick-and-place procedure
 
-To launch AJGAR model in Gazebo 
+3. To start the pick-and-place procedure : 
 
-```sh 
-roslaunch ajgar_sim ajgar_sim.launch 
-```
+    ```sh 
+    rosrun ajgar_perception server.py
+    ```
 
-To launch UR5 model in Gazebo 
-
-```sh 
-roslaunch ajgar_sim ur5_sim.launch 
-```
 
 

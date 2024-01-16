@@ -1,0 +1,8 @@
+prefix=/workspaces/sim_ws/devel
+
+Name: ajgar_core
+Description: Description of ajgar_core
+Version: 0.0.0
+Cflags: -I/workspaces/sim_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: 

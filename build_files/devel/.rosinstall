@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /workspaces/sim_ws/devel/setup.sh

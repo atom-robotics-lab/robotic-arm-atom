@@ -1,0 +1,8 @@
+prefix=/workspaces/sim_ws/devel
+
+Name: freenect_launch
+Description: Description of freenect_launch
+Version: 0.4.3
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

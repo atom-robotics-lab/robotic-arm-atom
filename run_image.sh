@@ -13,7 +13,7 @@ container_name="ajgar-docker-test"
 image_name="moveit-classic-noetic"
 
 if docker ps --format '{{.Names}}' | grep -q "$container_name"; then
-    docker exec -it nvidia-sim-docker /bin/bash
+    docker exec -it $container_name /bin/bash
 
 else
     docker run -it --rm \

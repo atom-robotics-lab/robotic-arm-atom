@@ -1,0 +1,8 @@
+prefix=/workspaces/sim_ws/devel
+
+Name: plugin_pneumatic_gripper
+Description: Description of plugin_pneumatic_gripper
+Version: 0.0.0
+Cflags: -I/workspaces/sim_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: message_runtime

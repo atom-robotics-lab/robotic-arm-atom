@@ -1,0 +1,15 @@
+(cl:defpackage ajgar_perception-srv
+  (:use )
+  (:export
+   "OCTOMAPSRV"
+   "<OCTOMAPSRV-REQUEST>"
+   "OCTOMAPSRV-REQUEST"
+   "<OCTOMAPSRV-RESPONSE>"
+   "OCTOMAPSRV-RESPONSE"
+   "PERCEPSRV"
+   "<PERCEPSRV-REQUEST>"
+   "PERCEPSRV-REQUEST"
+   "<PERCEPSRV-RESPONSE>"
+   "PERCEPSRV-RESPONSE"
+  ))
+
