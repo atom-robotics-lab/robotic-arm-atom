@@ -10,7 +10,8 @@ RUN apt-get update
 RUN apt-get install apt-get install --no-install-recommends -yqqq \
     python3-pip 
 
-RUN pip3 install ikpy prettytable ultralytics 
+RUN pip3 install ikpy prettytable && \
+    pip3 install ultralytics 
 
 RUN apt-get install --no-install-recommends -yqqq \
     tmux \
