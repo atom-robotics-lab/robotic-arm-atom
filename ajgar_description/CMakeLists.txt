@@ -13,10 +13,9 @@ find_package(catkin REQUIRED COMPONENTS
 	message_generation
 )
 
-
 generate_messages(
-DEPENDENCIES
-std_msgs
+	DEPENDENCIES
+	std_msgs
 )
 
 catkin_package(CATKIN_DEPENDS

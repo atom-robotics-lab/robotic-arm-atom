@@ -13,8 +13,6 @@
   <run_depend>gazebo_ros</run_depend>
   <run_depend>roscpp</run_depend>
  
- 
-  <!-- The export tag contains other, unspecified, tags -->
   <export>
     <gazebo_ros plugin_path="${prefix}/lib" gazebo_media_path="${prefix}" />
   </export>
