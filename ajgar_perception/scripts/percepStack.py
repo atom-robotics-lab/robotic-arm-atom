@@ -233,7 +233,7 @@ class Perception:
         while not rospy.is_shutdown():
 
             if ( self.flag ) :
-                print("inside loop")
+                
                 img = self.bridge.cv2_to_imgmsg(self.rgbImage, encoding="passthrough")
                 self.pub.publish(img)
                 self.publish_transforms(self.tfValue, 1)

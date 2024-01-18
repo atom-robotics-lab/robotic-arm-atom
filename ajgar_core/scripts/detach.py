@@ -4,7 +4,6 @@ import rospy
 from plugin_pneumatic_gripper.srv import Attach, AttachRequest, AttachResponse
 
 def detach_links(model):
-        #rospy.init_node('demo_detach_links')
         rospy.loginfo("Creating ServiceProxy to /link_attacher_node/detach")
         attach_srv = rospy.ServiceProxy('/link_attacher_node/detach',Attach)
         attach_srv.wait_for_service()

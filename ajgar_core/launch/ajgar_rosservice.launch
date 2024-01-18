@@ -1,19 +1,9 @@
-
 <launch>
 
-  <node name="percepStack" 
-        pkg="ajgar_perception" 
-        type="percepStack.py" 
-        output="screen"/>
-        
-  <node name="octomapSrvNode" 
-        pkg="ajgar_perception" 
-        type="octomapFilter" 
-        output="screen"/>
-  
-  <node name="move_group_python_interface" 
-        pkg="ajgar_core" 
-        type="new_ik_solver.py" 
-        output="screen"/>      
-        
+      <node name="percepStack" pkg="ajgar_perception" type="percepStack.py" output="screen"/>
+
+      <node name="octomapSrvNode" pkg="ajgar_perception" type="octomapFilter" output="screen"/>
+
+      <node name="move_group_python_interface" pkg="ajgar_core" type="new_ik_solver.py" output="screen"/>
+
 </launch>
