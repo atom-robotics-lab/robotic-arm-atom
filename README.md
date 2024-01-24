@@ -60,14 +60,14 @@ To get a local copy up and running follow these simple example steps.
 
 There are two ways to execute this project locally: directly on Ubuntu 20.04 or through Docker.
 
-### Installation 
+### 1. Installation 
 <details> 
 <summary><span style="font-size:16px;">Ubuntu 20.04</span></summary>
 <ol>
 
 This is an example of how to list things you need to use the software and how to install them.
 
-<li><b>Prerequisites</b> </br>
+### 1. Prerequisites</b> </br>
  Ros 1 Noetic 
   - Refer to our <a href='https://atom-robotics-lab.github.io/wiki/markdown/ros/installation.html'> Ros installation guide </a>
 
@@ -92,7 +92,7 @@ This is an example of how to list things you need to use the software and how to
   sudo apt install ros-noetic-moveit
   ```
 
-### Installation
+### 2. Installation
 
 1. Create `ROS Workspace` - robotic_arm_ws
    ```sh
@@ -160,7 +160,7 @@ This is an example of how to list things you need to use the software and how to
    </ol>
      </details>
 
-### Run Simulation
+### 2. Run Simulation
 
 1. To launch AJGAR model in RViz , Gazebo and MoveGroup :
 
