@@ -42,7 +42,7 @@
 
 This repository is dedicated to the A.J.G.A.R project, which features a 6 Degrees of Freedom (DoF) robotic arm. A.J.G.A.R is designed to autonomously handle objects, utilizing computer vision technology for this purpose. It also supports remote operation via teleoperation.
 </br>
-<a href=""><strong>Demo video »</strong></a>
+<a href="https://www.youtube.com/watch?v=hW3EiV0Q3Uc"><strong>Demo video »</strong></a>
 </br>
 
 <div align="center">
@@ -231,8 +231,6 @@ For more info refer to [contributing.md](https://github.com/atom-robotics-lab/ro
 ## Contacts
 
 Our Socials - [Linktree](https://linktr.ee/atomlabs) - atom@inventati.org
-
-Demo: [Video]("")
 
 <!-- ACKNOWLEDGMENTS-->
 
