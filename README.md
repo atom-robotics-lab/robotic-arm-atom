@@ -37,8 +37,8 @@
 
 ## About The Project
 
-<p align="left">
-  <img src="./assets/robotic-arm.png" alt="Robotic Arm" width="200" style="float: right; margin-right: 10px;">
+<p align="right">
+<img src="./assets/robotic-arm.png" align="right" width="190px"/ >
  
 This repository is dedicated to the A.J.G.A.R project, which features a 6 Degrees of Freedom (DoF) robotic arm. A.J.G.A.R is designed to autonomously handle objects, utilizing computer vision technology for this purpose. It also supports remote operation via teleoperation.</br></br>
 <a href="https://www.youtube.com/watch?v=hW3EiV0Q3Uc"><strong>Demo video </strong></a>
