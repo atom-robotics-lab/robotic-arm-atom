@@ -1,8 +1,0 @@
-prefix=/workspaces/sim_ws/devel
-
-Name: freenect_camera
-Description: Description of freenect_camera
-Version: 0.4.3
-Cflags: -I/workspaces/sim_ws/devel/include
-Libs: -L${prefix}/lib 
-Requires: camera_info_manager diagnostic_updater dynamic_reconfigure image_transport nodelet roscpp sensor_msgs

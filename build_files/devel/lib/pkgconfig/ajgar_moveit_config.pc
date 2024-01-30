@@ -1,8 +1,0 @@
-prefix=/workspaces/sim_ws/devel
-
-Name: ajgar_moveit_config
-Description: Description of ajgar_moveit_config
-Version: 0.3.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
