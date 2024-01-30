@@ -80,3 +80,5 @@ coverage.xml
 **/UserSettings/*
 
 ROSConnectionPrefab.prefab
+
+**/build_files/

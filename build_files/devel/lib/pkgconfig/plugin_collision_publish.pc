@@ -1,8 +1,0 @@
-prefix=/workspaces/sim_ws/devel
-
-Name: plugin_collision_publish
-Description: Description of plugin_collision_publish
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: roscpp gazebo_ros

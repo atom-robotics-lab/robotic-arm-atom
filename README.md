@@ -68,8 +68,8 @@ There are two ways to execute this project locally: directly on Ubuntu 20.04 or 
 This is an example of how to list things you need to use the software and how to install them.
 
 ### 1. Prerequisites</b> </br>
- Ros 1 Noetic 
-  - Refer to our <a href='https://atom-robotics-lab.github.io/wiki/markdown/ros/installation.html'> Ros installation guide </a>
+ ROS 1 Noetic 
+  - Refer to our <a href='https://atom-robotics-lab.github.io/wiki/markdown/ros/installation.html'> ROS installation guide </a>
 
 - Installing ROS Controller dependencies
   ```sh
@@ -104,12 +104,17 @@ This is an example of how to list things you need to use the software and how to
    cd ~/robotic_arm_ws/src
    git clone git@github.com:atom-robotics-lab/robotic-arm-atom.git
    ```
-3. Build the package
+3. Install the Python dependencies
+   ```sh
+    pip install -r requirements.txt
+   ```
+
+4. Build the package
    ```sh
    cd ~/robotic_arm_ws
    catkin_make
    ```
-4. Launch the packages file by
+5. Launch the packages file by
    ```sh
    roslaunch <package_name> <launch_file>
    ```
@@ -141,17 +146,25 @@ This is an example of how to list things you need to use the software and how to
 2. Execute the following command to run Docker without using `sudo`
 
    ```sh
-   cd ~/robotic_arm_ws
+   sudo systemctl enable docker.service
+   sudo systemctl enable containerd.service
+  
+   sudo groupadd docker
    sudo usermod -aG docker $USER
+  
+   docker context use default
+  
+   newgrp docker
    ```
+3. Install the `nvidia-container-toolkit` from [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
 
-3. The command below will build the Docker image
+4. The command below will build the Docker image
 
    ```sh
    ./build_image.sh
    ```
 
-4. Run the image using this command
+5. Run the image using this command
 
    ```sh
    ./run_image.sh

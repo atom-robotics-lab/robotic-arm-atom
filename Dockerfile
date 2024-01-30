@@ -7,7 +7,7 @@ RUN echo "source /workspaces/robo_arm_ws/devel/setup.bash" >> ~/.bashrc
 
 RUN apt-get update
 
-RUN apt-get install apt-get install --no-install-recommends -yqqq \
+RUN apt-get install --no-install-recommends -yqqq \
     python3-pip 
 
 RUN pip3 install ikpy prettytable && \

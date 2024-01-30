@@ -1,8 +1,0 @@
-prefix=/workspaces/sim_ws/devel
-
-Name: ur5_description
-Description: Description of ur5_description
-Version: 1.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: geometry_msgs roscpp rospy std_msgs
