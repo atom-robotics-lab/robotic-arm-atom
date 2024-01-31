@@ -41,7 +41,8 @@
 <img src="./assets/robotic-arm.png" align="right" width="190px"/ >
  
 This repository is dedicated to the A.J.G.A.R project, which features a 6 Degrees of Freedom (DoF) robotic arm. A.J.G.A.R is designed to autonomously handle objects, utilizing computer vision technology for this purpose. It also supports remote operation via teleoperation.</br></br>
-<a href="https://www.youtube.com/watch?v=hW3EiV0Q3Uc"><strong>Demo video </strong></a>
+<a href="https://www.youtube.com/watch?v=hW3EiV0Q3Uc"><strong>Demo Video </strong></a> </br>
+<a href="https://www.youtube.com/watch?v=zFY9KeZe8U0"><strong>Simulation  Video </strong></a>
 </br>
 </p>
  
@@ -102,7 +103,7 @@ This is an example of how to list things you need to use the software and how to
 2. Clone the repo inside your `Ros Workspace`
    ```sh
    cd ~/robotic_arm_ws/src
-   git clone git@github.com:atom-robotics-lab/robotic-arm-atom.git
+   git clone https://github.com/atom-robotics-lab/robotic-arm-atom.git
    ```
 3. Install the Python dependencies
    ```sh
@@ -137,7 +138,7 @@ This is an example of how to list things you need to use the software and how to
 2. Clone the repo inside your `Ros Workspace`
    ```sh
    cd ~/robotic_arm_ws/src
-   git clone git@github.com:atom-robotics-lab/robotic-arm-atom.git
+   git clone https://github.com/atom-robotics-lab/robotic-arm-atom.git
    ```
 
 
