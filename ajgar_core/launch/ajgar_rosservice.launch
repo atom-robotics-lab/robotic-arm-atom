@@ -1,9 +1,12 @@
 <launch>
 
+      <!-- Launch perception server ( percepStack : perform masking and image processing ) -->
       <node name="percepStack" pkg="ajgar_perception" type="percepStack.py" output="screen"/>
 
+      <!-- Launch octomap server ( octomapFilter : clean octomap depending upon mask value )-->
       <node name="octomapSrvNode" pkg="ajgar_perception" type="octomapFilter" output="screen"/>
 
+      <!-- Launch IK solver ( new_ik_solver : solve IK for the given pose ) -->
       <node name="move_group_python_interface" pkg="ajgar_core" type="new_ik_solver.py" output="screen"/>
 
 </launch>
