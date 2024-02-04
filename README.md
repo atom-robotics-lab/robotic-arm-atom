@@ -133,7 +133,7 @@ This is an example of how to list things you need to use the software and how to
    cd ~
    mkdir robotic_arm_ws
    ```
-2. Clone the repo inside your `Ros Workspace`
+2. Clone the repo inside your `ROS Workspace`
    ```sh
    cd ~/robotic_arm_ws/src
    git clone git@github.com:atom-robotics-lab/robotic-arm-atom.git
