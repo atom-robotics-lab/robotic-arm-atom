@@ -1,5 +1,3 @@
-
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -8,6 +6,8 @@
   </a>
 <h3 align="center">A.J.G.A.R : The Robotic ARM </h3>
 </div>
+
+ [output.webm](https://github.com/atom-robotics-lab/robotic-arm-atom/assets/51917087/9ba4962f-4965-475e-b2bd-1a0d13727685)
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -41,7 +41,6 @@
 <img src="./assets/robotic-arm.png" align="right" width="190px"/ >
  
 This repository is dedicated to the A.J.G.A.R project, which features a 6 Degrees of Freedom (DoF) robotic arm. A.J.G.A.R is designed to autonomously handle objects, utilizing computer vision technology for this purpose. It also supports remote operation via teleoperation.</br></br>
-<a href="https://www.youtube.com/watch?v=hW3EiV0Q3Uc"><strong>Demo video </strong></a>
 </br>
 </p>
  
