@@ -7,7 +7,7 @@
 <h3 align="center">A.J.G.A.R : The Robotic ARM </h3>
 </div>
 
- [output.webm](https://github.com/atom-robotics-lab/robotic-arm-atom/assets/51917087/9ba4962f-4965-475e-b2bd-1a0d13727685)
+ [Simulation Video ](https://github.com/atom-robotics-lab/robotic-arm-atom/assets/51917087/9ba4962f-4965-475e-b2bd-1a0d13727685)
 
 <!-- TABLE OF CONTENTS -->
 <details>
