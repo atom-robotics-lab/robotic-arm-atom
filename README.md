@@ -1,5 +1,3 @@
-
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -8,6 +6,8 @@
   </a>
 <h3 align="center">A.J.G.A.R : The Robotic ARM </h3>
 </div>
+
+ [Simulation Video ](https://github.com/atom-robotics-lab/robotic-arm-atom/assets/51917087/9ba4962f-4965-475e-b2bd-1a0d13727685)
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -41,9 +41,8 @@
 <img src="./assets/robotic-arm.png" align="right" width="190px"/ >
  
 This repository is dedicated to the A.J.G.A.R project, which features a 6 Degrees of Freedom (DoF) robotic arm. A.J.G.A.R is designed to autonomously handle objects, utilizing computer vision technology for this purpose. It also supports remote operation via teleoperation.</br></br>
-<a href="https://www.youtube.com/watch?v=hW3EiV0Q3Uc"><strong>Demo video </strong></a>
-</br>
 </p>
+<a href="https://www.youtube.com/watch?v=hW3EiV0Q3Uc"><strong> Hardware Demo video </strong></a>
  
  ### Built With
 [![ROS](https://img.shields.io/badge/ros-%230A0FF9.svg?style=for-the-badge&logo=ros&logoColor=white)](https://www.sphinx-docs.org) [![OpenCV](https://img.shields.io/badge/opencv-%23white.svg?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org/) [![Blender](https://img.shields.io/badge/blender-%23F5792A.svg?style=for-the-badge&logo=blender&logoColor=white)](https://www.blender.org/) [![Raspberry Pi](https://img.shields.io/badge/-RaspberryPi-C51A4A?style=for-the-badge&logo=Raspberry-Pi)](https://www.raspberrypi.org/) [![Arduino](https://img.shields.io/badge/Arduino-00979D?style=for-the-badge&logo=Arduino&logoColor=white)](https://www.arduino.cc/) [![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://ubuntu.com/) [![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
@@ -134,7 +133,7 @@ This is an example of how to list things you need to use the software and how to
    cd ~
    mkdir robotic_arm_ws
    ```
-2. Clone the repo inside your `Ros Workspace`
+2. Clone the repo inside your `ROS Workspace`
    ```sh
    cd ~/robotic_arm_ws/src
    git clone git@github.com:atom-robotics-lab/robotic-arm-atom.git
