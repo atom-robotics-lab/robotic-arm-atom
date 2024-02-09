@@ -10,8 +10,13 @@ import rospkg
 import moveit_commander
 
 # custom imports
+rospack = rospkg.RosPack()
+pkg_file_path = rospack.get_path("plugin_pneumatic_gripper")
+script_import_path = pkg_file_path + "/scripts"
+sys.path.insert(1, script_import_path)
 import attach
 import detach
+
 import ikpy.chain
 from prettytable import PrettyTable
 from std_msgs.msg import String
