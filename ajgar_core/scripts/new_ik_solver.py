@@ -179,7 +179,7 @@ class ikSolverClass(object):
     def collision_detection(self, data):
         objects = str(data).split(' ')[1].split('-')
         collision_object_1, collision_object_2 = objects[0][1:], objects[1][:-1]
-        if "ajgar::suction::suction_collision" == collision_object_1:
+        if "ajgar::end::end_collision" == collision_object_1:
             obj2 = collision_object_2
             return True, obj2 
         return False, None
