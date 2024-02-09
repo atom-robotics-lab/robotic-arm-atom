@@ -158,13 +158,13 @@
   <collision>
     <origin xyz="0 0 0" rpy="1.57 0 0" />
     <geometry>
-      <mesh filename="package://ur5_description/meshes/kinect.stl" scale="0.005 0.005 0.005" />
+      <mesh filename="package://ajgar_description/meshes/kinect.stl" scale="0.005 0.005 0.005" />
     </geometry>
   </collision>
   <visual>
     <origin xyz="0 0 0" rpy="1.57 -1.57 0" />
     <geometry>
-      <mesh filename="package://ur5_description/meshes/kinect.stl" scale="0.005 0.005 0.005" />
+      <mesh filename="package://ajgar_description/meshes/kinect.stl" scale="0.005 0.005 0.005" />
     </geometry>
   </visual>
   <inertial>
