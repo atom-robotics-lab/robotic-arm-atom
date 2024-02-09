@@ -4,12 +4,9 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /MotionPlanning1
-        - /Image1
-        - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.5
-    Tree Height: 401
+    Tree Height: 329
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -83,7 +80,7 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          camera_depth_frame:
+          camera_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -173,7 +170,7 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          camera_depth_frame:
+          camera_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -213,8 +210,8 @@ Visualization Manager:
       Value: true
       Velocity_Scaling_Factor: 0.1
     - Class: rviz/Image
-      Enabled: false
-      Image Topic: /processedImg
+      Enabled: true
+      Image Topic: /kinect/color/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -223,7 +220,7 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: raw
       Unreliable: false
-      Value: false
+      Value: true
     - Class: rviz/TF
       Enabled: true
       Filter (blacklist): ""
@@ -237,8 +234,6 @@ Visualization Manager:
           Value: false
         base_top:
           Value: false
-        box:
-          Value: true
         camera_depth_frame:
           Value: false
         camera_depth_optical_frame:
@@ -268,10 +263,6 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        camera_link:
-          camera_rgb_frame:
-            camera_rgb_optical_frame:
-              {}
         world:
           base_link:
             base_footprint:
@@ -283,11 +274,13 @@ Visualization Manager:
                     suction:
                       end:
                         {}
-            box:
-              {}
-            camera_depth_frame:
-              camera_depth_optical_frame:
-                {}
+            camera_link:
+              camera_depth_frame:
+                camera_depth_optical_frame:
+                  {}
+              camera_rgb_frame:
+                camera_rgb_optical_frame:
+                  {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -306,7 +299,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.468118667602539
+      Distance: 3.586714744567871
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -322,9 +315,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5099999904632568
+      Pitch: 0.7449997663497925
       Target Frame: world
-      Yaw: 5.424946308135986
+      Yaw: 4.069941997528076
     Saved: ~
 Window Geometry:
   Displays:
@@ -340,7 +333,7 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000001000000000000025800000387fc0200000007fb000000100044006900730070006c006100790073010000003e000001cf000000ca00fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a00560069006500770073000000010c000000a4000000a600fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fc00000213000001b2000001a70100001dfa000000010100000002fb0000000a0049006d0061006700650100000000ffffffff0000006300fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000000000002580000021d00ffffff000001520000038700000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000002580000037ffc0200000007fb000000100044006900730070006c00610079007301000000420000018f000000d200fffffffb0000000800480065006c00700000000342000000bb0000007200fffffffb0000000a00560069006500770073000000010c000000a4000000b200fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001a0000001afc000001d7000001ea000001df01000021fa000000000100000002fb0000000a0049006d0061006700650100000000ffffffff0000006900fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000000000002580000025800ffffff000001520000037f00000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
   Width: 944
