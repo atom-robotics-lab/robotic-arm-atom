@@ -2,6 +2,7 @@
 
 # standard library imports
 import sys
+import os
 import rospy
 import math
 
@@ -10,9 +11,11 @@ import rospkg
 import moveit_commander
 
 # custom imports
+# Get the path to the package using `rospkg` and add the path to the `sys.path`
+# This is done to import the custom python scripts from the package
 rospack = rospkg.RosPack()
 pkg_file_path = rospack.get_path("plugin_pneumatic_gripper")
-script_import_path = pkg_file_path + "/scripts"
+script_import_path = os.path.join(str(pkg_file_path), "scripts")
 sys.path.insert(1, script_import_path)
 import attach
 import detach
