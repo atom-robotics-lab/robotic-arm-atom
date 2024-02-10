@@ -204,16 +204,12 @@ rosrun ajgar_perception server.py
 | Package | Description |
 | --- | --- |
 | `ajgar_core` | This package contains the core functionalities of the robotic arm, including the main control algorithms and launch files. |
-| `ajgar_depend_pkgs` | This package includes the dependencies required for the freenect_stack (alternative for Kinect camera plugin). |
 | `ajgar_description` | This package contains the URDF (Unified Robot Description Format) files for the robotic arm. These files describe the robot's physical configuration. |
 | `ajgar_hardware` | This package is responsible for interfacing with the physical hardware of the robotic arm. It includes drivers and communication protocols. |
 | `ajgar_moveit_config` | This package contains the configuration files for MoveIt, a ROS-based software for motion planning, kinematics, and robot interaction. |
 | `ajgar_perception` | This package is responsible for the perception tasks, such as object recognition and environment mapping. |
 | `ajgar_sim` | This package contains the simulation environment for the robotic arm. It includes models and simulation worlds. |
 | `ajgar_sim_plugins` | This package contains plugins for the simulation environment, currently providing suction functionality. |
-| `ur5_description` | This package contains the URDF files for a specific model of the robotic arm, the UR5. |
-| `ur5_moveit_config` | This package contains the MoveIt configuration files for the UR5 robotic arm. |
-
 
 </ol>
 </details>

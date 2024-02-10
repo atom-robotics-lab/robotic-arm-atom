@@ -2,6 +2,7 @@
 
 # standard library imports
 import sys
+import os
 import rospy
 import math
 
@@ -10,8 +11,15 @@ import rospkg
 import moveit_commander
 
 # custom imports
+# Get the path to the package using `rospkg` and add the path to the `sys.path`
+# This is done to import the custom python scripts from the package
+rospack = rospkg.RosPack()
+pkg_file_path = rospack.get_path("plugin_pneumatic_gripper")
+script_import_path = os.path.join(str(pkg_file_path), "scripts")
+sys.path.insert(1, script_import_path)
 import attach
 import detach
+
 import ikpy.chain
 from prettytable import PrettyTable
 from std_msgs.msg import String
@@ -174,7 +182,7 @@ class ikSolverClass(object):
     def collision_detection(self, data):
         objects = str(data).split(' ')[1].split('-')
         collision_object_1, collision_object_2 = objects[0][1:], objects[1][:-1]
-        if "ajgar::suction::suction_collision" == collision_object_1:
+        if "ajgar::end::end_collision" == collision_object_1:
             obj2 = collision_object_2
             return True, obj2 
         return False, None
