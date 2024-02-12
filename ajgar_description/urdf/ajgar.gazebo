@@ -1,13 +1,14 @@
 <?xml version="1.0" ?>
 <robot name="ajgar" xmlns:xacro="http://www.ros.org/wiki/xacro" >
-
 <xacro:property name="body_color" value="Gazebo/Silver" />
-
+<xacro:property name="black" value="Gazebo/Black" />
+<xacro:property name="blue" value="Gazebo/Blue" />
+<xacro:property name="red" value="Gazebo/Red" />
 <gazebo>
   <plugin name="control" filename="libgazebo_ros_control.so"/>
 </gazebo>
 <gazebo reference="base_link">
-  <material>${body_color}</material>
+  <material>${blue}</material>
   <mu1>0.2</mu1>
   <mu2>0.2</mu2>
   <selfCollide>true</selfCollide>
@@ -15,42 +16,42 @@
 </gazebo>
 
 <gazebo reference="base_top">
-  <material>${body_color}</material>
+  <material>${blue}</material>
   <mu1>0.2</mu1>
   <mu2>0.2</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="shoulder">
-  <material>${body_color}</material>
+  <material>${red}</material>
   <mu1>0.2</mu1>
   <mu2>0.2</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="elbow">
-  <material>${body_color}</material>
+  <material>${blue}</material>
   <mu1>0.2</mu1>
   <mu2>0.2</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="wrist">
-  <material>${body_color}</material>
+  <material>${black}</material>
   <mu1>0.2</mu1>
   <mu2>0.2</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="suction">
-  <material>${body_color}</material>
+  <material>${blue}</material>
   <mu1>0.2</mu1>
   <mu2>0.2</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="end">
-  <material>${body_color}</material>
+  <material>${black}</material>
   <mu1>0.2</mu1>
   <mu2>0.2</mu2>
   <selfCollide>true</selfCollide>
